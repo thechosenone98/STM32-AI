@@ -1,0 +1,5 @@
+1. Create project using STM32CubeMX (set the Toolchain/IDE to Makefile in the Project Manager)
+2. Open the project in Visual Studio Code
+3. Save as New Workspace
+4. Copy the ideScripts Folder to the new project
+5. Run the update.py script and follow the instruction
