@@ -19,6 +19,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "dma.h"
 #include "i2c.h"
 #include "usart.h"
 #include "gpio.h"
@@ -37,6 +38,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+#define UART2_BUFFER_SIZE 4
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -47,7 +49,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
+uint8_t UART2_rxBuffer[UART2_BUFFER_SIZE];
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -88,12 +90,15 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_DMA_Init();
   MX_I2C1_Init();
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
-  setTargetDeviceAddress(&hi2c1, 0x53<<1);
-  /* USER CODE END 2 */
+  //Initialize the DMA callback (will be called when we receive an instruction from the PC on UART)
+  HAL_UART_Receive_DMA(&huart2, UART2_rxBuffer, UART2_BUFFER_SIZE);
 
+  setTargetDeviceAddress(&hi2c1, 0x53<<1);
+  
   char message[256];
   HAL_StatusTypeDef status;
   int id = 0;
@@ -122,11 +127,12 @@ int main(void)
   {
     HAL_UART_Transmit(&huart2, (uint8_t *)"ERROR!\n", 7, 100);
   }
+  /* USER CODE END 2 */
+
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    /* USER CODE END WHILE */
     HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
     status = getAccelerations(&hi2c1, &accelerometerData);
     if(status == HAL_OK){
@@ -143,8 +149,10 @@ int main(void)
       HAL_UART_Transmit(&huart2, (uint8_t *)message, 7, 100);
     }
     HAL_Delay(100);
-    /* USER CODE BEGIN 3 */
   }
+    /* USER CODE END WHILE */
+
+    /* USER CODE BEGIN 3 */
   /* USER CODE END 3 */
 }
 
@@ -194,6 +202,14 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+
+// This function is called when the UART2_rxBuffer gets full
+// we can than check it's content to know which command was sent to us
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+    HAL_UART_Transmit(&huart2, UART2_rxBuffer, UART2_BUFFER_SIZE, 100);
+    HAL_UART_Receive_DMA(&huart2, UART2_rxBuffer, 12);
+}
 
 /* USER CODE END 4 */
 
