@@ -208,7 +208,6 @@ void SystemClock_Config(void)
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
     HAL_UART_Transmit(&huart2, UART2_rxBuffer, UART2_BUFFER_SIZE, 100);
-    HAL_UART_Receive_DMA(&huart2, UART2_rxBuffer, 12);
 }
 
 /* USER CODE END 4 */

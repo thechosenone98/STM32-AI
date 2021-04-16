@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccKqD0lb.s 			page 1
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\cc5ALOte.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccKqD0lb.s 			page 1
   28:Core/Src/i2c.c **** 
   29:Core/Src/i2c.c **** /* I2C1 init function */
   30:Core/Src/i2c.c **** void MX_I2C1_Init(void)
-ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccKqD0lb.s 			page 2
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\cc5ALOte.s 			page 2
 
 
   31:Core/Src/i2c.c **** {
@@ -85,7 +85,7 @@ ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccKqD0lb.s 			page 1
   40 0002 0B48     		ldr	r0, .L5
   41 0004 0B4B     		ldr	r3, .L5+4
   42 0006 0360     		str	r3, [r0]
-  41:Core/Src/i2c.c ****   hi2c1.Init.ClockSpeed = 100000;
+  41:Core/Src/i2c.c ****   hi2c1.Init.ClockSpeed = 400000;
   43              		.loc 1 41 3 is_stmt 1 view .LVU3
   44              		.loc 1 41 25 is_stmt 0 view .LVU4
   45 0008 0B4B     		ldr	r3, .L5+8
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccKqD0lb.s 			page 1
   66              		.loc 1 47 30 is_stmt 0 view .LVU16
   67 001e C361     		str	r3, [r0, #28]
   48:Core/Src/i2c.c ****   hi2c1.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
-ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccKqD0lb.s 			page 3
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\cc5ALOte.s 			page 3
 
 
   68              		.loc 1 48 3 is_stmt 1 view .LVU17
@@ -154,7 +154,7 @@ ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccKqD0lb.s 			page 1
   88              	.L5:
   89 0030 00000000 		.word	.LANCHOR0
   90 0034 00540040 		.word	1073763328
-  91 0038 A0860100 		.word	100000
+  91 0038 801A0600 		.word	400000
   92              		.cfi_endproc
   93              	.LFE130:
   95              		.section	.text.HAL_I2C_MspInit,"ax",%progbits
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccKqD0lb.s 			page 1
  111 0000 30B5     		push	{r4, r5, lr}
  112              	.LCFI1:
  113              		.cfi_def_cfa_offset 12
-ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccKqD0lb.s 			page 4
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\cc5ALOte.s 			page 4
 
 
  114              		.cfi_offset 4, -12
@@ -238,7 +238,7 @@ ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccKqD0lb.s 			page 1
  141              		.cfi_def_cfa_offset 12
  142              		@ sp needed
  143 001a 30BD     		pop	{r4, r5, pc}
-ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccKqD0lb.s 			page 5
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\cc5ALOte.s 			page 5
 
 
  144              	.LVL4:
@@ -298,7 +298,7 @@ ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccKqD0lb.s 			page 1
   78:Core/Src/i2c.c ****     HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
  183              		.loc 1 78 31 is_stmt 0 view .LVU48
  184 0044 0423     		movs	r3, #4
-ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccKqD0lb.s 			page 6
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\cc5ALOte.s 			page 6
 
 
  185 0046 0793     		str	r3, [sp, #28]
@@ -358,7 +358,7 @@ ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccKqD0lb.s 			page 1
   90:Core/Src/i2c.c **** {
  231              		.loc 1 90 1 is_stmt 1 view -0
  232              		.cfi_startproc
-ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccKqD0lb.s 			page 7
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\cc5ALOte.s 			page 7
 
 
  233              		@ args = 0, pretend = 0, frame = 0
@@ -418,7 +418,7 @@ ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccKqD0lb.s 			page 1
  109:Core/Src/i2c.c **** 
  110:Core/Src/i2c.c ****   /* USER CODE END I2C1_MspDeInit 1 */
  111:Core/Src/i2c.c ****   }
-ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccKqD0lb.s 			page 8
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\cc5ALOte.s 			page 8
 
 
  112:Core/Src/i2c.c **** }
@@ -453,22 +453,22 @@ ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccKqD0lb.s 			page 1
  295              		.file 8 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_i2c.h"
  296              		.file 9 "Core/Inc/main.h"
  297              		.file 10 "Core/Inc/i2c.h"
-ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccKqD0lb.s 			page 9
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\cc5ALOte.s 			page 9
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 i2c.c
-C:\Users\zacfi\AppData\Local\Temp\ccKqD0lb.s:18     .text.MX_I2C1_Init:00000000 $t
-C:\Users\zacfi\AppData\Local\Temp\ccKqD0lb.s:26     .text.MX_I2C1_Init:00000000 MX_I2C1_Init
-C:\Users\zacfi\AppData\Local\Temp\ccKqD0lb.s:89     .text.MX_I2C1_Init:00000030 $d
-C:\Users\zacfi\AppData\Local\Temp\ccKqD0lb.s:96     .text.HAL_I2C_MspInit:00000000 $t
-C:\Users\zacfi\AppData\Local\Temp\ccKqD0lb.s:103    .text.HAL_I2C_MspInit:00000000 HAL_I2C_MspInit
-C:\Users\zacfi\AppData\Local\Temp\ccKqD0lb.s:214    .text.HAL_I2C_MspInit:00000068 $d
-C:\Users\zacfi\AppData\Local\Temp\ccKqD0lb.s:221    .text.HAL_I2C_MspDeInit:00000000 $t
-C:\Users\zacfi\AppData\Local\Temp\ccKqD0lb.s:228    .text.HAL_I2C_MspDeInit:00000000 HAL_I2C_MspDeInit
-C:\Users\zacfi\AppData\Local\Temp\ccKqD0lb.s:273    .text.HAL_I2C_MspDeInit:0000002c $d
-C:\Users\zacfi\AppData\Local\Temp\ccKqD0lb.s:285    .bss.hi2c1:00000000 hi2c1
-C:\Users\zacfi\AppData\Local\Temp\ccKqD0lb.s:281    .bss.hi2c1:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\cc5ALOte.s:18     .text.MX_I2C1_Init:00000000 $t
+C:\Users\zacfi\AppData\Local\Temp\cc5ALOte.s:26     .text.MX_I2C1_Init:00000000 MX_I2C1_Init
+C:\Users\zacfi\AppData\Local\Temp\cc5ALOte.s:89     .text.MX_I2C1_Init:00000030 $d
+C:\Users\zacfi\AppData\Local\Temp\cc5ALOte.s:96     .text.HAL_I2C_MspInit:00000000 $t
+C:\Users\zacfi\AppData\Local\Temp\cc5ALOte.s:103    .text.HAL_I2C_MspInit:00000000 HAL_I2C_MspInit
+C:\Users\zacfi\AppData\Local\Temp\cc5ALOte.s:214    .text.HAL_I2C_MspInit:00000068 $d
+C:\Users\zacfi\AppData\Local\Temp\cc5ALOte.s:221    .text.HAL_I2C_MspDeInit:00000000 $t
+C:\Users\zacfi\AppData\Local\Temp\cc5ALOte.s:228    .text.HAL_I2C_MspDeInit:00000000 HAL_I2C_MspDeInit
+C:\Users\zacfi\AppData\Local\Temp\cc5ALOte.s:273    .text.HAL_I2C_MspDeInit:0000002c $d
+C:\Users\zacfi\AppData\Local\Temp\cc5ALOte.s:285    .bss.hi2c1:00000000 hi2c1
+C:\Users\zacfi\AppData\Local\Temp\cc5ALOte.s:281    .bss.hi2c1:00000000 $d
 
 UNDEFINED SYMBOLS
 HAL_I2C_Init
