@@ -29,6 +29,7 @@
 #include "adxl345.h"
 #include <stdio.h>
 #include <string.h>
+#include <stdbool.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -38,7 +39,9 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define UART2_BUFFER_SIZE 4
+#define UART2_BUFFER_SIZE 6
+#define TRANSMISSION_START 0x02
+#define TRANSMISSION_END 0x04
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -50,6 +53,11 @@
 
 /* USER CODE BEGIN PV */
 uint8_t UART2_rxBuffer[UART2_BUFFER_SIZE];
+char message[256];
+bool handshake = false;
+bool send = false;
+enum commands {HANDSHAKE = 0xAA55AA55, SET_TIME = 0xC0FFEE11, START_READING = 0xABCDDCBA, STOP_READING = 0xDCBAABCD};
+enum commands rcv_command;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -99,7 +107,6 @@ int main(void)
 
   setTargetDeviceAddress(&hi2c1, 0x53<<1);
   
-  char message[256];
   HAL_StatusTypeDef status;
   int id = 0;
   Accelerations accelerometerData;
@@ -133,20 +140,31 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
-    status = getAccelerations(&hi2c1, &accelerometerData);
-    if(status == HAL_OK){
-      memset(message, 0, sizeof(message));
-      float xf = (float)accelerometerData.x * 3.9f / 1000.0;
-      float yf = (float)accelerometerData.y * 3.9f / 1000.0;
-      float zf = (float)accelerometerData.z * 3.9f / 1000.0;
-      sprintf(message, "X : %5.5f    Y : %5.5f    Z : %5.5f\n", xf, yf, zf);
-      HAL_UART_Transmit(&huart2, (uint8_t *)message, 70, 100);
-    }
-    else
-    {
-      sprintf(message, "Error!\n");
-      HAL_UART_Transmit(&huart2, (uint8_t *)message, 7, 100);
+    if(handshake && send){
+      HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
+      status = getAccelerations(&hi2c1, &accelerometerData);
+      if(status == HAL_OK){
+        memset(message, 0, sizeof(message));
+        // float xf = (float)accelerometerData.x * 3.9f / 1000.0;
+        // float yf = (float)accelerometerData.y * 3.9f / 1000.0;
+        // float zf = (float)accelerometerData.z * 3.9f / 1000.0;
+        // sprintf(message, "X : %5.5f    Y : %5.5f    Z : %5.5f\n", xf, yf, zf);
+        // Add the accelerometer data to the message to send
+        message[0] = (accelerometerData.x & 0xFF00) >> 8;
+        message[1] = (accelerometerData.x & 0x00FF);
+        message[2] = (accelerometerData.y & 0xFF00) >> 8;
+        message[3] = (accelerometerData.y & 0x00FF);
+        message[4] = (accelerometerData.z & 0xFF00) >> 8;
+        message[5] = (accelerometerData.z & 0x00FF);
+        message[6] = 0xAA;
+        message[7] = 0x55;
+        HAL_UART_Transmit(&huart2, (uint8_t *)message, 8, 100);
+      }
+      else
+      {
+        sprintf(message, "Error!\n");
+        HAL_UART_Transmit(&huart2, (uint8_t *)message, 7, 100);
+      }
     }
     HAL_Delay(100);
   }
@@ -203,11 +221,46 @@ void SystemClock_Config(void)
 
 /* USER CODE BEGIN 4 */
 
+inline int modulo(int a, int b) {
+  if(b < 0) return modulo(-a, -b);
+  const int result = a % b;
+  return result >= 0 ? result : result + b;
+}
+
 // This function is called when the UART2_rxBuffer gets full
 // we can than check it's content to know which command was sent to us
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
-    HAL_UART_Transmit(&huart2, UART2_rxBuffer, UART2_BUFFER_SIZE, 100);
+  //Find start of command (if we ever miss a byte, this serves as an alignement byte since we use a circular buffer)
+  int i = 0;
+  for(i = 0; i < UART2_BUFFER_SIZE; ++i){
+    if(UART2_rxBuffer[i] == TRANSMISSION_START){
+      while(UART2_rxBuffer[modulo(i-1, UART2_BUFFER_SIZE)] != TRANSMISSION_END); //Wait for the complete command to get transfered
+      i += 1;
+      break;
+    }
+  }
+  rcv_command = (UART2_rxBuffer[i] << 24) + (UART2_rxBuffer[modulo(i+1, UART2_BUFFER_SIZE)] << 16) + (UART2_rxBuffer[modulo(i+2, UART2_BUFFER_SIZE)] << 8) + UART2_rxBuffer[modulo(i+3, UART2_BUFFER_SIZE)];
+  switch (rcv_command)
+  {
+  case HANDSHAKE:
+    handshake = true;
+    break;
+  case SET_TIME:
+    break;
+  case START_READING:
+    if (handshake)
+      send = true;
+    break;
+  case STOP_READING:
+    if(handshake)
+      send = false;
+    break;
+  default:
+    memset(message, 0, sizeof(message));
+    sprintf(message, "Error during transmission, received : 0x%08x", rcv_command);
+    HAL_UART_Transmit(&huart2, message, 50, 100);
+  }
 }
 
 /* USER CODE END 4 */
