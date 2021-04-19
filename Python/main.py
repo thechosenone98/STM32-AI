@@ -1,12 +1,50 @@
-from PyQt5 import QtCore, QtWidgets, QtGui
+from PyQt5 import QtCore, QtWidgets, QtGui, QtWebEngineWidgets
 from PyQt5.QtCore import pyqtSignal, pyqtSlot, Qt, QThread, QTimer, QCoreApplication, QModelIndex
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QApplication, QWidget, QFileDialog, QAction, QMessageBox, QComboBox, QLabel
 import ApplicationWindow
 
+import matplotlib
+
+matplotlib.use('Qt5Agg')
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.figure import Figure
+
+import numpy as np
+
 import serial.tools.list_ports
 from serial import Serial, serialutil
 from time import sleep
+
+
+def arrow3d(ax, length=1, width=0.05, head=0.2, headwidth=2.0,
+            theta_x=0, theta_z=0, offset=(0, 0, 0), **kw):
+    w = width
+    h = head
+    hw = headwidth
+    theta_x = np.deg2rad(theta_x)
+    theta_z = np.deg2rad(theta_z)
+
+    a = [[0, 0], [w, 0], [w, (1 - h) * length], [hw * w, (1 - h) * length], [0, length]]
+    a = np.array(a)
+
+    r, theta = np.meshgrid(a[:, 0], np.linspace(0, 2 * np.pi, 30))
+    z = np.tile(a[:, 1], r.shape[0]).reshape(r.shape)
+    x = r * np.sin(theta)
+    y = r * np.cos(theta)
+
+    rot_x = np.array([[1, 0, 0], [0, np.cos(theta_x), -np.sin(theta_x)],
+                      [0, np.sin(theta_x), np.cos(theta_x)]])
+    rot_z = np.array([[np.cos(theta_z), -np.sin(theta_z), 0],
+                      [np.sin(theta_z), np.cos(theta_z), 0], [0, 0, 1]])
+
+    b1 = np.dot(rot_x, np.c_[x.flatten(), y.flatten(), z.flatten()].T)
+    b2 = np.dot(rot_z, b1)
+    b2 = b2.T + np.array(offset)
+    x = b2[:, 0].reshape(r.shape);
+    y = b2[:, 1].reshape(r.shape);
+    z = b2[:, 2].reshape(r.shape);
+    ax.plot_surface(x, y, z, **kw)
 
 
 def toggle(btn, *args):
@@ -28,7 +66,7 @@ class ThreadedUART(QThread):
         data = bytearray()
         while self.run_flag:
             while not self.sp.inWaiting():
-                self.msleep(50)
+                self.msleep(10)
             # Verify we got all the data (the end character may be contained within the data and trigger the read_until
             # before it is actually done reading
             while len(data) < 8:
@@ -38,18 +76,45 @@ class ThreadedUART(QThread):
             data = bytearray()
 
 
+class MplCanvas(FigureCanvas):
+
+    def __init__(self, parent=None, width=5, height=4, dpi=100):
+        fig = Figure(figsize=(width, height), dpi=dpi)
+        self.axes = fig.add_subplot(111, projection='3d')
+        self.axes.set_xlim(-1, 1)
+        self.axes.set_ylim(-1, 1)
+        self.axes.set_zlim(-1, 1)
+        super(MplCanvas, self).__init__(fig)
+
+
 class FormMain(ApplicationWindow.Ui_MainWindow, QtWidgets.QMainWindow):
     def __init__(self, path=None, load="normal"):
         super(FormMain, self).__init__()
         self.setupUi(self)
 
-        self.command_dict = {"start_reading": bytearray([0x02, 0xAB, 0xCD, 0xDC, 0xBA, 0x04]),
-                             "stop_reading": bytearray([0x02, 0xDC, 0xBA, 0xAB, 0xCD, 0x04]),
-                             "handshake": bytearray([0x02, 0xAA, 0x55, 0xAA, 0x55, 0x04])}
-
         self.sp = None
         self.reading = False
         self.UART_thread = None
+        self.acceleration = {"x": 0.0, "y": 0.0, "z": 1.0}
+
+        self.canvas = MplCanvas(parent=self.gb_graphViewer, width=5, height=4, dpi=100)
+        self.verticalLayout_3.addWidget(self.canvas)
+        self._plot_ref = None
+        self.canvas_timer = QTimer()
+        self.canvas_timer.setInterval(50)
+        self.canvas_timer.timeout.connect(self.updateGraph)
+        self.canvas_timer.start()
+
+        # arrow3d(self.plot, length=np.sqrt(self.acceleration["x"]**2 +
+        #                                   self.acceleration["y"]**2 +
+        #                                   self.acceleration["z"]**2),
+        #         theta_x=np.arctan(np.sqrt(self.acceleration["x"]**2 + self.acceleration["y"]**2) / self.acceleration["z"]),
+        #         theta_z=np.arctan(self.acceleration["y"] / self.acceleration["x"]),
+        #         width=0.02, head=0.1, headwidth=1.5, offset=[1, 1, 0], color="limegreen")
+
+        self.command_dict = {"start_reading": bytearray([0x02, 0xAB, 0xCD, 0xDC, 0xBA, 0x04]),
+                             "stop_reading": bytearray([0x02, 0xDC, 0xBA, 0xAB, 0xCD, 0x04]),
+                             "handshake": bytearray([0x02, 0xAA, 0x55, 0xAA, 0x55, 0x04])}
 
         # Scan available COM Ports
         for port in serial.tools.list_ports.comports():
@@ -92,13 +157,32 @@ class FormMain(ApplicationWindow.Ui_MainWindow, QtWidgets.QMainWindow):
             self.sp.write(self.command_dict["start_reading"])
 
     def updateTerminal(self, data):
-        x = int.from_bytes(bytes([data[0], data[1]]), byteorder='big', signed=True) * 3.9 / 1000.0
-        y = int.from_bytes(bytes([data[2], data[3]]), byteorder='big', signed=True) * 3.9 / 1000.0
-        z = int.from_bytes(bytes([data[4], data[5]]), byteorder='big', signed=True) * 3.9 / 1000.0
-        self.lsw_Terminal.addItem(f"X:{x:.2f} Y:{y:.2f} Z:{z:.2f}")
+        self.acceleration["x"] = int.from_bytes(bytes([data[0], data[1]]), byteorder='big', signed=True) * 3.9 / 1000.0
+        self.acceleration["y"] = int.from_bytes(bytes([data[2], data[3]]), byteorder='big', signed=True) * 3.9 / 1000.0
+        self.acceleration["z"] = int.from_bytes(bytes([data[4], data[5]]), byteorder='big', signed=True) * 3.9 / 1000.0
+        self.lsw_Terminal.addItem(f"X:{self.acceleration['x']:.2f} "
+                                  f"Y:{self.acceleration['y']:.2f} "
+                                  f"Z:{self.acceleration['z']:.2f}")
         if self.lsw_Terminal.count() >= 50:
             self.lsw_Terminal.takeItem(0)
         self.lsw_Terminal.scrollToBottom()
+
+    def updateGraph(self):
+        if self._plot_ref is None:
+            # First time we have no plot reference, so do a normal plot.
+            # .plot returns a list of line <reference>s, as we're
+            # only getting one we can take the first element.
+            plot_refs = self.canvas.axes.plot3D([0, self.acceleration["x"]], [0, self.acceleration["y"]],
+                                                [0, self.acceleration["z"]], 'red')
+            self._plot_ref = plot_refs[0]
+        else:
+            # We have a reference, we can use it to update the data for that line.
+            self._plot_ref.set_xdata(np.asarray([0, self.acceleration["x"]]))
+            self._plot_ref.set_ydata(np.asarray([0, self.acceleration["y"]]))
+            self._plot_ref.set_3d_properties(np.asarray([0, self.acceleration["z"]]))
+
+        # Trigger the canvas to update and redraw.
+        self.canvas.draw()
 
 
 if __name__ == '__main__':

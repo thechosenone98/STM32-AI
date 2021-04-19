@@ -2292,25 +2292,25 @@ LOAD c:/gnu/gnu_arm_embedded_toolchain/10-2020-q4-major/bin/../lib/gcc/arm-none-
 LOAD c:/gnu/gnu_arm_embedded_toolchain/10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a
 LOAD c:/gnu/gnu_arm_embedded_toolchain/10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/v7e-m+fp/hard\libgcc.a
 
-.debug_info     0x00000000     0xf4ab
- .debug_info    0x00000000     0x150b build/main.o
- .debug_info    0x0000150b      0x5c8 build/gpio.o
- .debug_info    0x00001ad3      0xba2 build/i2c.o
- .debug_info    0x00002675      0xb59 build/usart.o
- .debug_info    0x000031ce      0x471 build/stm32f4xx_it.o
- .debug_info    0x0000363f      0x355 build/stm32f4xx_hal_msp.o
- .debug_info    0x00003994     0x3b16 build/stm32f4xx_hal_i2c.o
- .debug_info    0x000074aa      0xc39 build/stm32f4xx_hal_rcc.o
- .debug_info    0x000080e3      0xdc5 build/stm32f4xx_hal_rcc_ex.o
- .debug_info    0x00008ea8      0x8ac build/stm32f4xx_hal_gpio.o
- .debug_info    0x00009754      0xbd1 build/stm32f4xx_hal_dma.o
- .debug_info    0x0000a325     0x1192 build/stm32f4xx_hal_cortex.o
- .debug_info    0x0000b4b7      0xb31 build/stm32f4xx_hal.o
- .debug_info    0x0000bfe8     0x1e89 build/stm32f4xx_hal_uart.o
- .debug_info    0x0000de71      0x5f7 build/system_stm32f4xx.o
- .debug_info    0x0000e468      0xa7a build/adxl345.o
- .debug_info    0x0000eee2      0x5a7 build/dma.o
- .debug_info    0x0000f489       0x22 build/startup_stm32f446xx.o
+.debug_info     0x00000000     0xf4aa
+ .debug_info    0x00000000     0x150a build/main.o
+ .debug_info    0x0000150a      0x5c8 build/gpio.o
+ .debug_info    0x00001ad2      0xba2 build/i2c.o
+ .debug_info    0x00002674      0xb59 build/usart.o
+ .debug_info    0x000031cd      0x471 build/stm32f4xx_it.o
+ .debug_info    0x0000363e      0x355 build/stm32f4xx_hal_msp.o
+ .debug_info    0x00003993     0x3b16 build/stm32f4xx_hal_i2c.o
+ .debug_info    0x000074a9      0xc39 build/stm32f4xx_hal_rcc.o
+ .debug_info    0x000080e2      0xdc5 build/stm32f4xx_hal_rcc_ex.o
+ .debug_info    0x00008ea7      0x8ac build/stm32f4xx_hal_gpio.o
+ .debug_info    0x00009753      0xbd1 build/stm32f4xx_hal_dma.o
+ .debug_info    0x0000a324     0x1192 build/stm32f4xx_hal_cortex.o
+ .debug_info    0x0000b4b6      0xb31 build/stm32f4xx_hal.o
+ .debug_info    0x0000bfe7     0x1e89 build/stm32f4xx_hal_uart.o
+ .debug_info    0x0000de70      0x5f7 build/system_stm32f4xx.o
+ .debug_info    0x0000e467      0xa7a build/adxl345.o
+ .debug_info    0x0000eee1      0x5a7 build/dma.o
+ .debug_info    0x0000f488       0x22 build/startup_stm32f446xx.o
 
 .debug_abbrev   0x00000000     0x2450
  .debug_abbrev  0x00000000      0x32e build/main.o

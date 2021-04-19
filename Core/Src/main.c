@@ -166,7 +166,7 @@ int main(void)
         HAL_UART_Transmit(&huart2, (uint8_t *)message, 7, 100);
       }
     }
-    HAL_Delay(100);
+    HAL_Delay(10);
   }
     /* USER CODE END WHILE */
 
