@@ -19,6 +19,7 @@ from time import sleep
 import time
 from queue import Queue
 from pathlib import Path
+import struct
 
 
 def current_milli_time():
@@ -55,38 +56,72 @@ def arrow3d(ax, length=1, width=0.05, head=0.2, headwidth=2.0,
     ax.plot_surface(x, y, z, **kw)
 
 
+def getData(data):
+    x = int.from_bytes(bytes([data[0], data[1]]), byteorder='big', signed=True) * 3.9 / 1000.0
+    y = int.from_bytes(bytes([data[2], data[3]]), byteorder='big', signed=True) * 3.9 / 1000.0
+    z = int.from_bytes(bytes([data[4], data[5]]), byteorder='big', signed=True) * 3.9 / 1000.0
+    t = int.from_bytes(bytes(data[6:-2]), byteorder='big', signed=False)
+    return x, y, z, t
+
+
 class ThreadedUART(QThread):
     received_data_signal = pyqtSignal(bytes)
 
     def __init__(self, sp: Serial):
         super().__init__()
-        self.run_flag = True
-        self.sp = sp
+        self.__run_flag = True
+        self.__sp = sp
 
     def run(self):
         data = bytearray()
-        while self.run_flag:
-            while not self.sp.inWaiting():
-                self.msleep(10)
-            # Verify we got all the data (the end character may be contained within the data and trigger the read_until
-            # before it is actually done reading
-            while len(data) < 16:
-                data.extend([int(b) for b in self.sp.read_until(expected=serialutil.to_bytes([0xAA, 0x55]))])
-            self.received_data_signal.emit(bytes(data))
-            # Clear the data
-            data = bytearray()
+        while self.__run_flag:
+            while self.__sp.inWaiting():
+                # Verify we got all the data (the end character may be contained within the data and trigger the read_until
+                # before it is actually done reading
+                while len(data) < 16:
+                    data.extend([int(b) for b in self.__sp.read_until(expected=serialutil.to_bytes([0xAA, 0x55]))])
+                self.received_data_signal.emit(bytes(data))
+                # Clear the data
+                data = bytearray()
+            self.msleep(10)
+
+    def stop(self):
+        self.__run_flag = False
 
 
 class ThreadedFileWrite(QThread):
+    remaining_writes_signal = pyqtSignal(int)
+
     def __init__(self, path=None):
         super().__init__()
-        self.run_flag = True
-        self.path = path
+        self.__run_flag = True
+        self.__file_obj = open(path, "wb")
         self.queue = Queue()
 
     def run(self):
-        while self.run_flag:
-            pass
+        while self.__run_flag:
+            while not self.queue.empty():
+                data = self.queue.get()
+                # Get acceleration and timestamp
+                x, y, z, t = getData(data)
+                self.__file_obj.write(b''.join([struct.pack("d", x), struct.pack("d", y), struct.pack("d", z), struct.pack("Q", t)]))
+                self.queue.task_done()
+                self.remaining_writes_signal.emit(self.queue.qsize())
+            self.msleep(50)
+
+    def setPath(self, path):
+        """Automatically closes previous file and switches to the new file path"""
+        self.queue.join()
+        self.__file_obj.close()
+        self.__file_obj = open(path, "wb")
+
+    def finishWriting(self):
+        self.queue.join()
+
+    def stop(self):
+        self.finishWriting()
+        self.__file_obj.close()
+        self.__run_flag = False
 
 
 class MplCanvas(FigureCanvas):
@@ -120,7 +155,7 @@ class FormMain(ApplicationWindow.Ui_MainWindow, QtWidgets.QMainWindow):
         self.verticalLayout_3.addWidget(self.canvas)
         self._plot_ref = None
         self.canvas_timer = QTimer()
-        self.canvas_timer.setInterval(50)
+        self.canvas_timer.setInterval(100)
         self.canvas_timer.timeout.connect(self.updateGraph)
         self.canvas_timer.start()
 
@@ -145,6 +180,7 @@ class FormMain(ApplicationWindow.Ui_MainWindow, QtWidgets.QMainWindow):
         self.btn_StartStop.clicked.connect(self.toggleRead)
         self.btn_browseFolder.clicked.connect(self.setSaveFolder)
         self.btn_togglePort.clicked.connect(self.togglePort)
+        self.btn_setName.clicked.connect(self.setFileName)
 
     def togglePort(self):
         if self.sp is None:
@@ -153,20 +189,24 @@ class FormMain(ApplicationWindow.Ui_MainWindow, QtWidgets.QMainWindow):
             self.UART_thread = ThreadedUART(self.sp)
             if self.txb_filename.text() != "":
                 self.writer_thread = ThreadedFileWrite(self.saveFolder.joinpath(self.txb_filename.text()))
+                self.writer_thread.remaining_writes_signal.connect(self.updateWritesLabel)
                 self.UART_thread.received_data_signal.connect(self.writer_thread.queue.put)
             else:
                 QMessageBox.about(self, "Error",
                                   "Please specify a name for the file and a folder in which you want to save the file.")
+                self.sp.close()
+                self.sp = None
                 return
             self.UART_thread.received_data_signal.connect(self.updateAccelerations)
             self.UART_thread.start()
+            self.writer_thread.start()
             self.btn_togglePort.setText("Close")
         elif self.sp.is_open:
             # Make sure we stop reading data in
             self.sp.write(self.command_dict["stop_reading"])
             self.reading = False
-            self.UART_thread.run_flag = False
-            self.writer_thread.run_flag = False
+            self.UART_thread.stop()
+            self.writer_thread.stop()
             self.UART_thread.wait()
             self.writer_thread.wait()
             self.sp.close()
@@ -178,12 +218,17 @@ class FormMain(ApplicationWindow.Ui_MainWindow, QtWidgets.QMainWindow):
         self.saveFolder = Path(str(QFileDialog.getExistingDirectory(self, "Select Directory")))
         self.txb_saveFolder.setText(str(self.saveFolder))
 
+    def setFileName(self):
+        if self.writer_thread is not None:
+            self.writer_thread.setPath(self.saveFolder.joinpath(self.txb_filename))
+
     def changePort(self):
         if self.sp is not None:
             self.sp.close()
             self.UART_thread.run_flag = False
-            self.writer_thread.run_flag = False
-            # TODO : find a way to wait for the thread to join (it's not called join for QThread)
+            self.writer_thread.stop()
+            self.UART_thread.wait()
+            self.writer_thread.wait()
         self.btn_togglePort.setText("Open")
 
     def createAndStartThread(self):
@@ -192,7 +237,8 @@ class FormMain(ApplicationWindow.Ui_MainWindow, QtWidgets.QMainWindow):
             self.writer_thread = ThreadedFileWrite(self.saveFolder.joinpath(self.txb_filename.text()))
             self.UART_thread.received_data_signal.connect(self.writer_thread.queue.put)
         else:
-            QMessageBox.about(self, "Error", "Please specify a name for the file and a folder in which to save the file.")
+            QMessageBox.about(self, "Error",
+                              "Please specify a name for the file and a folder in which to save the file.")
             return
         self.UART_thread.received_data_signal.connect(self.updateAccelerations)
         self.UART_thread.start()
@@ -206,7 +252,6 @@ class FormMain(ApplicationWindow.Ui_MainWindow, QtWidgets.QMainWindow):
             self.reading = True
             self.btn_StartStop.setText("Stop")
             # Send the command to set the UTC time on the STM32
-            # TODO : Send time and code part that receives time on the STM32
             self.sp.write(self.command_dict["settime"])
             # Create timestamp command (START + TIME + END)
             timestamp = ((0x02 << 72) + (current_milli_time() << 8) + 0x04).to_bytes(10, 'big', signed=False)
@@ -216,11 +261,16 @@ class FormMain(ApplicationWindow.Ui_MainWindow, QtWidgets.QMainWindow):
             QMessageBox.about(self, "Error", "Please open the port first")
 
     def updateAccelerations(self, data):
-        self.acceleration["x"] = int.from_bytes(bytes([data[0], data[1]]), byteorder='big', signed=True) * 3.9 / 1000.0
-        self.acceleration["y"] = int.from_bytes(bytes([data[2], data[3]]), byteorder='big', signed=True) * 3.9 / 1000.0
-        self.acceleration["z"] = int.from_bytes(bytes([data[4], data[5]]), byteorder='big', signed=True) * 3.9 / 1000.0
-        self.timestamp = int.from_bytes(bytes(data[6:-2]), byteorder='big', signed=False)
+        directions = ["x", "y", "z"]
+        x, y, z, t = getData(data)
+        self.acceleration["x"] = x
+        self.acceleration["y"] = y
+        self.acceleration["z"] = z
+        self.timestamp = t
         self.updateTerminal()
+
+    def updateWritesLabel(self, num):
+        self.lbl_nbWritesLeft.setText(f"Nb. writes remaining : {num}")
 
     def updateTerminal(self):
         self.lsw_Terminal.addItem(f"T:{self.timestamp} "
