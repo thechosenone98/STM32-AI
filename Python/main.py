@@ -21,6 +21,8 @@ from queue import Queue
 from pathlib import Path
 import struct
 
+from collections import deque
+
 
 def sizeof_fmt(num, suffix='B'):
     for unit in ['', 'Ki', 'Mi', 'Gi', 'Ti', 'Pi', 'Ei', 'Zi']:
@@ -139,12 +141,38 @@ class ThreadedFileWrite(QThread):
 class MplCanvas(FigureCanvas):
 
     def __init__(self, parent=None, width=5, height=4, dpi=100):
-        fig = Figure(figsize=(width, height), dpi=dpi)
-        self.axes = fig.add_subplot(111, projection='3d')
-        self.axes.set_xlim(-1, 1)
-        self.axes.set_ylim(-1, 1)
-        self.axes.set_zlim(-1, 1)
-        super(MplCanvas, self).__init__(fig)
+        # Used to hold data for all axes
+        self.data_x = deque([0.0 for i in range(5000)], maxlen=5000)
+        self.data_y = deque([0.0 for i in range(5000)], maxlen=5000)
+        self.data_z = deque([0.0 for i in range(5000)], maxlen=5000)
+        self.timestamps = deque([i for i in range(5000)], maxlen=5000)
+        self.fig = Figure(figsize=(width, height), dpi=dpi)
+        self.axes = self.fig.add_subplot(1, 1, 1)
+        self.axes.set_ylim(-16, 16)
+        self.__plot_ref_x = self.axes.plot(self.timestamps, self.data_x)[0]
+        self.__plot_ref_y = self.axes.plot(self.timestamps, self.data_y)[0]
+        self.__plot_ref_z = self.axes.plot(self.timestamps, self.data_z)[0]
+        self.fig.legend(["Acc. X", "Acc. Y", "Acc. Z"])
+        super(MplCanvas, self).__init__(self.fig)
+
+    def updateData(self, data):
+        x, y, z, t = getData(data)
+        self.data_x.appendleft(x)
+        self.data_y.appendleft(y)
+        self.data_z.appendleft(z)
+
+    def updateCanvas(self):
+        # X Axis
+        self.__plot_ref_x.set_xdata(self.timestamps)
+        self.__plot_ref_x.set_ydata(self.data_x)
+        # Y axis
+        self.__plot_ref_y.set_xdata(self.timestamps)
+        self.__plot_ref_y.set_ydata(self.data_y)
+        # Z axis
+        self.__plot_ref_z.set_xdata(self.timestamps)
+        self.__plot_ref_z.set_ydata(self.data_z)
+        # Draw all 3 new plots
+        self.draw()
 
 
 class FormMain(ApplicationWindow.Ui_MainWindow, QtWidgets.QMainWindow):
@@ -169,7 +197,7 @@ class FormMain(ApplicationWindow.Ui_MainWindow, QtWidgets.QMainWindow):
         # Timer that controls the refresh rate of the 3D plot
         self.canvas_timer = QTimer()
         self.canvas_timer.setInterval(100)
-        self.canvas_timer.timeout.connect(self.updateGraph)
+        self.canvas_timer.timeout.connect(self.canvas.updateCanvas)
         self.canvas_timer.start()
         # Timer that controls the refresh rate of the terminal
         self.terminalTimer = QTimer()
@@ -215,6 +243,7 @@ class FormMain(ApplicationWindow.Ui_MainWindow, QtWidgets.QMainWindow):
                 self.sp = None
                 return
             self.UART_thread.received_data_signal.connect(self.updateAccelerations)
+            self.UART_thread.received_data_signal.connect(self.canvas.updateData)
             self.UART_thread.start()
             self.writer_thread.start()
             self.btn_togglePort.setText("Close")

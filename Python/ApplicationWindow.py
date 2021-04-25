@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1068, 712)
+        MainWindow.resize(1068, 887)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.horizontalLayout_5 = QtWidgets.QHBoxLayout(self.centralwidget)
@@ -27,7 +27,7 @@ class Ui_MainWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.gb_graphViewer.sizePolicy().hasHeightForWidth())
         self.gb_graphViewer.setSizePolicy(sizePolicy)
-        self.gb_graphViewer.setMaximumSize(QtCore.QSize(600, 600))
+        self.gb_graphViewer.setMaximumSize(QtCore.QSize(600, 1000))
         self.gb_graphViewer.setObjectName("gb_graphViewer")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.gb_graphViewer)
         self.verticalLayout_3.setObjectName("verticalLayout_3")
