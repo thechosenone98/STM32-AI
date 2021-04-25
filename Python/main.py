@@ -22,6 +22,14 @@ from pathlib import Path
 import struct
 
 
+def sizeof_fmt(num, suffix='B'):
+    for unit in ['', 'Ki', 'Mi', 'Gi', 'Ti', 'Pi', 'Ei', 'Zi']:
+        if abs(num) < 1024.0:
+            return "%3.1f%s%s" % (num, unit, suffix)
+        num /= 1024.0
+    return "%.1f%s%s" % (num, 'Yi', suffix)
+
+
 def current_milli_time():
     return round(time.time() * 1000)
 
@@ -96,6 +104,7 @@ class ThreadedFileWrite(QThread):
         super().__init__()
         self.__run_flag = True
         self.__file_obj = open(path, "wb")
+        self.__nb_writes = 0
         self.queue = Queue()
 
     def run(self):
@@ -104,15 +113,18 @@ class ThreadedFileWrite(QThread):
                 data = self.queue.get()
                 # Get acceleration and timestamp
                 x, y, z, t = getData(data)
-                self.__file_obj.write(b''.join([struct.pack("d", x), struct.pack("d", y), struct.pack("d", z), struct.pack("Q", t)]))
+                self.__file_obj.write(struct.pack("dddQ", x, y, z, t))
                 self.queue.task_done()
-                self.remaining_writes_signal.emit(self.queue.qsize())
+                self.__nb_writes += 1
+                self.remaining_writes_signal.emit(self.__nb_writes)
             self.msleep(50)
 
     def setPath(self, path):
         """Automatically closes previous file and switches to the new file path"""
         self.queue.join()
         self.__file_obj.close()
+        self.__nb_writes = 0
+        self.remaining_writes_signal.emit(self.__nb_writes)
         self.__file_obj = open(path, "wb")
 
     def finishWriting(self):
@@ -154,10 +166,15 @@ class FormMain(ApplicationWindow.Ui_MainWindow, QtWidgets.QMainWindow):
         self.canvas = MplCanvas(parent=self.gb_graphViewer, width=5, height=4, dpi=100)
         self.verticalLayout_3.addWidget(self.canvas)
         self._plot_ref = None
+        # Timer that controls the refresh rate of the 3D plot
         self.canvas_timer = QTimer()
         self.canvas_timer.setInterval(100)
         self.canvas_timer.timeout.connect(self.updateGraph)
         self.canvas_timer.start()
+        # Timer that controls the refresh rate of the terminal
+        self.terminalTimer = QTimer()
+        self.terminalTimer.setInterval(100)
+        self.terminalTimer.timeout.connect(self.updateTerminal)
 
         # arrow3d(self.plot, length=np.sqrt(self.acceleration["x"]**2 +
         #                                   self.acceleration["y"]**2 +
@@ -189,7 +206,7 @@ class FormMain(ApplicationWindow.Ui_MainWindow, QtWidgets.QMainWindow):
             self.UART_thread = ThreadedUART(self.sp)
             if self.txb_filename.text() != "":
                 self.writer_thread = ThreadedFileWrite(self.saveFolder.joinpath(self.txb_filename.text()))
-                self.writer_thread.remaining_writes_signal.connect(self.updateWritesLabel)
+                self.writer_thread.remaining_writes_signal.connect(self.updateFileSizeLabel)
                 self.UART_thread.received_data_signal.connect(self.writer_thread.queue.put)
             else:
                 QMessageBox.about(self, "Error",
@@ -207,6 +224,7 @@ class FormMain(ApplicationWindow.Ui_MainWindow, QtWidgets.QMainWindow):
             self.reading = False
             self.UART_thread.stop()
             self.writer_thread.stop()
+            self.terminalTimer.stop()
             self.UART_thread.wait()
             self.writer_thread.wait()
             self.sp.close()
@@ -220,13 +238,14 @@ class FormMain(ApplicationWindow.Ui_MainWindow, QtWidgets.QMainWindow):
 
     def setFileName(self):
         if self.writer_thread is not None:
-            self.writer_thread.setPath(self.saveFolder.joinpath(self.txb_filename))
+            self.writer_thread.setPath(self.saveFolder.joinpath(self.txb_filename.text()))
 
     def changePort(self):
         if self.sp is not None:
             self.sp.close()
-            self.UART_thread.run_flag = False
+            self.UART_thread.stop()
             self.writer_thread.stop()
+            self.terminalTimer.stop()
             self.UART_thread.wait()
             self.writer_thread.wait()
         self.btn_togglePort.setText("Open")
@@ -248,6 +267,8 @@ class FormMain(ApplicationWindow.Ui_MainWindow, QtWidgets.QMainWindow):
             self.reading = False
             self.btn_StartStop.setText("Start")
             self.sp.write(self.command_dict["stop_reading"])
+            # Stop updating the terminal
+            self.terminalTimer.stop()
         elif self.sp is not None:
             self.reading = True
             self.btn_StartStop.setText("Stop")
@@ -257,6 +278,8 @@ class FormMain(ApplicationWindow.Ui_MainWindow, QtWidgets.QMainWindow):
             timestamp = ((0x02 << 72) + (current_milli_time() << 8) + 0x04).to_bytes(10, 'big', signed=False)
             self.sp.write(timestamp)
             self.sp.write(self.command_dict["start_reading"])
+            # Start updating the terminal
+            self.terminalTimer.start()
         else:
             QMessageBox.about(self, "Error", "Please open the port first")
 
@@ -267,10 +290,9 @@ class FormMain(ApplicationWindow.Ui_MainWindow, QtWidgets.QMainWindow):
         self.acceleration["y"] = y
         self.acceleration["z"] = z
         self.timestamp = t
-        self.updateTerminal()
 
-    def updateWritesLabel(self, num):
-        self.lbl_nbWritesLeft.setText(f"Nb. writes remaining : {num}")
+    def updateFileSizeLabel(self, num):
+        self.lbl_nbWritesLeft.setText(f"Total file size : {sizeof_fmt(struct.calcsize('dddQ') * num)}")
 
     def updateTerminal(self):
         self.lsw_Terminal.addItem(f"T:{self.timestamp} "
