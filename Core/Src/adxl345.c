@@ -16,12 +16,18 @@ HAL_StatusTypeDef AccelInit(I2C_HandleTypeDef *hi2c){
     if(status != HAL_OK){
         return status;
     }
-	status = AccelWrite (hi2c, 0x2d, 0x08);  // power_cntl measure and wake up 8hz*/
+    status = AccelWrite (hi2c, 0x31, 0x0B);  // data_format range= +-16g
     if(status != HAL_OK){
         return status;
     }
-	AccelWrite (hi2c, 0x31, 0x00);  // data_format range= +- 2g
-	//AccelWrite (0x2c, 0x0d);  // 800 hz output data rate
+	status = AccelWrite (hi2c, 0x2c, 0x0E);  // 1600 hz output data rate
+    if(status != HAL_OK){
+        return status;
+    }
+	status = AccelWrite (hi2c, 0x2d, 0x08);  // Start measuring
+    if(status != HAL_OK){
+        return status;
+    }
     return status;
 }
 

@@ -201,7 +201,7 @@ class FormMain(ApplicationWindow.Ui_MainWindow, QtWidgets.QMainWindow):
 
     def togglePort(self):
         if self.sp is None:
-            self.sp = Serial(port=self.cmb_comPort.currentText(), baudrate=115200)
+            self.sp = Serial(port=self.cmb_comPort.currentText(), baudrate=1500000)
             self.sp.write(self.command_dict["handshake"])
             self.UART_thread = ThreadedUART(self.sp)
             if self.txb_filename.text() != "":
