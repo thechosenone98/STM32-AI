@@ -1,0 +1,1102 @@
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccU8A3pn.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"aiTestHelper.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.rodata.aiPlatformVersion.str1.4,"aMS",%progbits,1
+  18              		.align	2
+  19              	.LC0:
+  20 0000 0D0A4149 		.ascii	"\015\012AI platform (API %d.%d.%d - RUNTIME %d.%d.%"
+  20      20706C61 
+  20      74666F72 
+  20      6D202841 
+  20      50492025 
+  21 002d 64290D0A 		.ascii	"d)\015\012\000"
+  21      00
+  22              		.section	.text.aiPlatformVersion,"ax",%progbits
+  23              		.align	1
+  24              		.global	aiPlatformVersion
+  25              		.arch armv7e-m
+  26              		.syntax unified
+  27              		.thumb
+  28              		.thumb_func
+  29              		.fpu fpv4-sp-d16
+  31              	aiPlatformVersion:
+  32              	.LFB3:
+  33              		.file 1 "X-CUBE-AI/App/aiTestHelper.c"
+   1:X-CUBE-AI/App/aiTestHelper.c **** /**
+   2:X-CUBE-AI/App/aiTestHelper.c ****  ******************************************************************************
+   3:X-CUBE-AI/App/aiTestHelper.c ****  * @file    aiTestUtility.c
+   4:X-CUBE-AI/App/aiTestHelper.c ****  * @author  MCD Vertical Application Team
+   5:X-CUBE-AI/App/aiTestHelper.c ****  * @brief   STM32 Helper functions for STM32 AI test application
+   6:X-CUBE-AI/App/aiTestHelper.c ****  ******************************************************************************
+   7:X-CUBE-AI/App/aiTestHelper.c ****  * @attention
+   8:X-CUBE-AI/App/aiTestHelper.c ****  *
+   9:X-CUBE-AI/App/aiTestHelper.c ****  * <h2><center>&copy; Copyright (c) 2020 STMicroelectronics.
+  10:X-CUBE-AI/App/aiTestHelper.c ****  * All rights reserved.</center></h2>
+  11:X-CUBE-AI/App/aiTestHelper.c ****  *
+  12:X-CUBE-AI/App/aiTestHelper.c ****  * This software component is licensed by ST under Ultimate Liberty license
+  13:X-CUBE-AI/App/aiTestHelper.c ****  * SLA0044, the "License"; You may not use this file except in compliance with
+  14:X-CUBE-AI/App/aiTestHelper.c ****  * the License. You may obtain a copy of the License at:
+  15:X-CUBE-AI/App/aiTestHelper.c ****  *                             www.st.com/SLA0044
+  16:X-CUBE-AI/App/aiTestHelper.c ****  *
+  17:X-CUBE-AI/App/aiTestHelper.c ****  ******************************************************************************
+  18:X-CUBE-AI/App/aiTestHelper.c ****  */
+  19:X-CUBE-AI/App/aiTestHelper.c **** 
+  20:X-CUBE-AI/App/aiTestHelper.c **** /*
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccU8A3pn.s 			page 2
+
+
+  21:X-CUBE-AI/App/aiTestHelper.c ****  * Description:
+  22:X-CUBE-AI/App/aiTestHelper.c ****  *
+  23:X-CUBE-AI/App/aiTestHelper.c ****  *
+  24:X-CUBE-AI/App/aiTestHelper.c ****  * History:
+  25:X-CUBE-AI/App/aiTestHelper.c ****  *  - v1.0 - Initial version (from initial aiSystemPerformance file v5.0)
+  26:X-CUBE-AI/App/aiTestHelper.c ****  */
+  27:X-CUBE-AI/App/aiTestHelper.c **** 
+  28:X-CUBE-AI/App/aiTestHelper.c **** #include <stdio.h>
+  29:X-CUBE-AI/App/aiTestHelper.c **** #include <string.h>
+  30:X-CUBE-AI/App/aiTestHelper.c **** 
+  31:X-CUBE-AI/App/aiTestHelper.c **** #if !defined(TFLM_RUNTIME)
+  32:X-CUBE-AI/App/aiTestHelper.c **** 
+  33:X-CUBE-AI/App/aiTestHelper.c **** #include <aiTestHelper.h>
+  34:X-CUBE-AI/App/aiTestHelper.c **** 
+  35:X-CUBE-AI/App/aiTestHelper.c **** #include <ai_platform_interface.h>
+  36:X-CUBE-AI/App/aiTestHelper.c **** 
+  37:X-CUBE-AI/App/aiTestHelper.c **** void aiPlatformVersion(void)
+  38:X-CUBE-AI/App/aiTestHelper.c **** {
+  34              		.loc 1 38 1 view -0
+  35              		.cfi_startproc
+  36              		@ args = 0, pretend = 0, frame = 0
+  37              		@ frame_needed = 0, uses_anonymous_args = 0
+  38 0000 00B5     		push	{lr}
+  39              	.LCFI0:
+  40              		.cfi_def_cfa_offset 4
+  41              		.cfi_offset 14, -4
+  42 0002 85B0     		sub	sp, sp, #20
+  43              	.LCFI1:
+  44              		.cfi_def_cfa_offset 24
+  39:X-CUBE-AI/App/aiTestHelper.c ****   printf("\r\nAI platform (API %d.%d.%d - RUNTIME %d.%d.%d)\r\n",
+  45              		.loc 1 39 3 view .LVU1
+  46 0004 0023     		movs	r3, #0
+  47 0006 0293     		str	r3, [sp, #8]
+  48 0008 0193     		str	r3, [sp, #4]
+  49 000a 0622     		movs	r2, #6
+  50 000c 0092     		str	r2, [sp]
+  51 000e 0122     		movs	r2, #1
+  52 0010 1146     		mov	r1, r2
+  53 0012 0348     		ldr	r0, .L3
+  54 0014 FFF7FEFF 		bl	printf
+  55              	.LVL0:
+  40:X-CUBE-AI/App/aiTestHelper.c ****       AI_PLATFORM_API_MAJOR,
+  41:X-CUBE-AI/App/aiTestHelper.c ****       AI_PLATFORM_API_MINOR,
+  42:X-CUBE-AI/App/aiTestHelper.c ****       AI_PLATFORM_API_MICRO,
+  43:X-CUBE-AI/App/aiTestHelper.c ****       AI_PLATFORM_RUNTIME_MAJOR,
+  44:X-CUBE-AI/App/aiTestHelper.c ****       AI_PLATFORM_RUNTIME_MINOR,
+  45:X-CUBE-AI/App/aiTestHelper.c ****       AI_PLATFORM_RUNTIME_MICRO);
+  46:X-CUBE-AI/App/aiTestHelper.c **** }
+  56              		.loc 1 46 1 is_stmt 0 view .LVU2
+  57 0018 05B0     		add	sp, sp, #20
+  58              	.LCFI2:
+  59              		.cfi_def_cfa_offset 4
+  60              		@ sp needed
+  61 001a 5DF804FB 		ldr	pc, [sp], #4
+  62              	.L4:
+  63 001e 00BF     		.align	2
+  64              	.L3:
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccU8A3pn.s 			page 3
+
+
+  65 0020 00000000 		.word	.LC0
+  66              		.cfi_endproc
+  67              	.LFE3:
+  69              		.section	.text.aiBufferSize,"ax",%progbits
+  70              		.align	1
+  71              		.global	aiBufferSize
+  72              		.syntax unified
+  73              		.thumb
+  74              		.thumb_func
+  75              		.fpu fpv4-sp-d16
+  77              	aiBufferSize:
+  78              	.LVL1:
+  79              	.LFB4:
+  47:X-CUBE-AI/App/aiTestHelper.c **** 
+  48:X-CUBE-AI/App/aiTestHelper.c **** ai_u32 aiBufferSize(const ai_buffer* buffer)
+  49:X-CUBE-AI/App/aiTestHelper.c **** {
+  80              		.loc 1 49 1 is_stmt 1 view -0
+  81              		.cfi_startproc
+  82              		@ args = 0, pretend = 0, frame = 0
+  83              		@ frame_needed = 0, uses_anonymous_args = 0
+  84              		@ link register save eliminated.
+  50:X-CUBE-AI/App/aiTestHelper.c ****   return buffer->height * buffer->width * buffer->channels;
+  85              		.loc 1 50 3 view .LVU4
+  86              		.loc 1 50 16 is_stmt 0 view .LVU5
+  87 0000 C388     		ldrh	r3, [r0, #6]
+  88              		.loc 1 50 33 view .LVU6
+  89 0002 0289     		ldrh	r2, [r0, #8]
+  90              		.loc 1 50 25 view .LVU7
+  91 0004 02FB03F3 		mul	r3, r2, r3
+  92              		.loc 1 50 49 view .LVU8
+  93 0008 C068     		ldr	r0, [r0, #12]
+  94              	.LVL2:
+  51:X-CUBE-AI/App/aiTestHelper.c **** }
+  95              		.loc 1 51 1 view .LVU9
+  96 000a 03FB00F0 		mul	r0, r3, r0
+  97 000e 7047     		bx	lr
+  98              		.cfi_endproc
+  99              	.LFE4:
+ 101              		.section	.rodata.aiLogErr.str1.4,"aMS",%progbits,1
+ 102              		.align	2
+ 103              	.LC1:
+ 104 0000 453A2041 		.ascii	"E: AI error (%s) - type=0x%02x code=0x%02x\015\012\000"
+ 104      49206572 
+ 104      726F7220 
+ 104      28257329 
+ 104      202D2074 
+ 105 002d 000000   		.align	2
+ 106              	.LC2:
+ 107 0030 453A2041 		.ascii	"E: AI error - type=0x%02x code=0x%02x\015\012\000"
+ 107      49206572 
+ 107      726F7220 
+ 107      2D207479 
+ 107      70653D30 
+ 108              		.section	.text.aiLogErr,"ax",%progbits
+ 109              		.align	1
+ 110              		.global	aiLogErr
+ 111              		.syntax unified
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccU8A3pn.s 			page 4
+
+
+ 112              		.thumb
+ 113              		.thumb_func
+ 114              		.fpu fpv4-sp-d16
+ 116              	aiLogErr:
+ 117              	.LVL3:
+ 118              	.LFB5:
+  52:X-CUBE-AI/App/aiTestHelper.c **** 
+  53:X-CUBE-AI/App/aiTestHelper.c **** void aiLogErr(const ai_error err, const char *fct)
+  54:X-CUBE-AI/App/aiTestHelper.c **** {
+ 119              		.loc 1 54 1 is_stmt 1 view -0
+ 120              		.cfi_startproc
+ 121              		@ args = 0, pretend = 0, frame = 0
+ 122              		@ frame_needed = 0, uses_anonymous_args = 0
+ 123              		.loc 1 54 1 is_stmt 0 view .LVU11
+ 124 0000 08B5     		push	{r3, lr}
+ 125              	.LCFI3:
+ 126              		.cfi_def_cfa_offset 8
+ 127              		.cfi_offset 3, -8
+ 128              		.cfi_offset 14, -4
+  55:X-CUBE-AI/App/aiTestHelper.c ****   if (fct)
+ 129              		.loc 1 55 3 is_stmt 1 view .LVU12
+ 130              		.loc 1 55 6 is_stmt 0 view .LVU13
+ 131 0002 29B1     		cbz	r1, .L7
+  56:X-CUBE-AI/App/aiTestHelper.c ****     printf("E: AI error (%s) - type=0x%02x code=0x%02x\r\n", fct,
+ 132              		.loc 1 56 5 is_stmt 1 view .LVU14
+ 133 0004 030A     		lsrs	r3, r0, #8
+ 134 0006 C2B2     		uxtb	r2, r0
+ 135 0008 0448     		ldr	r0, .L10
+ 136              	.LVL4:
+ 137              		.loc 1 56 5 is_stmt 0 view .LVU15
+ 138 000a FFF7FEFF 		bl	printf
+ 139              	.LVL5:
+ 140              	.L6:
+  57:X-CUBE-AI/App/aiTestHelper.c ****         err.type, err.code);
+  58:X-CUBE-AI/App/aiTestHelper.c ****   else
+  59:X-CUBE-AI/App/aiTestHelper.c ****     printf("E: AI error - type=0x%02x code=0x%02x\r\n", err.type, err.code);
+  60:X-CUBE-AI/App/aiTestHelper.c **** }
+ 141              		.loc 1 60 1 view .LVU16
+ 142 000e 08BD     		pop	{r3, pc}
+ 143              	.LVL6:
+ 144              	.L7:
+  59:X-CUBE-AI/App/aiTestHelper.c **** }
+ 145              		.loc 1 59 5 is_stmt 1 view .LVU17
+ 146 0010 020A     		lsrs	r2, r0, #8
+ 147 0012 C1B2     		uxtb	r1, r0
+ 148              	.LVL7:
+  59:X-CUBE-AI/App/aiTestHelper.c **** }
+ 149              		.loc 1 59 5 is_stmt 0 view .LVU18
+ 150 0014 0248     		ldr	r0, .L10+4
+ 151              	.LVL8:
+  59:X-CUBE-AI/App/aiTestHelper.c **** }
+ 152              		.loc 1 59 5 view .LVU19
+ 153 0016 FFF7FEFF 		bl	printf
+ 154              	.LVL9:
+ 155              		.loc 1 60 1 view .LVU20
+ 156 001a F8E7     		b	.L6
+ 157              	.L11:
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccU8A3pn.s 			page 5
+
+
+ 158              		.align	2
+ 159              	.L10:
+ 160 001c 00000000 		.word	.LC1
+ 161 0020 30000000 		.word	.LC2
+ 162              		.cfi_endproc
+ 163              	.LFE5:
+ 165              		.section	.rodata.aiPrintLayoutBuffer.str1.4,"aMS",%progbits,1
+ 166              		.align	2
+ 167              	.LC3:
+ 168 0000 7500     		.ascii	"u\000"
+ 169 0002 0000     		.align	2
+ 170              	.LC4:
+ 171 0004 7300     		.ascii	"s\000"
+ 172 0006 0000     		.align	2
+ 173              	.LC5:
+ 174 0008 25735B25 		.ascii	"%s[%d] \000"
+ 174      645D2000 
+ 175              		.align	2
+ 176              	.LC6:
+ 177 0010 20257325 		.ascii	" %s%d,\000"
+ 177      642C00
+ 178              		.global	__aeabi_f2d
+ 179 0017 00       		.align	2
+ 180              	.LC7:
+ 181 0018 20736361 		.ascii	" scale=%f, zero=%d,\000"
+ 181      6C653D25 
+ 181      662C207A 
+ 181      65726F3D 
+ 181      25642C00 
+ 182              		.align	2
+ 183              	.LC8:
+ 184 002c 5125642E 		.ascii	"Q%d.%d,\000"
+ 184      25642C00 
+ 185              		.align	2
+ 186              	.LC9:
+ 187 0034 20666C6F 		.ascii	" float%d,\000"
+ 187      61742564 
+ 187      2C00
+ 188 003e 0000     		.align	2
+ 189              	.LC10:
+ 190 0040 20626F6F 		.ascii	" bool,\000"
+ 190      6C2C00
+ 191 0047 00       		.align	2
+ 192              	.LC11:
+ 193 0048 4E4F4E45 		.ascii	"NONE\000"
+ 193      00
+ 194 004d 000000   		.align	2
+ 195              	.LC12:
+ 196 0050 20256420 		.ascii	" %d bytes, shape=(%d,%d,%d)\000"
+ 196      62797465 
+ 196      732C2073 
+ 196      68617065 
+ 196      3D282564 
+ 197              		.align	2
+ 198              	.LC13:
+ 199 006c 20284030 		.ascii	" (@0x%08x)\015\012\000"
+ 199      78253038 
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccU8A3pn.s 			page 6
+
+
+ 199      78290D0A 
+ 199      00
+ 200 0079 000000   		.align	2
+ 201              	.LC14:
+ 202 007c 20285553 		.ascii	" (USER domain)\015\000"
+ 202      45522064 
+ 202      6F6D6169 
+ 202      6E290D00 
+ 203              		.section	.text.aiPrintLayoutBuffer,"ax",%progbits
+ 204              		.align	1
+ 205              		.global	aiPrintLayoutBuffer
+ 206              		.syntax unified
+ 207              		.thumb
+ 208              		.thumb_func
+ 209              		.fpu fpv4-sp-d16
+ 211              	aiPrintLayoutBuffer:
+ 212              	.LVL10:
+ 213              	.LFB6:
+  61:X-CUBE-AI/App/aiTestHelper.c **** 
+  62:X-CUBE-AI/App/aiTestHelper.c **** 
+  63:X-CUBE-AI/App/aiTestHelper.c **** void aiPrintLayoutBuffer(const char *msg, int idx,
+  64:X-CUBE-AI/App/aiTestHelper.c ****     const ai_buffer* buffer)
+  65:X-CUBE-AI/App/aiTestHelper.c **** {
+ 214              		.loc 1 65 1 is_stmt 1 view -0
+ 215              		.cfi_startproc
+ 216              		@ args = 0, pretend = 0, frame = 0
+ 217              		@ frame_needed = 0, uses_anonymous_args = 0
+ 218              		.loc 1 65 1 is_stmt 0 view .LVU22
+ 219 0000 30B5     		push	{r4, r5, lr}
+ 220              	.LCFI4:
+ 221              		.cfi_def_cfa_offset 12
+ 222              		.cfi_offset 4, -12
+ 223              		.cfi_offset 5, -8
+ 224              		.cfi_offset 14, -4
+ 225 0002 83B0     		sub	sp, sp, #12
+ 226              	.LCFI5:
+ 227              		.cfi_def_cfa_offset 24
+ 228 0004 1446     		mov	r4, r2
+  66:X-CUBE-AI/App/aiTestHelper.c ****   uint32_t type_id = AI_BUFFER_FMT_GET_TYPE(buffer->format);
+ 229              		.loc 1 66 3 is_stmt 1 view .LVU23
+ 230              		.loc 1 66 22 is_stmt 0 view .LVU24
+ 231 0006 1568     		ldr	r5, [r2]
+ 232              		.loc 1 66 12 view .LVU25
+ 233 0008 C5F34345 		ubfx	r5, r5, #17, #4
+ 234              	.LVL11:
+  67:X-CUBE-AI/App/aiTestHelper.c ****   printf("%s[%d] ",msg, idx);
+ 235              		.loc 1 67 3 is_stmt 1 view .LVU26
+ 236 000c 0A46     		mov	r2, r1
+ 237              	.LVL12:
+ 238              		.loc 1 67 3 is_stmt 0 view .LVU27
+ 239 000e 0146     		mov	r1, r0
+ 240              	.LVL13:
+ 241              		.loc 1 67 3 view .LVU28
+ 242 0010 4248     		ldr	r0, .L35
+ 243              	.LVL14:
+ 244              		.loc 1 67 3 view .LVU29
+ 245 0012 FFF7FEFF 		bl	printf
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccU8A3pn.s 			page 7
+
+
+ 246              	.LVL15:
+  68:X-CUBE-AI/App/aiTestHelper.c ****   if (type_id == AI_BUFFER_FMT_TYPE_Q) {
+ 247              		.loc 1 68 3 is_stmt 1 view .LVU30
+ 248              		.loc 1 68 6 is_stmt 0 view .LVU31
+ 249 0016 022D     		cmp	r5, #2
+ 250 0018 20D0     		beq	.L32
+  69:X-CUBE-AI/App/aiTestHelper.c ****     printf(" %s%d,",
+  70:X-CUBE-AI/App/aiTestHelper.c ****         AI_BUFFER_FMT_GET_SIGN(buffer->format)?"s":"u",
+  71:X-CUBE-AI/App/aiTestHelper.c ****             (int)AI_BUFFER_FMT_GET_BITS(buffer->format));
+  72:X-CUBE-AI/App/aiTestHelper.c ****     if (AI_BUFFER_META_INFO_INTQ(buffer->meta_info)) {
+  73:X-CUBE-AI/App/aiTestHelper.c ****       ai_float scale = AI_BUFFER_META_INFO_INTQ_GET_SCALE(buffer->meta_info, 0);
+  74:X-CUBE-AI/App/aiTestHelper.c ****       int zero_point = AI_BUFFER_META_INFO_INTQ_GET_ZEROPOINT(buffer->meta_info, 0);
+  75:X-CUBE-AI/App/aiTestHelper.c ****       printf(" scale=%f, zero=%d,", scale, zero_point);
+  76:X-CUBE-AI/App/aiTestHelper.c ****     } else {
+  77:X-CUBE-AI/App/aiTestHelper.c ****       printf("Q%d.%d,",
+  78:X-CUBE-AI/App/aiTestHelper.c ****           (int)AI_BUFFER_FMT_GET_BITS(buffer->format)
+  79:X-CUBE-AI/App/aiTestHelper.c ****           - ((int)AI_BUFFER_FMT_GET_FBITS(buffer->format) +
+  80:X-CUBE-AI/App/aiTestHelper.c ****               (int)AI_BUFFER_FMT_GET_SIGN(buffer->format)),
+  81:X-CUBE-AI/App/aiTestHelper.c ****               AI_BUFFER_FMT_GET_FBITS(buffer->format));
+  82:X-CUBE-AI/App/aiTestHelper.c ****     }
+  83:X-CUBE-AI/App/aiTestHelper.c ****   }
+  84:X-CUBE-AI/App/aiTestHelper.c ****   else if (type_id == AI_BUFFER_FMT_TYPE_FLOAT)
+ 251              		.loc 1 84 8 is_stmt 1 view .LVU32
+ 252              		.loc 1 84 11 is_stmt 0 view .LVU33
+ 253 001a 012D     		cmp	r5, #1
+ 254 001c 6ED0     		beq	.L33
+  85:X-CUBE-AI/App/aiTestHelper.c ****     printf(" float%d,",
+  86:X-CUBE-AI/App/aiTestHelper.c ****         (int)AI_BUFFER_FMT_GET_BITS(buffer->format));
+  87:X-CUBE-AI/App/aiTestHelper.c ****   else if (type_id == AI_BUFFER_FMT_TYPE_BOOL)
+ 255              		.loc 1 87 8 is_stmt 1 view .LVU34
+ 256              		.loc 1 87 11 is_stmt 0 view .LVU35
+ 257 001e 032D     		cmp	r5, #3
+ 258 0020 73D0     		beq	.L34
+  88:X-CUBE-AI/App/aiTestHelper.c ****     printf(" bool,");
+  89:X-CUBE-AI/App/aiTestHelper.c ****   else
+  90:X-CUBE-AI/App/aiTestHelper.c ****     printf("NONE");
+ 259              		.loc 1 90 5 is_stmt 1 view .LVU36
+ 260 0022 3F48     		ldr	r0, .L35+4
+ 261 0024 FFF7FEFF 		bl	printf
+ 262              	.LVL16:
+ 263              	.L19:
+  91:X-CUBE-AI/App/aiTestHelper.c ****   printf(" %d bytes, shape=(%d,%d,%d)",
+ 264              		.loc 1 91 3 view .LVU37
+  92:X-CUBE-AI/App/aiTestHelper.c ****       (int)AI_BUFFER_BYTE_SIZE(AI_BUFFER_SIZE(buffer), buffer->format),
+ 265              		.loc 1 92 12 is_stmt 0 view .LVU38
+ 266 0028 2389     		ldrh	r3, [r4, #8]
+ 267 002a E288     		ldrh	r2, [r4, #6]
+ 268 002c 02FB03F1 		mul	r1, r2, r3
+ 269 0030 E568     		ldr	r5, [r4, #12]
+ 270 0032 05FB01F1 		mul	r1, r5, r1
+ 271 0036 2068     		ldr	r0, [r4]
+ 272 0038 C0F3C610 		ubfx	r0, r0, #7, #7
+ 273 003c 00FB01F1 		mul	r1, r0, r1
+ 274 0040 0431     		adds	r1, r1, #4
+  91:X-CUBE-AI/App/aiTestHelper.c ****   printf(" %d bytes, shape=(%d,%d,%d)",
+ 275              		.loc 1 91 3 view .LVU39
+ 276 0042 0095     		str	r5, [sp]
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccU8A3pn.s 			page 8
+
+
+ 277 0044 C908     		lsrs	r1, r1, #3
+ 278 0046 3748     		ldr	r0, .L35+8
+ 279 0048 FFF7FEFF 		bl	printf
+ 280              	.LVL17:
+  93:X-CUBE-AI/App/aiTestHelper.c ****       buffer->height, buffer->width, (int)buffer->channels);
+  94:X-CUBE-AI/App/aiTestHelper.c ****   if (buffer->data)
+ 281              		.loc 1 94 3 is_stmt 1 view .LVU40
+ 282              		.loc 1 94 13 is_stmt 0 view .LVU41
+ 283 004c 2169     		ldr	r1, [r4, #16]
+ 284              		.loc 1 94 6 view .LVU42
+ 285 004e 0029     		cmp	r1, #0
+ 286 0050 5FD0     		beq	.L22
+  95:X-CUBE-AI/App/aiTestHelper.c ****     printf(" (@0x%08x)\r\n", (int)buffer->data);
+ 287              		.loc 1 95 5 is_stmt 1 view .LVU43
+ 288 0052 3548     		ldr	r0, .L35+12
+ 289 0054 FFF7FEFF 		bl	printf
+ 290              	.LVL18:
+ 291              	.L12:
+  96:X-CUBE-AI/App/aiTestHelper.c ****   else
+  97:X-CUBE-AI/App/aiTestHelper.c ****     printf(" (USER domain)\r\n");
+  98:X-CUBE-AI/App/aiTestHelper.c **** }
+ 292              		.loc 1 98 1 is_stmt 0 view .LVU44
+ 293 0058 03B0     		add	sp, sp, #12
+ 294              	.LCFI6:
+ 295              		.cfi_remember_state
+ 296              		.cfi_def_cfa_offset 12
+ 297              		@ sp needed
+ 298 005a 30BD     		pop	{r4, r5, pc}
+ 299              	.LVL19:
+ 300              	.L32:
+ 301              	.LCFI7:
+ 302              		.cfi_restore_state
+  69:X-CUBE-AI/App/aiTestHelper.c ****         AI_BUFFER_FMT_GET_SIGN(buffer->format)?"s":"u",
+ 303              		.loc 1 69 5 is_stmt 1 view .LVU45
+  70:X-CUBE-AI/App/aiTestHelper.c ****             (int)AI_BUFFER_FMT_GET_BITS(buffer->format));
+ 304              		.loc 1 70 9 is_stmt 0 view .LVU46
+ 305 005c 2268     		ldr	r2, [r4]
+  69:X-CUBE-AI/App/aiTestHelper.c ****         AI_BUFFER_FMT_GET_SIGN(buffer->format)?"s":"u",
+ 306              		.loc 1 69 5 view .LVU47
+ 307 005e 12F4000F 		tst	r2, #8388608
+ 308 0062 1FD0     		beq	.L24
+ 309 0064 3149     		ldr	r1, .L35+16
+ 310              	.L14:
+ 311 0066 C2F3C612 		ubfx	r2, r2, #7, #7
+ 312 006a 3148     		ldr	r0, .L35+20
+ 313 006c FFF7FEFF 		bl	printf
+ 314              	.LVL20:
+  72:X-CUBE-AI/App/aiTestHelper.c ****       ai_float scale = AI_BUFFER_META_INFO_INTQ_GET_SCALE(buffer->meta_info, 0);
+ 315              		.loc 1 72 5 is_stmt 1 view .LVU48
+  72:X-CUBE-AI/App/aiTestHelper.c ****       ai_float scale = AI_BUFFER_META_INFO_INTQ_GET_SCALE(buffer->meta_info, 0);
+ 316              		.loc 1 72 9 is_stmt 0 view .LVU49
+ 317 0070 6369     		ldr	r3, [r4, #20]
+  72:X-CUBE-AI/App/aiTestHelper.c ****       ai_float scale = AI_BUFFER_META_INFO_INTQ_GET_SCALE(buffer->meta_info, 0);
+ 318              		.loc 1 72 8 view .LVU50
+ 319 0072 002B     		cmp	r3, #0
+ 320 0074 34D0     		beq	.L15
+  72:X-CUBE-AI/App/aiTestHelper.c ****       ai_float scale = AI_BUFFER_META_INFO_INTQ_GET_SCALE(buffer->meta_info, 0);
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccU8A3pn.s 			page 9
+
+
+ 321              		.loc 1 72 9 discriminator 1 view .LVU51
+ 322 0076 1A68     		ldr	r2, [r3]
+ 323 0078 12F0010F 		tst	r2, #1
+ 324 007c 30D0     		beq	.L15
+  72:X-CUBE-AI/App/aiTestHelper.c ****       ai_float scale = AI_BUFFER_META_INFO_INTQ_GET_SCALE(buffer->meta_info, 0);
+ 325              		.loc 1 72 9 discriminator 2 view .LVU52
+ 326 007e 5B68     		ldr	r3, [r3, #4]
+ 327 0080 73B3     		cbz	r3, .L15
+ 328              	.LBB2:
+  73:X-CUBE-AI/App/aiTestHelper.c ****       int zero_point = AI_BUFFER_META_INFO_INTQ_GET_ZEROPOINT(buffer->meta_info, 0);
+ 329              		.loc 1 73 7 is_stmt 1 discriminator 18 view .LVU53
+  73:X-CUBE-AI/App/aiTestHelper.c ****       int zero_point = AI_BUFFER_META_INFO_INTQ_GET_ZEROPOINT(buffer->meta_info, 0);
+ 330              		.loc 1 73 24 is_stmt 0 discriminator 18 view .LVU54
+ 331 0082 5A68     		ldr	r2, [r3, #4]
+ 332 0084 82B1     		cbz	r2, .L25
+  73:X-CUBE-AI/App/aiTestHelper.c ****       int zero_point = AI_BUFFER_META_INFO_INTQ_GET_ZEROPOINT(buffer->meta_info, 0);
+ 333              		.loc 1 73 24 discriminator 26 view .LVU55
+ 334 0086 5988     		ldrh	r1, [r3, #2]
+ 335 0088 81B1     		cbz	r1, .L26
+  73:X-CUBE-AI/App/aiTestHelper.c ****       int zero_point = AI_BUFFER_META_INFO_INTQ_GET_ZEROPOINT(buffer->meta_info, 0);
+ 336              		.loc 1 73 24 discriminator 34 view .LVU56
+ 337 008a 1268     		ldr	r2, [r2]
+ 338 008c 1068     		ldr	r0, [r2]	@ float
+ 339              	.L16:
+ 340              	.LVL21:
+  74:X-CUBE-AI/App/aiTestHelper.c ****       printf(" scale=%f, zero=%d,", scale, zero_point);
+ 341              		.loc 1 74 7 is_stmt 1 discriminator 36 view .LVU57
+  74:X-CUBE-AI/App/aiTestHelper.c ****       printf(" scale=%f, zero=%d,", scale, zero_point);
+ 342              		.loc 1 74 24 is_stmt 0 discriminator 36 view .LVU58
+ 343 008e 1A88     		ldrh	r2, [r3]
+ 344 0090 12F0020F 		tst	r2, #2
+ 345 0094 0CD0     		beq	.L17
+  74:X-CUBE-AI/App/aiTestHelper.c ****       printf(" scale=%f, zero=%d,", scale, zero_point);
+ 346              		.loc 1 74 24 discriminator 32 view .LVU59
+ 347 0096 5A68     		ldr	r2, [r3, #4]
+ 348 0098 92B1     		cbz	r2, .L27
+  74:X-CUBE-AI/App/aiTestHelper.c ****       printf(" scale=%f, zero=%d,", scale, zero_point);
+ 349              		.loc 1 74 24 discriminator 40 view .LVU60
+ 350 009a 5B88     		ldrh	r3, [r3, #2]
+ 351 009c 93B1     		cbz	r3, .L28
+  74:X-CUBE-AI/App/aiTestHelper.c ****       printf(" scale=%f, zero=%d,", scale, zero_point);
+ 352              		.loc 1 74 24 discriminator 48 view .LVU61
+ 353 009e 5368     		ldr	r3, [r2, #4]
+ 354 00a0 1D78     		ldrb	r5, [r3]	@ zero_extendqisi2
+ 355              	.LVL22:
+  74:X-CUBE-AI/App/aiTestHelper.c ****       printf(" scale=%f, zero=%d,", scale, zero_point);
+ 356              		.loc 1 74 24 discriminator 48 view .LVU62
+ 357 00a2 10E0     		b	.L18
+ 358              	.LVL23:
+ 359              	.L24:
+  74:X-CUBE-AI/App/aiTestHelper.c ****       printf(" scale=%f, zero=%d,", scale, zero_point);
+ 360              		.loc 1 74 24 discriminator 48 view .LVU63
+ 361              	.LBE2:
+  69:X-CUBE-AI/App/aiTestHelper.c ****         AI_BUFFER_FMT_GET_SIGN(buffer->format)?"s":"u",
+ 362              		.loc 1 69 5 view .LVU64
+ 363 00a4 2349     		ldr	r1, .L35+24
+ 364 00a6 DEE7     		b	.L14
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccU8A3pn.s 			page 10
+
+
+ 365              	.L25:
+ 366              	.LBB3:
+  73:X-CUBE-AI/App/aiTestHelper.c ****       int zero_point = AI_BUFFER_META_INFO_INTQ_GET_ZEROPOINT(buffer->meta_info, 0);
+ 367              		.loc 1 73 24 view .LVU65
+ 368 00a8 0020     		movs	r0, #0
+ 369 00aa F0E7     		b	.L16
+ 370              	.L26:
+ 371 00ac 0020     		movs	r0, #0
+ 372 00ae EEE7     		b	.L16
+ 373              	.LVL24:
+ 374              	.L17:
+  74:X-CUBE-AI/App/aiTestHelper.c ****       printf(" scale=%f, zero=%d,", scale, zero_point);
+ 375              		.loc 1 74 24 discriminator 63 view .LVU66
+ 376 00b0 5A68     		ldr	r2, [r3, #4]
+ 377 00b2 8AB1     		cbz	r2, .L29
+  74:X-CUBE-AI/App/aiTestHelper.c ****       printf(" scale=%f, zero=%d,", scale, zero_point);
+ 378              		.loc 1 74 24 discriminator 71 view .LVU67
+ 379 00b4 5B88     		ldrh	r3, [r3, #2]
+ 380 00b6 8BB1     		cbz	r3, .L30
+  74:X-CUBE-AI/App/aiTestHelper.c ****       printf(" scale=%f, zero=%d,", scale, zero_point);
+ 381              		.loc 1 74 24 discriminator 79 view .LVU68
+ 382 00b8 5368     		ldr	r3, [r2, #4]
+ 383 00ba 93F90050 		ldrsb	r5, [r3]
+ 384              	.LVL25:
+  74:X-CUBE-AI/App/aiTestHelper.c ****       printf(" scale=%f, zero=%d,", scale, zero_point);
+ 385              		.loc 1 74 24 discriminator 79 view .LVU69
+ 386 00be 02E0     		b	.L18
+ 387              	.LVL26:
+ 388              	.L27:
+  74:X-CUBE-AI/App/aiTestHelper.c ****       printf(" scale=%f, zero=%d,", scale, zero_point);
+ 389              		.loc 1 74 24 view .LVU70
+ 390 00c0 0025     		movs	r5, #0
+ 391              	.LVL27:
+  74:X-CUBE-AI/App/aiTestHelper.c ****       printf(" scale=%f, zero=%d,", scale, zero_point);
+ 392              		.loc 1 74 24 view .LVU71
+ 393 00c2 00E0     		b	.L18
+ 394              	.LVL28:
+ 395              	.L28:
+  74:X-CUBE-AI/App/aiTestHelper.c ****       printf(" scale=%f, zero=%d,", scale, zero_point);
+ 396              		.loc 1 74 24 view .LVU72
+ 397 00c4 0025     		movs	r5, #0
+ 398              	.LVL29:
+ 399              	.L18:
+  75:X-CUBE-AI/App/aiTestHelper.c ****     } else {
+ 400              		.loc 1 75 7 is_stmt 1 discriminator 82 view .LVU73
+ 401 00c6 FFF7FEFF 		bl	__aeabi_f2d
+ 402              	.LVL30:
+  75:X-CUBE-AI/App/aiTestHelper.c ****     } else {
+ 403              		.loc 1 75 7 is_stmt 0 discriminator 82 view .LVU74
+ 404 00ca 0246     		mov	r2, r0
+ 405 00cc 0B46     		mov	r3, r1
+ 406 00ce 0095     		str	r5, [sp]
+ 407 00d0 1948     		ldr	r0, .L35+28
+ 408 00d2 FFF7FEFF 		bl	printf
+ 409              	.LVL31:
+ 410              	.LBE3:
+  72:X-CUBE-AI/App/aiTestHelper.c ****       ai_float scale = AI_BUFFER_META_INFO_INTQ_GET_SCALE(buffer->meta_info, 0);
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccU8A3pn.s 			page 11
+
+
+ 411              		.loc 1 72 54 discriminator 82 view .LVU75
+ 412 00d6 A7E7     		b	.L19
+ 413              	.LVL32:
+ 414              	.L29:
+ 415              	.LBB4:
+  74:X-CUBE-AI/App/aiTestHelper.c ****       printf(" scale=%f, zero=%d,", scale, zero_point);
+ 416              		.loc 1 74 24 view .LVU76
+ 417 00d8 0025     		movs	r5, #0
+ 418              	.LVL33:
+  74:X-CUBE-AI/App/aiTestHelper.c ****       printf(" scale=%f, zero=%d,", scale, zero_point);
+ 419              		.loc 1 74 24 view .LVU77
+ 420 00da F4E7     		b	.L18
+ 421              	.LVL34:
+ 422              	.L30:
+  74:X-CUBE-AI/App/aiTestHelper.c ****       printf(" scale=%f, zero=%d,", scale, zero_point);
+ 423              		.loc 1 74 24 view .LVU78
+ 424 00dc 0025     		movs	r5, #0
+ 425              	.LVL35:
+  74:X-CUBE-AI/App/aiTestHelper.c ****       printf(" scale=%f, zero=%d,", scale, zero_point);
+ 426              		.loc 1 74 24 view .LVU79
+ 427 00de F2E7     		b	.L18
+ 428              	.LVL36:
+ 429              	.L15:
+  74:X-CUBE-AI/App/aiTestHelper.c ****       printf(" scale=%f, zero=%d,", scale, zero_point);
+ 430              		.loc 1 74 24 view .LVU80
+ 431              	.LBE4:
+  77:X-CUBE-AI/App/aiTestHelper.c ****           (int)AI_BUFFER_FMT_GET_BITS(buffer->format)
+ 432              		.loc 1 77 7 is_stmt 1 view .LVU81
+  78:X-CUBE-AI/App/aiTestHelper.c ****           - ((int)AI_BUFFER_FMT_GET_FBITS(buffer->format) +
+ 433              		.loc 1 78 16 is_stmt 0 view .LVU82
+ 434 00e0 2368     		ldr	r3, [r4]
+  78:X-CUBE-AI/App/aiTestHelper.c ****           - ((int)AI_BUFFER_FMT_GET_FBITS(buffer->format) +
+ 435              		.loc 1 78 11 view .LVU83
+ 436 00e2 C3F3C611 		ubfx	r1, r3, #7, #7
+  79:X-CUBE-AI/App/aiTestHelper.c ****               (int)AI_BUFFER_FMT_GET_SIGN(buffer->format)),
+ 437              		.loc 1 79 19 view .LVU84
+ 438 00e6 03F07F02 		and	r2, r3, #127
+  79:X-CUBE-AI/App/aiTestHelper.c ****               (int)AI_BUFFER_FMT_GET_SIGN(buffer->format)),
+ 439              		.loc 1 79 14 view .LVU85
+ 440 00ea 403A     		subs	r2, r2, #64
+  80:X-CUBE-AI/App/aiTestHelper.c ****               AI_BUFFER_FMT_GET_FBITS(buffer->format));
+ 441              		.loc 1 80 15 view .LVU86
+ 442 00ec C3F3C053 		ubfx	r3, r3, #23, #1
+  79:X-CUBE-AI/App/aiTestHelper.c ****               (int)AI_BUFFER_FMT_GET_SIGN(buffer->format)),
+ 443              		.loc 1 79 59 view .LVU87
+ 444 00f0 1344     		add	r3, r3, r2
+  77:X-CUBE-AI/App/aiTestHelper.c ****           (int)AI_BUFFER_FMT_GET_BITS(buffer->format)
+ 445              		.loc 1 77 7 view .LVU88
+ 446 00f2 C91A     		subs	r1, r1, r3
+ 447 00f4 1148     		ldr	r0, .L35+32
+ 448 00f6 FFF7FEFF 		bl	printf
+ 449              	.LVL37:
+ 450 00fa 95E7     		b	.L19
+ 451              	.L33:
+  85:X-CUBE-AI/App/aiTestHelper.c ****         (int)AI_BUFFER_FMT_GET_BITS(buffer->format));
+ 452              		.loc 1 85 5 is_stmt 1 view .LVU89
+  86:X-CUBE-AI/App/aiTestHelper.c ****   else if (type_id == AI_BUFFER_FMT_TYPE_BOOL)
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccU8A3pn.s 			page 12
+
+
+ 453              		.loc 1 86 14 is_stmt 0 view .LVU90
+ 454 00fc 2168     		ldr	r1, [r4]
+  85:X-CUBE-AI/App/aiTestHelper.c ****         (int)AI_BUFFER_FMT_GET_BITS(buffer->format));
+ 455              		.loc 1 85 5 view .LVU91
+ 456 00fe C1F3C611 		ubfx	r1, r1, #7, #7
+ 457 0102 0F48     		ldr	r0, .L35+36
+ 458 0104 FFF7FEFF 		bl	printf
+ 459              	.LVL38:
+ 460 0108 8EE7     		b	.L19
+ 461              	.L34:
+  88:X-CUBE-AI/App/aiTestHelper.c ****   else
+ 462              		.loc 1 88 5 is_stmt 1 view .LVU92
+ 463 010a 0E48     		ldr	r0, .L35+40
+ 464 010c FFF7FEFF 		bl	printf
+ 465              	.LVL39:
+ 466 0110 8AE7     		b	.L19
+ 467              	.LVL40:
+ 468              	.L22:
+  97:X-CUBE-AI/App/aiTestHelper.c **** }
+ 469              		.loc 1 97 5 view .LVU93
+ 470 0112 0D48     		ldr	r0, .L35+44
+ 471 0114 FFF7FEFF 		bl	puts
+ 472              	.LVL41:
+ 473              		.loc 1 98 1 is_stmt 0 view .LVU94
+ 474 0118 9EE7     		b	.L12
+ 475              	.L36:
+ 476 011a 00BF     		.align	2
+ 477              	.L35:
+ 478 011c 08000000 		.word	.LC5
+ 479 0120 48000000 		.word	.LC11
+ 480 0124 50000000 		.word	.LC12
+ 481 0128 6C000000 		.word	.LC13
+ 482 012c 04000000 		.word	.LC4
+ 483 0130 10000000 		.word	.LC6
+ 484 0134 00000000 		.word	.LC3
+ 485 0138 18000000 		.word	.LC7
+ 486 013c 2C000000 		.word	.LC8
+ 487 0140 34000000 		.word	.LC9
+ 488 0144 40000000 		.word	.LC10
+ 489 0148 7C000000 		.word	.LC14
+ 490              		.cfi_endproc
+ 491              	.LFE6:
+ 493              		.section	.rodata.aiPrintNetworkInfo.str1.4,"aMS",%progbits,1
+ 494              		.align	2
+ 495              	.LC15:
+ 496 0000 4E657477 		.ascii	"Network informations...\015\000"
+ 496      6F726B20 
+ 496      696E666F 
+ 496      726D6174 
+ 496      696F6E73 
+ 497 0019 000000   		.align	2
+ 498              	.LC16:
+ 499 001c 206D6F64 		.ascii	" model name         : %s\015\012\000"
+ 499      656C206E 
+ 499      616D6520 
+ 499      20202020 
+ 499      20202020 
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccU8A3pn.s 			page 13
+
+
+ 500 0037 00       		.align	2
+ 501              	.LC17:
+ 502 0038 206D6F64 		.ascii	" model signature    : %s\015\012\000"
+ 502      656C2073 
+ 502      69676E61 
+ 502      74757265 
+ 502      20202020 
+ 503 0053 00       		.align	2
+ 504              	.LC18:
+ 505 0054 206D6F64 		.ascii	" model datetime     : %s\015\012\000"
+ 505      656C2064 
+ 505      61746574 
+ 505      696D6520 
+ 505      20202020 
+ 506 006f 00       		.align	2
+ 507              	.LC19:
+ 508 0070 20636F6D 		.ascii	" compile datetime   : %s\015\012\000"
+ 508      70696C65 
+ 508      20646174 
+ 508      6574696D 
+ 508      65202020 
+ 509 008b 00       		.align	2
+ 510              	.LC20:
+ 511 008c 2072756E 		.ascii	" runtime version    : %d.%d.%d\015\012\000"
+ 511      74696D65 
+ 511      20766572 
+ 511      73696F6E 
+ 511      20202020 
+ 512 00ad 000000   		.align	2
+ 513              	.LC21:
+ 514 00b0 20546F6F 		.ascii	" Tool revision      : %s\015\012\000"
+ 514      6C207265 
+ 514      76697369 
+ 514      6F6E2020 
+ 514      20202020 
+ 515 00cb 00       		.align	2
+ 516              	.LC22:
+ 517 00cc 20746F6F 		.ascii	" tools version      : %d.%d.%d\015\012\000"
+ 517      6C732076 
+ 517      65727369 
+ 517      6F6E2020 
+ 517      20202020 
+ 518 00ed 000000   		.align	2
+ 519              	.LC23:
+ 520 00f0 20636F6D 		.ascii	" complexity         : %d MACC\015\012\000"
+ 520      706C6578 
+ 520      69747920 
+ 520      20202020 
+ 520      20202020 
+ 521              		.align	2
+ 522              	.LC24:
+ 523 0110 20632D6E 		.ascii	" c-nodes            : %d\015\012\000"
+ 523      6F646573 
+ 523      20202020 
+ 523      20202020 
+ 523      20202020 
+ 524 012b 00       		.align	2
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccU8A3pn.s 			page 14
+
+
+ 525              	.LC25:
+ 526 012c 20616374 		.ascii	" activations        : %d bytes (0x%08x)\015\012\000"
+ 526      69766174 
+ 526      696F6E73 
+ 526      20202020 
+ 526      20202020 
+ 527 0156 0000     		.align	2
+ 528              	.LC26:
+ 529 0158 20776569 		.ascii	" weights            : %d bytes (0x%08x)\015\012\000"
+ 529      67687473 
+ 529      20202020 
+ 529      20202020 
+ 529      20202020 
+ 530 0182 0000     		.align	2
+ 531              	.LC27:
+ 532 0184 20696E70 		.ascii	" inputs/outputs     : %u/%u\015\012\000"
+ 532      7574732F 
+ 532      6F757470 
+ 532      75747320 
+ 532      20202020 
+ 533 01a2 0000     		.align	2
+ 534              	.LC28:
+ 535 01a4 20204900 		.ascii	"  I\000"
+ 536              		.align	2
+ 537              	.LC29:
+ 538 01a8 20204F00 		.ascii	"  O\000"
+ 539              		.section	.text.aiPrintNetworkInfo,"ax",%progbits
+ 540              		.align	1
+ 541              		.global	aiPrintNetworkInfo
+ 542              		.syntax unified
+ 543              		.thumb
+ 544              		.thumb_func
+ 545              		.fpu fpv4-sp-d16
+ 547              	aiPrintNetworkInfo:
+ 548              	.LVL42:
+ 549              	.LFB7:
+  99:X-CUBE-AI/App/aiTestHelper.c **** 
+ 100:X-CUBE-AI/App/aiTestHelper.c **** void aiPrintNetworkInfo(const ai_network_report* report)
+ 101:X-CUBE-AI/App/aiTestHelper.c **** {
+ 550              		.loc 1 101 1 is_stmt 1 view -0
+ 551              		.cfi_startproc
+ 552              		@ args = 0, pretend = 0, frame = 0
+ 553              		@ frame_needed = 0, uses_anonymous_args = 0
+ 554              		.loc 1 101 1 is_stmt 0 view .LVU96
+ 555 0000 38B5     		push	{r3, r4, r5, lr}
+ 556              	.LCFI8:
+ 557              		.cfi_def_cfa_offset 16
+ 558              		.cfi_offset 3, -16
+ 559              		.cfi_offset 4, -12
+ 560              		.cfi_offset 5, -8
+ 561              		.cfi_offset 14, -4
+ 562 0002 0446     		mov	r4, r0
+ 102:X-CUBE-AI/App/aiTestHelper.c ****   int i;
+ 563              		.loc 1 102 3 is_stmt 1 view .LVU97
+ 103:X-CUBE-AI/App/aiTestHelper.c ****   printf("Network informations...\r\n");
+ 564              		.loc 1 103 3 view .LVU98
+ 565 0004 3548     		ldr	r0, .L45
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccU8A3pn.s 			page 15
+
+
+ 566              	.LVL43:
+ 567              		.loc 1 103 3 is_stmt 0 view .LVU99
+ 568 0006 FFF7FEFF 		bl	puts
+ 569              	.LVL44:
+ 104:X-CUBE-AI/App/aiTestHelper.c ****   printf(" model name         : %s\r\n", report->model_name);
+ 570              		.loc 1 104 3 is_stmt 1 view .LVU100
+ 571 000a 2168     		ldr	r1, [r4]
+ 572 000c 3448     		ldr	r0, .L45+4
+ 573 000e FFF7FEFF 		bl	printf
+ 574              	.LVL45:
+ 105:X-CUBE-AI/App/aiTestHelper.c ****   printf(" model signature    : %s\r\n", report->model_signature);
+ 575              		.loc 1 105 3 view .LVU101
+ 576 0012 6168     		ldr	r1, [r4, #4]
+ 577 0014 3348     		ldr	r0, .L45+8
+ 578 0016 FFF7FEFF 		bl	printf
+ 579              	.LVL46:
+ 106:X-CUBE-AI/App/aiTestHelper.c ****   printf(" model datetime     : %s\r\n", report->model_datetime);
+ 580              		.loc 1 106 3 view .LVU102
+ 581 001a A168     		ldr	r1, [r4, #8]
+ 582 001c 3248     		ldr	r0, .L45+12
+ 583 001e FFF7FEFF 		bl	printf
+ 584              	.LVL47:
+ 107:X-CUBE-AI/App/aiTestHelper.c ****   printf(" compile datetime   : %s\r\n", report->compile_datetime);
+ 585              		.loc 1 107 3 view .LVU103
+ 586 0022 E168     		ldr	r1, [r4, #12]
+ 587 0024 3148     		ldr	r0, .L45+16
+ 588 0026 FFF7FEFF 		bl	printf
+ 589              	.LVL48:
+ 108:X-CUBE-AI/App/aiTestHelper.c ****   printf(" runtime version    : %d.%d.%d\r\n",
+ 590              		.loc 1 108 3 view .LVU104
+ 591 002a A37D     		ldrb	r3, [r4, #22]	@ zero_extendqisi2
+ 592 002c 627D     		ldrb	r2, [r4, #21]	@ zero_extendqisi2
+ 593 002e 217D     		ldrb	r1, [r4, #20]	@ zero_extendqisi2
+ 594 0030 2F48     		ldr	r0, .L45+20
+ 595 0032 FFF7FEFF 		bl	printf
+ 596              	.LVL49:
+ 109:X-CUBE-AI/App/aiTestHelper.c ****       report->runtime_version.major,
+ 110:X-CUBE-AI/App/aiTestHelper.c ****       report->runtime_version.minor,
+ 111:X-CUBE-AI/App/aiTestHelper.c ****       report->runtime_version.micro);
+ 112:X-CUBE-AI/App/aiTestHelper.c ****   if (report->tool_revision[0])
+ 597              		.loc 1 112 3 view .LVU105
+ 598              		.loc 1 112 13 is_stmt 0 view .LVU106
+ 599 0036 A169     		ldr	r1, [r4, #24]
+ 600              		.loc 1 112 28 view .LVU107
+ 601 0038 0B78     		ldrb	r3, [r1]	@ zero_extendqisi2
+ 602              		.loc 1 112 6 view .LVU108
+ 603 003a 73BB     		cbnz	r3, .L44
+ 604              	.L38:
+ 113:X-CUBE-AI/App/aiTestHelper.c ****     printf(" Tool revision      : %s\r\n", (report->tool_revision[0])?report->tool_revision:"");
+ 114:X-CUBE-AI/App/aiTestHelper.c ****   printf(" tools version      : %d.%d.%d\r\n",
+ 605              		.loc 1 114 3 is_stmt 1 view .LVU109
+ 606 003c A37F     		ldrb	r3, [r4, #30]	@ zero_extendqisi2
+ 607 003e 627F     		ldrb	r2, [r4, #29]	@ zero_extendqisi2
+ 608 0040 217F     		ldrb	r1, [r4, #28]	@ zero_extendqisi2
+ 609 0042 2C48     		ldr	r0, .L45+24
+ 610 0044 FFF7FEFF 		bl	printf
+ 611              	.LVL50:
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccU8A3pn.s 			page 16
+
+
+ 115:X-CUBE-AI/App/aiTestHelper.c ****       report->tool_version.major,
+ 116:X-CUBE-AI/App/aiTestHelper.c ****       report->tool_version.minor,
+ 117:X-CUBE-AI/App/aiTestHelper.c ****       report->tool_version.micro);
+ 118:X-CUBE-AI/App/aiTestHelper.c ****   printf(" complexity         : %d MACC\r\n", (int)report->n_macc);
+ 612              		.loc 1 118 3 view .LVU110
+ 613 0048 E16A     		ldr	r1, [r4, #44]
+ 614 004a 2B48     		ldr	r0, .L45+28
+ 615 004c FFF7FEFF 		bl	printf
+ 616              	.LVL51:
+ 119:X-CUBE-AI/App/aiTestHelper.c ****   printf(" c-nodes            : %d\r\n", (int)report->n_nodes);
+ 617              		.loc 1 119 3 view .LVU111
+ 618 0050 E16E     		ldr	r1, [r4, #108]
+ 619 0052 2A48     		ldr	r0, .L45+32
+ 620 0054 FFF7FEFF 		bl	printf
+ 621              	.LVL52:
+ 120:X-CUBE-AI/App/aiTestHelper.c ****   printf(" activations        : %d bytes (0x%08x)\r\n",
+ 622              		.loc 1 120 3 view .LVU112
+ 121:X-CUBE-AI/App/aiTestHelper.c ****       (int)AI_BUFFER_SIZE(&report->activations), (int)report->activations.data);
+ 623              		.loc 1 121 12 is_stmt 0 view .LVU113
+ 624 0058 B4F84430 		ldrh	r3, [r4, #68]
+ 625 005c B4F84210 		ldrh	r1, [r4, #66]
+ 626 0060 01FB03F3 		mul	r3, r1, r3
+ 627 0064 A16C     		ldr	r1, [r4, #72]
+ 120:X-CUBE-AI/App/aiTestHelper.c ****   printf(" activations        : %d bytes (0x%08x)\r\n",
+ 628              		.loc 1 120 3 view .LVU114
+ 629 0066 E26C     		ldr	r2, [r4, #76]
+ 630 0068 03FB01F1 		mul	r1, r3, r1
+ 631 006c 2448     		ldr	r0, .L45+36
+ 632 006e FFF7FEFF 		bl	printf
+ 633              	.LVL53:
+ 122:X-CUBE-AI/App/aiTestHelper.c ****   printf(" weights            : %d bytes (0x%08x)\r\n",
+ 634              		.loc 1 122 3 is_stmt 1 view .LVU115
+ 123:X-CUBE-AI/App/aiTestHelper.c ****       (int)AI_BUFFER_SIZE(&report->params), (int)report->params.data);
+ 635              		.loc 1 123 12 is_stmt 0 view .LVU116
+ 636 0072 B4F85C30 		ldrh	r3, [r4, #92]
+ 637 0076 B4F85A10 		ldrh	r1, [r4, #90]
+ 638 007a 01FB03F3 		mul	r3, r1, r3
+ 639 007e 216E     		ldr	r1, [r4, #96]
+ 122:X-CUBE-AI/App/aiTestHelper.c ****   printf(" weights            : %d bytes (0x%08x)\r\n",
+ 640              		.loc 1 122 3 view .LVU117
+ 641 0080 626E     		ldr	r2, [r4, #100]
+ 642 0082 03FB01F1 		mul	r1, r3, r1
+ 643 0086 1F48     		ldr	r0, .L45+40
+ 644 0088 FFF7FEFF 		bl	printf
+ 645              	.LVL54:
+ 124:X-CUBE-AI/App/aiTestHelper.c ****   printf(" inputs/outputs     : %u/%u\r\n", report->n_inputs,
+ 646              		.loc 1 124 3 is_stmt 1 view .LVU118
+ 647 008c 628E     		ldrh	r2, [r4, #50]
+ 648 008e 218E     		ldrh	r1, [r4, #48]
+ 649 0090 1D48     		ldr	r0, .L45+44
+ 650 0092 FFF7FEFF 		bl	printf
+ 651              	.LVL55:
+ 125:X-CUBE-AI/App/aiTestHelper.c ****       report->n_outputs);
+ 126:X-CUBE-AI/App/aiTestHelper.c ****   for (i=0; i<report->n_inputs; i++)
+ 652              		.loc 1 126 3 view .LVU119
+ 653              		.loc 1 126 9 is_stmt 0 view .LVU120
+ 654 0096 0025     		movs	r5, #0
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccU8A3pn.s 			page 17
+
+
+ 655              		.loc 1 126 3 view .LVU121
+ 656 0098 0DE0     		b	.L39
+ 657              	.LVL56:
+ 658              	.L44:
+ 113:X-CUBE-AI/App/aiTestHelper.c ****   printf(" tools version      : %d.%d.%d\r\n",
+ 659              		.loc 1 113 5 is_stmt 1 discriminator 4 view .LVU122
+ 660 009a 1C48     		ldr	r0, .L45+48
+ 661 009c FFF7FEFF 		bl	printf
+ 662              	.LVL57:
+ 663 00a0 CCE7     		b	.L38
+ 664              	.LVL58:
+ 665              	.L40:
+ 127:X-CUBE-AI/App/aiTestHelper.c ****     aiPrintLayoutBuffer("  I", i, &report->inputs[i]);
+ 666              		.loc 1 127 5 discriminator 3 view .LVU123
+ 667              		.loc 1 127 42 is_stmt 0 discriminator 3 view .LVU124
+ 668 00a2 636B     		ldr	r3, [r4, #52]
+ 669              		.loc 1 127 50 discriminator 3 view .LVU125
+ 670 00a4 05EB4502 		add	r2, r5, r5, lsl #1
+ 671              		.loc 1 127 5 discriminator 3 view .LVU126
+ 672 00a8 03EBC202 		add	r2, r3, r2, lsl #3
+ 673 00ac 2946     		mov	r1, r5
+ 674 00ae 1848     		ldr	r0, .L45+52
+ 675 00b0 FFF7FEFF 		bl	aiPrintLayoutBuffer
+ 676              	.LVL59:
+ 126:X-CUBE-AI/App/aiTestHelper.c ****     aiPrintLayoutBuffer("  I", i, &report->inputs[i]);
+ 677              		.loc 1 126 33 is_stmt 1 discriminator 3 view .LVU127
+ 126:X-CUBE-AI/App/aiTestHelper.c ****     aiPrintLayoutBuffer("  I", i, &report->inputs[i]);
+ 678              		.loc 1 126 34 is_stmt 0 discriminator 3 view .LVU128
+ 679 00b4 0135     		adds	r5, r5, #1
+ 680              	.LVL60:
+ 681              	.L39:
+ 126:X-CUBE-AI/App/aiTestHelper.c ****     aiPrintLayoutBuffer("  I", i, &report->inputs[i]);
+ 682              		.loc 1 126 13 is_stmt 1 discriminator 1 view .LVU129
+ 126:X-CUBE-AI/App/aiTestHelper.c ****     aiPrintLayoutBuffer("  I", i, &report->inputs[i]);
+ 683              		.loc 1 126 21 is_stmt 0 discriminator 1 view .LVU130
+ 684 00b6 238E     		ldrh	r3, [r4, #48]
+ 126:X-CUBE-AI/App/aiTestHelper.c ****     aiPrintLayoutBuffer("  I", i, &report->inputs[i]);
+ 685              		.loc 1 126 3 discriminator 1 view .LVU131
+ 686 00b8 AB42     		cmp	r3, r5
+ 687 00ba F2DC     		bgt	.L40
+ 128:X-CUBE-AI/App/aiTestHelper.c ****   for (i=0; i<report->n_outputs; i++)
+ 688              		.loc 1 128 9 view .LVU132
+ 689 00bc 0025     		movs	r5, #0
+ 690              	.LVL61:
+ 691              		.loc 1 128 9 view .LVU133
+ 692 00be 09E0     		b	.L41
+ 693              	.LVL62:
+ 694              	.L42:
+ 129:X-CUBE-AI/App/aiTestHelper.c ****     aiPrintLayoutBuffer("  O", i, &report->outputs[i]);
+ 695              		.loc 1 129 5 is_stmt 1 discriminator 3 view .LVU134
+ 696              		.loc 1 129 42 is_stmt 0 discriminator 3 view .LVU135
+ 697 00c0 A36B     		ldr	r3, [r4, #56]
+ 698              		.loc 1 129 51 discriminator 3 view .LVU136
+ 699 00c2 05EB4502 		add	r2, r5, r5, lsl #1
+ 700              		.loc 1 129 5 discriminator 3 view .LVU137
+ 701 00c6 03EBC202 		add	r2, r3, r2, lsl #3
+ 702 00ca 2946     		mov	r1, r5
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccU8A3pn.s 			page 18
+
+
+ 703 00cc 1148     		ldr	r0, .L45+56
+ 704 00ce FFF7FEFF 		bl	aiPrintLayoutBuffer
+ 705              	.LVL63:
+ 128:X-CUBE-AI/App/aiTestHelper.c ****   for (i=0; i<report->n_outputs; i++)
+ 706              		.loc 1 128 34 is_stmt 1 discriminator 3 view .LVU138
+ 128:X-CUBE-AI/App/aiTestHelper.c ****   for (i=0; i<report->n_outputs; i++)
+ 707              		.loc 1 128 35 is_stmt 0 discriminator 3 view .LVU139
+ 708 00d2 0135     		adds	r5, r5, #1
+ 709              	.LVL64:
+ 710              	.L41:
+ 128:X-CUBE-AI/App/aiTestHelper.c ****   for (i=0; i<report->n_outputs; i++)
+ 711              		.loc 1 128 13 is_stmt 1 discriminator 1 view .LVU140
+ 128:X-CUBE-AI/App/aiTestHelper.c ****   for (i=0; i<report->n_outputs; i++)
+ 712              		.loc 1 128 21 is_stmt 0 discriminator 1 view .LVU141
+ 713 00d4 638E     		ldrh	r3, [r4, #50]
+ 128:X-CUBE-AI/App/aiTestHelper.c ****   for (i=0; i<report->n_outputs; i++)
+ 714              		.loc 1 128 3 discriminator 1 view .LVU142
+ 715 00d6 AB42     		cmp	r3, r5
+ 716 00d8 F2DC     		bgt	.L42
+ 130:X-CUBE-AI/App/aiTestHelper.c **** }
+ 717              		.loc 1 130 1 view .LVU143
+ 718 00da 38BD     		pop	{r3, r4, r5, pc}
+ 719              	.LVL65:
+ 720              	.L46:
+ 721              		.loc 1 130 1 view .LVU144
+ 722              		.align	2
+ 723              	.L45:
+ 724 00dc 00000000 		.word	.LC15
+ 725 00e0 1C000000 		.word	.LC16
+ 726 00e4 38000000 		.word	.LC17
+ 727 00e8 54000000 		.word	.LC18
+ 728 00ec 70000000 		.word	.LC19
+ 729 00f0 8C000000 		.word	.LC20
+ 730 00f4 CC000000 		.word	.LC22
+ 731 00f8 F0000000 		.word	.LC23
+ 732 00fc 10010000 		.word	.LC24
+ 733 0100 2C010000 		.word	.LC25
+ 734 0104 58010000 		.word	.LC26
+ 735 0108 84010000 		.word	.LC27
+ 736 010c B0000000 		.word	.LC21
+ 737 0110 A4010000 		.word	.LC28
+ 738 0114 A8010000 		.word	.LC29
+ 739              		.cfi_endproc
+ 740              	.LFE7:
+ 742              		.text
+ 743              	.Letext0:
+ 744              		.file 2 "c:\\gnu\\gnu_arm_embedded_toolchain\\10-2020-q4-major\\arm-none-eabi\\include\\machine\\_
+ 745              		.file 3 "c:\\gnu\\gnu_arm_embedded_toolchain\\10-2020-q4-major\\arm-none-eabi\\include\\sys\\_stdi
+ 746              		.file 4 "Middlewares/ST/AI/Inc/ai_platform.h"
+ 747              		.file 5 "<built-in>"
+ 748              		.file 6 "c:\\gnu\\gnu_arm_embedded_toolchain\\10-2020-q4-major\\arm-none-eabi\\include\\stdio.h"
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccU8A3pn.s 			page 19
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 aiTestHelper.c
+C:\Users\zacfi\AppData\Local\Temp\ccU8A3pn.s:18     .rodata.aiPlatformVersion.str1.4:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccU8A3pn.s:23     .text.aiPlatformVersion:00000000 $t
+C:\Users\zacfi\AppData\Local\Temp\ccU8A3pn.s:31     .text.aiPlatformVersion:00000000 aiPlatformVersion
+C:\Users\zacfi\AppData\Local\Temp\ccU8A3pn.s:65     .text.aiPlatformVersion:00000020 $d
+C:\Users\zacfi\AppData\Local\Temp\ccU8A3pn.s:70     .text.aiBufferSize:00000000 $t
+C:\Users\zacfi\AppData\Local\Temp\ccU8A3pn.s:77     .text.aiBufferSize:00000000 aiBufferSize
+C:\Users\zacfi\AppData\Local\Temp\ccU8A3pn.s:102    .rodata.aiLogErr.str1.4:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccU8A3pn.s:109    .text.aiLogErr:00000000 $t
+C:\Users\zacfi\AppData\Local\Temp\ccU8A3pn.s:116    .text.aiLogErr:00000000 aiLogErr
+C:\Users\zacfi\AppData\Local\Temp\ccU8A3pn.s:160    .text.aiLogErr:0000001c $d
+C:\Users\zacfi\AppData\Local\Temp\ccU8A3pn.s:166    .rodata.aiPrintLayoutBuffer.str1.4:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccU8A3pn.s:204    .text.aiPrintLayoutBuffer:00000000 $t
+C:\Users\zacfi\AppData\Local\Temp\ccU8A3pn.s:211    .text.aiPrintLayoutBuffer:00000000 aiPrintLayoutBuffer
+C:\Users\zacfi\AppData\Local\Temp\ccU8A3pn.s:478    .text.aiPrintLayoutBuffer:0000011c $d
+C:\Users\zacfi\AppData\Local\Temp\ccU8A3pn.s:494    .rodata.aiPrintNetworkInfo.str1.4:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccU8A3pn.s:540    .text.aiPrintNetworkInfo:00000000 $t
+C:\Users\zacfi\AppData\Local\Temp\ccU8A3pn.s:547    .text.aiPrintNetworkInfo:00000000 aiPrintNetworkInfo
+C:\Users\zacfi\AppData\Local\Temp\ccU8A3pn.s:724    .text.aiPrintNetworkInfo:000000dc $d
+
+UNDEFINED SYMBOLS
+printf
+__aeabi_f2d
+puts
