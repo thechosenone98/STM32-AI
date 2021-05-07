@@ -1,0 +1,142 @@
+Neural Network Tools for STM32AI v1.4.1 (STM.ai v6.0.0-RC6)
+Created date       : 2021-05-07 19:00:33
+Parameters         : generate --name anomalydetector -m D:/Programmation/STM32/AccelerometerReader/Python/anomaly_detection.h5 --type keras --compression 1 --verbosity 1 --workspace C:\Users\zacfi\AppData\Local\Temp\mxAI_workspace16268003110916002514428725727188988 --output C:\Users\zacfi\.stm32cubemx
+
+Exec/report summary (generate)
+------------------------------------------------------------------------------------------------------------------------
+model file         : D:\Programmation\STM32\AccelerometerReader\Python\anomaly_detection.h5
+type               : keras
+c_name             : anomalydetector
+compression        : None
+quantize           : None
+workspace dir      : C:\Users\zacfi\AppData\Local\Temp\mxAI_workspace16268003110916002514428725727188988
+output dir         : C:\Users\zacfi\.stm32cubemx
+
+model_name         : anomaly_detection
+model_hash         : b4aafa7e5cde8241888598f2a1d57b8b
+input              : input_0 [75 items, 300 B, ai_float, FLOAT32, (25, 3, 1)]
+inputs (total)     : 300 B
+output             : dense_1_nl [4 items, 16 B, ai_float, FLOAT32, (1, 1, 4)]
+outputs (total)    : 16 B
+params #           : 4,857 items (18.97 KiB)
+macc               : 27,106
+weights (ro)       : 19,428 B (18.97 KiB) 
+activations (rw)   : 1,296 B (1.27 KiB) 
+ram (total)        : 1,612 B (1.57 KiB) = 1,296 + 300 + 16
+
+Model name - anomaly_detection ['input_0'] ['dense_1_nl']
+--------------------------------------------------------------------------------------------------------------------------------------------------
+id   layer (type)                 shape              param/size     macc     connected to      |   c_size   c_macc          c_type               
+--------------------------------------------------------------------------------------------------------------------------------------------------
+0    input_0 (Input)              (h:25, w:3, c:1)                                             |                           
+     conv2d (Conv2D)              (h:25, w:3, c:4)   40/160         2,704    input_0           |            +612(+22.6%)    optimized_conv2d()[0]
+     conv2d_nl (Nonlinearity)     (h:25, w:3, c:4)                  300      conv2d            |            -300(-100.0%)  
+--------------------------------------------------------------------------------------------------------------------------------------------------
+1    max_pooling2d (Pool)         (h:13, w:3, c:4)                  312      conv2d_nl         |            -312(-100.0%)  
+--------------------------------------------------------------------------------------------------------------------------------------------------
+2    conv2d_1 (Conv2D)            (h:13, w:3, c:8)   488/1,952      18,728   max_pooling2d     |            +648(+3.5%)     optimized_conv2d()[1]
+     conv2d_1_nl (Nonlinearity)   (h:13, w:3, c:8)                  312      conv2d_1          |            -312(-100.0%)  
+--------------------------------------------------------------------------------------------------------------------------------------------------
+3    max_pooling2d_1 (Pool)       (h:7, w:3, c:8)                   336      conv2d_1_nl       |            -336(-100.0%)  
+--------------------------------------------------------------------------------------------------------------------------------------------------
+4    flatten (Reshape)            (c:168)                                    max_pooling2d_1   |                           
+--------------------------------------------------------------------------------------------------------------------------------------------------
+5    dense (Dense)                (c:25)             4,225/16,900   4,225    flatten           |                            dense()[2]           
+     dense_nl (Nonlinearity)      (c:25)                            25       dense             |                            nl()[3]              
+--------------------------------------------------------------------------------------------------------------------------------------------------
+7    dense_1 (Dense)              (c:4)              104/416        104      dense_nl          |                            dense()[4]           
+     dense_1_nl (Nonlinearity)    (c:4)                             60       dense_1           |                            nl()/o[5]            
+--------------------------------------------------------------------------------------------------------------------------------------------------
+model/c-model: macc=27,106/27,106  weights=19,428/19,428  activations=--/1,296 io=--/316
+
+
+Generated C-graph summary
+------------------------------------------------------------------------------------------------------------------------
+model name         : anomaly_detection
+c-name             : anomalydetector
+c-node #           : 6
+c-array #          : 17
+activations size   : 1296
+weights size       : 19428
+macc               : 27106
+inputs             : ['input_0_output_array']
+outputs            : ['dense_1_nl_output_array']
+
+
+C-Arrays (17)
+------------------------------------------------------------------------------------------------------------------------
+c_id  name (*_array)     item/size           mem-pool     c-type       fmt    comment            
+------------------------------------------------------------------------------------------------------------------------
+0     input_0_output     75/300              user         float        float  /input             
+1     conv2d_output      156/624             activations  float        float                     
+2     conv2d_1_output    168/672             activations  float        float                     
+3     dense_output       25/100              activations  float        float                     
+4     dense_nl_output    25/100              activations  float        float                     
+5     dense_1_output     4/16                activations  float        float                     
+6     dense_1_nl_output  4/16                user         float        float  /output            
+7     conv2d_weights     36/144              weights      const float  float                     
+8     conv2d_bias        4/16                weights      const float  float                     
+9     conv2d_1_weights   480/1920            weights      const float  float                     
+10    conv2d_1_bias      8/32                weights      const float  float                     
+11    dense_weights      4200/16800          weights      const float  float                     
+12    dense_bias         25/100              weights      const float  float                     
+13    dense_1_weights    100/400             weights      const float  float                     
+14    dense_1_bias       4/16                weights      const float  float                     
+15    conv2d_scratch0    24/96               activations  float        float                     
+16    conv2d_1_scratch0  48/192              activations  float        float                     
+------------------------------------------------------------------------------------------------------------------------
+
+
+C-Layers (6)
+------------------------------------------------------------------------------------------------------------------------
+c_id  name (*_layer)  id  layer_type        macc        rom         tensors               shape (array id)                       
+------------------------------------------------------------------------------------------------------------------------
+0     conv2d          1   optimized_conv2d  3316        160         I: input_0_output     [1, 25, 3, 1] (0)                      
+                                                                    S: conv2d_scratch0                                           
+                                                                    W: conv2d_weights                                            
+                                                                    W: conv2d_bias                                               
+                                                                    O: conv2d_output      [1, 13, 3, 4] (1)                      
+------------------------------------------------------------------------------------------------------------------------
+1     conv2d_1        3   optimized_conv2d  19376       1952        I: conv2d_output      [1, 13, 3, 4] (1)                      
+                                                                    S: conv2d_1_scratch0                                         
+                                                                    W: conv2d_1_weights                                          
+                                                                    W: conv2d_1_bias                                             
+                                                                    O: conv2d_1_output    [1, 7, 3, 8] (2)                       
+------------------------------------------------------------------------------------------------------------------------
+2     dense           5   dense             4225        16900       I: conv2d_1_output0   [1, 1, 1, 168] (2)                     
+                                                                    W: dense_weights                                             
+                                                                    W: dense_bias                                                
+                                                                    O: dense_output       [1, 1, 1, 25] (3)                      
+------------------------------------------------------------------------------------------------------------------------
+3     dense_nl        5   nl                25          0           I: dense_output       [1, 1, 1, 25] (3)                      
+                                                                    O: dense_nl_output    [1, 1, 1, 25] (4)                      
+------------------------------------------------------------------------------------------------------------------------
+4     dense_1         7   dense             104         416         I: dense_nl_output    [1, 1, 1, 25] (4)                      
+                                                                    W: dense_1_weights                                           
+                                                                    W: dense_1_bias                                              
+                                                                    O: dense_1_output     [1, 1, 1, 4] (5)                       
+------------------------------------------------------------------------------------------------------------------------
+5     dense_1_nl      7   nl                60          0           I: dense_1_output     [1, 1, 1, 4] (5)                       
+                                                                    O: dense_1_nl_output  [1, 1, 1, 4] (6)                       
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+Complexity report per layer - macc=27,106 weights=19,428 act=1,296 ram_io=316
+---------------------------------------------------------------------------
+id   name         c_macc                    c_rom                     c_id
+---------------------------------------------------------------------------
+0    conv2d       |||               12.2%   |                  0.8%   [0] 
+2    conv2d_1     ||||||||||||||||  71.5%   ||                10.0%   [1] 
+5    dense        ||||              15.6%   ||||||||||||||||  87.0%   [2] 
+5    dense_nl     |                  0.1%   |                  0.0%   [3] 
+7    dense_1      |                  0.4%   |                  2.1%   [4] 
+7    dense_1_nl   |                  0.2%   |                  0.0%   [5] 
+
+Generated files (5)
+------------------------------------------------------------------------------------------------------------------------
+C:\Users\zacfi\.stm32cubemx\anomalydetector_config.h
+C:\Users\zacfi\.stm32cubemx\anomalydetector.h
+C:\Users\zacfi\.stm32cubemx\anomalydetector.c
+C:\Users\zacfi\.stm32cubemx\anomalydetector_data.h
+C:\Users\zacfi\.stm32cubemx\anomalydetector_data.c

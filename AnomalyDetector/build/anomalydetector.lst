@@ -1,0 +1,3122 @@
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"anomalydetector.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.rodata.ai_anomalydetector_get_info.str1.4,"aMS",%progbits,1
+  18              		.align	2
+  19              	.LC0:
+  20 0000 616E6F6D 		.ascii	"anomalydetector\000"
+  20      616C7964 
+  20      65746563 
+  20      746F7200 
+  21              		.align	2
+  22              	.LC1:
+  23 0010 62346161 		.ascii	"b4aafa7e5cde8241888598f2a1d57b8b\000"
+  23      66613765 
+  23      35636465 
+  23      38323431 
+  23      38383835 
+  24 0031 000000   		.align	2
+  25              	.LC2:
+  26 0034 46726920 		.ascii	"Fri May  7 19:00:33 2021\000"
+  26      4D617920 
+  26      20372031 
+  26      393A3030 
+  26      3A333320 
+  27 004d 000000   		.align	2
+  28              	.LC3:
+  29 0050 4D617920 		.ascii	"May  7 2021 19:04:28\000"
+  29      20372032 
+  29      30323120 
+  29      31393A30 
+  29      343A3238 
+  30 0065 000000   		.align	2
+  31              	.LC4:
+  32 0068 00       		.ascii	"\000"
+  33              		.section	.text.ai_anomalydetector_get_info,"ax",%progbits
+  34              		.align	1
+  35              		.global	ai_anomalydetector_get_info
+  36              		.arch armv7e-m
+  37              		.syntax unified
+  38              		.thumb
+  39              		.thumb_func
+  40              		.fpu fpv4-sp-d16
+  42              	ai_anomalydetector_get_info:
+  43              	.LVL0:
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s 			page 2
+
+
+  44              	.LFB5:
+  45              		.file 1 "X-CUBE-AI/App/anomalydetector.c"
+   1:X-CUBE-AI/App/anomalydetector.c **** /**
+   2:X-CUBE-AI/App/anomalydetector.c ****   ******************************************************************************
+   3:X-CUBE-AI/App/anomalydetector.c ****   * @file    anomalydetector.c
+   4:X-CUBE-AI/App/anomalydetector.c ****   * @author  AST Embedded Analytics Research Platform
+   5:X-CUBE-AI/App/anomalydetector.c ****   * @date    Fri May  7 19:00:33 2021
+   6:X-CUBE-AI/App/anomalydetector.c ****   * @brief   AI Tool Automatic Code Generator for Embedded NN computing
+   7:X-CUBE-AI/App/anomalydetector.c ****   ******************************************************************************
+   8:X-CUBE-AI/App/anomalydetector.c ****   * @attention
+   9:X-CUBE-AI/App/anomalydetector.c ****   *
+  10:X-CUBE-AI/App/anomalydetector.c ****   * Copyright (c) 2021 STMicroelectronics.
+  11:X-CUBE-AI/App/anomalydetector.c ****   * All rights reserved.
+  12:X-CUBE-AI/App/anomalydetector.c ****   *
+  13:X-CUBE-AI/App/anomalydetector.c ****   * This software component is licensed by ST under Ultimate Liberty license
+  14:X-CUBE-AI/App/anomalydetector.c ****   * SLA0044, the "License"; You may not use this file except in compliance with
+  15:X-CUBE-AI/App/anomalydetector.c ****   * the License. You may obtain a copy of the License at:
+  16:X-CUBE-AI/App/anomalydetector.c ****   *                             www.st.com/SLA0044
+  17:X-CUBE-AI/App/anomalydetector.c ****   *
+  18:X-CUBE-AI/App/anomalydetector.c ****   ******************************************************************************
+  19:X-CUBE-AI/App/anomalydetector.c ****   */
+  20:X-CUBE-AI/App/anomalydetector.c **** 
+  21:X-CUBE-AI/App/anomalydetector.c **** 
+  22:X-CUBE-AI/App/anomalydetector.c **** #include "anomalydetector.h"
+  23:X-CUBE-AI/App/anomalydetector.c **** 
+  24:X-CUBE-AI/App/anomalydetector.c **** #include "ai_platform_interface.h"
+  25:X-CUBE-AI/App/anomalydetector.c **** #include "ai_math_helpers.h"
+  26:X-CUBE-AI/App/anomalydetector.c **** 
+  27:X-CUBE-AI/App/anomalydetector.c **** #include "core_common.h"
+  28:X-CUBE-AI/App/anomalydetector.c **** #include "core_convert.h"
+  29:X-CUBE-AI/App/anomalydetector.c **** 
+  30:X-CUBE-AI/App/anomalydetector.c **** #include "layers.h"
+  31:X-CUBE-AI/App/anomalydetector.c **** 
+  32:X-CUBE-AI/App/anomalydetector.c **** 
+  33:X-CUBE-AI/App/anomalydetector.c **** 
+  34:X-CUBE-AI/App/anomalydetector.c **** /*
+  35:X-CUBE-AI/App/anomalydetector.c **** #define AI_TOOLS_VERSION_MAJOR 6
+  36:X-CUBE-AI/App/anomalydetector.c **** #define AI_TOOLS_VERSION_MINOR 0
+  37:X-CUBE-AI/App/anomalydetector.c **** #define AI_TOOLS_VERSION_MICRO 0
+  38:X-CUBE-AI/App/anomalydetector.c **** #define AI_TOOLS_VERSION_EXTRA "RC6"
+  39:X-CUBE-AI/App/anomalydetector.c **** 
+  40:X-CUBE-AI/App/anomalydetector.c **** */
+  41:X-CUBE-AI/App/anomalydetector.c **** 
+  42:X-CUBE-AI/App/anomalydetector.c **** /*
+  43:X-CUBE-AI/App/anomalydetector.c **** #define AI_TOOLS_API_VERSION_MAJOR 1
+  44:X-CUBE-AI/App/anomalydetector.c **** #define AI_TOOLS_API_VERSION_MINOR 4
+  45:X-CUBE-AI/App/anomalydetector.c **** #define AI_TOOLS_API_VERSION_MICRO 0
+  46:X-CUBE-AI/App/anomalydetector.c **** */
+  47:X-CUBE-AI/App/anomalydetector.c **** 
+  48:X-CUBE-AI/App/anomalydetector.c **** #undef AI_NET_OBJ_INSTANCE
+  49:X-CUBE-AI/App/anomalydetector.c **** #define AI_NET_OBJ_INSTANCE g_anomalydetector
+  50:X-CUBE-AI/App/anomalydetector.c ****  
+  51:X-CUBE-AI/App/anomalydetector.c **** #undef AI_ANOMALYDETECTOR_MODEL_SIGNATURE
+  52:X-CUBE-AI/App/anomalydetector.c **** #define AI_ANOMALYDETECTOR_MODEL_SIGNATURE     "b4aafa7e5cde8241888598f2a1d57b8b"
+  53:X-CUBE-AI/App/anomalydetector.c **** 
+  54:X-CUBE-AI/App/anomalydetector.c **** #ifndef AI_TOOLS_REVISION_ID
+  55:X-CUBE-AI/App/anomalydetector.c **** #define AI_TOOLS_REVISION_ID     ""
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s 			page 3
+
+
+  56:X-CUBE-AI/App/anomalydetector.c **** #endif
+  57:X-CUBE-AI/App/anomalydetector.c **** 
+  58:X-CUBE-AI/App/anomalydetector.c **** #undef AI_TOOLS_DATE_TIME
+  59:X-CUBE-AI/App/anomalydetector.c **** #define AI_TOOLS_DATE_TIME   "Fri May  7 19:00:33 2021"
+  60:X-CUBE-AI/App/anomalydetector.c **** 
+  61:X-CUBE-AI/App/anomalydetector.c **** #undef AI_TOOLS_COMPILE_TIME
+  62:X-CUBE-AI/App/anomalydetector.c **** #define AI_TOOLS_COMPILE_TIME    __DATE__ " " __TIME__
+  63:X-CUBE-AI/App/anomalydetector.c **** 
+  64:X-CUBE-AI/App/anomalydetector.c **** #undef AI_ANOMALYDETECTOR_N_BATCHES
+  65:X-CUBE-AI/App/anomalydetector.c **** #define AI_ANOMALYDETECTOR_N_BATCHES         (1)
+  66:X-CUBE-AI/App/anomalydetector.c **** 
+  67:X-CUBE-AI/App/anomalydetector.c **** /**  Forward network declaration section  *************************************/
+  68:X-CUBE-AI/App/anomalydetector.c **** AI_STATIC ai_network AI_NET_OBJ_INSTANCE;
+  69:X-CUBE-AI/App/anomalydetector.c **** 
+  70:X-CUBE-AI/App/anomalydetector.c **** 
+  71:X-CUBE-AI/App/anomalydetector.c **** /**  Forward network array declarations  **************************************/
+  72:X-CUBE-AI/App/anomalydetector.c **** AI_STATIC ai_array input_0_output_array;   /* Array #0 */
+  73:X-CUBE-AI/App/anomalydetector.c **** AI_STATIC ai_array conv2d_output_array;   /* Array #1 */
+  74:X-CUBE-AI/App/anomalydetector.c **** AI_STATIC ai_array conv2d_1_output_array;   /* Array #2 */
+  75:X-CUBE-AI/App/anomalydetector.c **** AI_STATIC ai_array dense_output_array;   /* Array #3 */
+  76:X-CUBE-AI/App/anomalydetector.c **** AI_STATIC ai_array dense_nl_output_array;   /* Array #4 */
+  77:X-CUBE-AI/App/anomalydetector.c **** AI_STATIC ai_array dense_1_output_array;   /* Array #5 */
+  78:X-CUBE-AI/App/anomalydetector.c **** AI_STATIC ai_array dense_1_nl_output_array;   /* Array #6 */
+  79:X-CUBE-AI/App/anomalydetector.c **** AI_STATIC ai_array conv2d_weights_array;   /* Array #7 */
+  80:X-CUBE-AI/App/anomalydetector.c **** AI_STATIC ai_array conv2d_bias_array;   /* Array #8 */
+  81:X-CUBE-AI/App/anomalydetector.c **** AI_STATIC ai_array conv2d_1_weights_array;   /* Array #9 */
+  82:X-CUBE-AI/App/anomalydetector.c **** AI_STATIC ai_array conv2d_1_bias_array;   /* Array #10 */
+  83:X-CUBE-AI/App/anomalydetector.c **** AI_STATIC ai_array dense_weights_array;   /* Array #11 */
+  84:X-CUBE-AI/App/anomalydetector.c **** AI_STATIC ai_array dense_bias_array;   /* Array #12 */
+  85:X-CUBE-AI/App/anomalydetector.c **** AI_STATIC ai_array dense_1_weights_array;   /* Array #13 */
+  86:X-CUBE-AI/App/anomalydetector.c **** AI_STATIC ai_array dense_1_bias_array;   /* Array #14 */
+  87:X-CUBE-AI/App/anomalydetector.c **** AI_STATIC ai_array conv2d_scratch0_array;   /* Array #15 */
+  88:X-CUBE-AI/App/anomalydetector.c **** AI_STATIC ai_array conv2d_1_scratch0_array;   /* Array #16 */
+  89:X-CUBE-AI/App/anomalydetector.c **** 
+  90:X-CUBE-AI/App/anomalydetector.c **** 
+  91:X-CUBE-AI/App/anomalydetector.c **** /**  Forward network tensor declarations  *************************************/
+  92:X-CUBE-AI/App/anomalydetector.c **** AI_STATIC ai_tensor input_0_output;   /* Tensor #0 */
+  93:X-CUBE-AI/App/anomalydetector.c **** AI_STATIC ai_tensor conv2d_output;   /* Tensor #1 */
+  94:X-CUBE-AI/App/anomalydetector.c **** AI_STATIC ai_tensor conv2d_1_output;   /* Tensor #2 */
+  95:X-CUBE-AI/App/anomalydetector.c **** AI_STATIC ai_tensor conv2d_1_output0;   /* Tensor #3 */
+  96:X-CUBE-AI/App/anomalydetector.c **** AI_STATIC ai_tensor dense_output;   /* Tensor #4 */
+  97:X-CUBE-AI/App/anomalydetector.c **** AI_STATIC ai_tensor dense_nl_output;   /* Tensor #5 */
+  98:X-CUBE-AI/App/anomalydetector.c **** AI_STATIC ai_tensor dense_1_output;   /* Tensor #6 */
+  99:X-CUBE-AI/App/anomalydetector.c **** AI_STATIC ai_tensor dense_1_nl_output;   /* Tensor #7 */
+ 100:X-CUBE-AI/App/anomalydetector.c **** AI_STATIC ai_tensor conv2d_weights;   /* Tensor #8 */
+ 101:X-CUBE-AI/App/anomalydetector.c **** AI_STATIC ai_tensor conv2d_bias;   /* Tensor #9 */
+ 102:X-CUBE-AI/App/anomalydetector.c **** AI_STATIC ai_tensor conv2d_1_weights;   /* Tensor #10 */
+ 103:X-CUBE-AI/App/anomalydetector.c **** AI_STATIC ai_tensor conv2d_1_bias;   /* Tensor #11 */
+ 104:X-CUBE-AI/App/anomalydetector.c **** AI_STATIC ai_tensor dense_weights;   /* Tensor #12 */
+ 105:X-CUBE-AI/App/anomalydetector.c **** AI_STATIC ai_tensor dense_bias;   /* Tensor #13 */
+ 106:X-CUBE-AI/App/anomalydetector.c **** AI_STATIC ai_tensor dense_1_weights;   /* Tensor #14 */
+ 107:X-CUBE-AI/App/anomalydetector.c **** AI_STATIC ai_tensor dense_1_bias;   /* Tensor #15 */
+ 108:X-CUBE-AI/App/anomalydetector.c **** AI_STATIC ai_tensor conv2d_scratch0;   /* Tensor #16 */
+ 109:X-CUBE-AI/App/anomalydetector.c **** AI_STATIC ai_tensor conv2d_1_scratch0;   /* Tensor #17 */
+ 110:X-CUBE-AI/App/anomalydetector.c **** 
+ 111:X-CUBE-AI/App/anomalydetector.c **** 
+ 112:X-CUBE-AI/App/anomalydetector.c **** /**  Forward network tensor chain declarations  *******************************/
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s 			page 4
+
+
+ 113:X-CUBE-AI/App/anomalydetector.c **** AI_STATIC_CONST ai_tensor_chain conv2d_chain;   /* Chain #0 */
+ 114:X-CUBE-AI/App/anomalydetector.c **** AI_STATIC_CONST ai_tensor_chain conv2d_1_chain;   /* Chain #1 */
+ 115:X-CUBE-AI/App/anomalydetector.c **** AI_STATIC_CONST ai_tensor_chain dense_chain;   /* Chain #2 */
+ 116:X-CUBE-AI/App/anomalydetector.c **** AI_STATIC_CONST ai_tensor_chain dense_nl_chain;   /* Chain #3 */
+ 117:X-CUBE-AI/App/anomalydetector.c **** AI_STATIC_CONST ai_tensor_chain dense_1_chain;   /* Chain #4 */
+ 118:X-CUBE-AI/App/anomalydetector.c **** AI_STATIC_CONST ai_tensor_chain dense_1_nl_chain;   /* Chain #5 */
+ 119:X-CUBE-AI/App/anomalydetector.c **** 
+ 120:X-CUBE-AI/App/anomalydetector.c **** 
+ 121:X-CUBE-AI/App/anomalydetector.c **** /**  Forward network layer declarations  **************************************/
+ 122:X-CUBE-AI/App/anomalydetector.c **** AI_STATIC ai_layer_conv2d_nl_pool conv2d_layer; /* Layer #0 */
+ 123:X-CUBE-AI/App/anomalydetector.c **** AI_STATIC ai_layer_conv2d_nl_pool conv2d_1_layer; /* Layer #1 */
+ 124:X-CUBE-AI/App/anomalydetector.c **** AI_STATIC ai_layer_dense dense_layer; /* Layer #2 */
+ 125:X-CUBE-AI/App/anomalydetector.c **** AI_STATIC ai_layer_nl dense_nl_layer; /* Layer #3 */
+ 126:X-CUBE-AI/App/anomalydetector.c **** AI_STATIC ai_layer_dense dense_1_layer; /* Layer #4 */
+ 127:X-CUBE-AI/App/anomalydetector.c **** AI_STATIC ai_layer_nl dense_1_nl_layer; /* Layer #5 */
+ 128:X-CUBE-AI/App/anomalydetector.c **** 
+ 129:X-CUBE-AI/App/anomalydetector.c **** 
+ 130:X-CUBE-AI/App/anomalydetector.c **** 
+ 131:X-CUBE-AI/App/anomalydetector.c **** 
+ 132:X-CUBE-AI/App/anomalydetector.c **** /**  Array declarations section  **********************************************/
+ 133:X-CUBE-AI/App/anomalydetector.c **** /* Array#0 */
+ 134:X-CUBE-AI/App/anomalydetector.c **** AI_ARRAY_OBJ_DECLARE(
+ 135:X-CUBE-AI/App/anomalydetector.c ****   input_0_output_array, AI_ARRAY_FORMAT_FLOAT|AI_FMT_FLAG_IS_IO,
+ 136:X-CUBE-AI/App/anomalydetector.c ****   NULL, NULL, 75, AI_STATIC)
+ 137:X-CUBE-AI/App/anomalydetector.c **** 
+ 138:X-CUBE-AI/App/anomalydetector.c **** /* Array#1 */
+ 139:X-CUBE-AI/App/anomalydetector.c **** AI_ARRAY_OBJ_DECLARE(
+ 140:X-CUBE-AI/App/anomalydetector.c ****   conv2d_output_array, AI_ARRAY_FORMAT_FLOAT,
+ 141:X-CUBE-AI/App/anomalydetector.c ****   NULL, NULL, 156, AI_STATIC)
+ 142:X-CUBE-AI/App/anomalydetector.c **** 
+ 143:X-CUBE-AI/App/anomalydetector.c **** /* Array#2 */
+ 144:X-CUBE-AI/App/anomalydetector.c **** AI_ARRAY_OBJ_DECLARE(
+ 145:X-CUBE-AI/App/anomalydetector.c ****   conv2d_1_output_array, AI_ARRAY_FORMAT_FLOAT,
+ 146:X-CUBE-AI/App/anomalydetector.c ****   NULL, NULL, 168, AI_STATIC)
+ 147:X-CUBE-AI/App/anomalydetector.c **** 
+ 148:X-CUBE-AI/App/anomalydetector.c **** /* Array#3 */
+ 149:X-CUBE-AI/App/anomalydetector.c **** AI_ARRAY_OBJ_DECLARE(
+ 150:X-CUBE-AI/App/anomalydetector.c ****   dense_output_array, AI_ARRAY_FORMAT_FLOAT,
+ 151:X-CUBE-AI/App/anomalydetector.c ****   NULL, NULL, 25, AI_STATIC)
+ 152:X-CUBE-AI/App/anomalydetector.c **** 
+ 153:X-CUBE-AI/App/anomalydetector.c **** /* Array#4 */
+ 154:X-CUBE-AI/App/anomalydetector.c **** AI_ARRAY_OBJ_DECLARE(
+ 155:X-CUBE-AI/App/anomalydetector.c ****   dense_nl_output_array, AI_ARRAY_FORMAT_FLOAT,
+ 156:X-CUBE-AI/App/anomalydetector.c ****   NULL, NULL, 25, AI_STATIC)
+ 157:X-CUBE-AI/App/anomalydetector.c **** 
+ 158:X-CUBE-AI/App/anomalydetector.c **** /* Array#5 */
+ 159:X-CUBE-AI/App/anomalydetector.c **** AI_ARRAY_OBJ_DECLARE(
+ 160:X-CUBE-AI/App/anomalydetector.c ****   dense_1_output_array, AI_ARRAY_FORMAT_FLOAT,
+ 161:X-CUBE-AI/App/anomalydetector.c ****   NULL, NULL, 4, AI_STATIC)
+ 162:X-CUBE-AI/App/anomalydetector.c **** 
+ 163:X-CUBE-AI/App/anomalydetector.c **** /* Array#6 */
+ 164:X-CUBE-AI/App/anomalydetector.c **** AI_ARRAY_OBJ_DECLARE(
+ 165:X-CUBE-AI/App/anomalydetector.c ****   dense_1_nl_output_array, AI_ARRAY_FORMAT_FLOAT|AI_FMT_FLAG_IS_IO,
+ 166:X-CUBE-AI/App/anomalydetector.c ****   NULL, NULL, 4, AI_STATIC)
+ 167:X-CUBE-AI/App/anomalydetector.c **** 
+ 168:X-CUBE-AI/App/anomalydetector.c **** /* Array#7 */
+ 169:X-CUBE-AI/App/anomalydetector.c **** AI_ARRAY_OBJ_DECLARE(
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s 			page 5
+
+
+ 170:X-CUBE-AI/App/anomalydetector.c ****   conv2d_weights_array, AI_ARRAY_FORMAT_FLOAT,
+ 171:X-CUBE-AI/App/anomalydetector.c ****   NULL, NULL, 36, AI_STATIC)
+ 172:X-CUBE-AI/App/anomalydetector.c **** 
+ 173:X-CUBE-AI/App/anomalydetector.c **** /* Array#8 */
+ 174:X-CUBE-AI/App/anomalydetector.c **** AI_ARRAY_OBJ_DECLARE(
+ 175:X-CUBE-AI/App/anomalydetector.c ****   conv2d_bias_array, AI_ARRAY_FORMAT_FLOAT,
+ 176:X-CUBE-AI/App/anomalydetector.c ****   NULL, NULL, 4, AI_STATIC)
+ 177:X-CUBE-AI/App/anomalydetector.c **** 
+ 178:X-CUBE-AI/App/anomalydetector.c **** /* Array#9 */
+ 179:X-CUBE-AI/App/anomalydetector.c **** AI_ARRAY_OBJ_DECLARE(
+ 180:X-CUBE-AI/App/anomalydetector.c ****   conv2d_1_weights_array, AI_ARRAY_FORMAT_FLOAT,
+ 181:X-CUBE-AI/App/anomalydetector.c ****   NULL, NULL, 480, AI_STATIC)
+ 182:X-CUBE-AI/App/anomalydetector.c **** 
+ 183:X-CUBE-AI/App/anomalydetector.c **** /* Array#10 */
+ 184:X-CUBE-AI/App/anomalydetector.c **** AI_ARRAY_OBJ_DECLARE(
+ 185:X-CUBE-AI/App/anomalydetector.c ****   conv2d_1_bias_array, AI_ARRAY_FORMAT_FLOAT,
+ 186:X-CUBE-AI/App/anomalydetector.c ****   NULL, NULL, 8, AI_STATIC)
+ 187:X-CUBE-AI/App/anomalydetector.c **** 
+ 188:X-CUBE-AI/App/anomalydetector.c **** /* Array#11 */
+ 189:X-CUBE-AI/App/anomalydetector.c **** AI_ARRAY_OBJ_DECLARE(
+ 190:X-CUBE-AI/App/anomalydetector.c ****   dense_weights_array, AI_ARRAY_FORMAT_FLOAT,
+ 191:X-CUBE-AI/App/anomalydetector.c ****   NULL, NULL, 4200, AI_STATIC)
+ 192:X-CUBE-AI/App/anomalydetector.c **** 
+ 193:X-CUBE-AI/App/anomalydetector.c **** /* Array#12 */
+ 194:X-CUBE-AI/App/anomalydetector.c **** AI_ARRAY_OBJ_DECLARE(
+ 195:X-CUBE-AI/App/anomalydetector.c ****   dense_bias_array, AI_ARRAY_FORMAT_FLOAT,
+ 196:X-CUBE-AI/App/anomalydetector.c ****   NULL, NULL, 25, AI_STATIC)
+ 197:X-CUBE-AI/App/anomalydetector.c **** 
+ 198:X-CUBE-AI/App/anomalydetector.c **** /* Array#13 */
+ 199:X-CUBE-AI/App/anomalydetector.c **** AI_ARRAY_OBJ_DECLARE(
+ 200:X-CUBE-AI/App/anomalydetector.c ****   dense_1_weights_array, AI_ARRAY_FORMAT_FLOAT,
+ 201:X-CUBE-AI/App/anomalydetector.c ****   NULL, NULL, 100, AI_STATIC)
+ 202:X-CUBE-AI/App/anomalydetector.c **** 
+ 203:X-CUBE-AI/App/anomalydetector.c **** /* Array#14 */
+ 204:X-CUBE-AI/App/anomalydetector.c **** AI_ARRAY_OBJ_DECLARE(
+ 205:X-CUBE-AI/App/anomalydetector.c ****   dense_1_bias_array, AI_ARRAY_FORMAT_FLOAT,
+ 206:X-CUBE-AI/App/anomalydetector.c ****   NULL, NULL, 4, AI_STATIC)
+ 207:X-CUBE-AI/App/anomalydetector.c **** 
+ 208:X-CUBE-AI/App/anomalydetector.c **** /* Array#15 */
+ 209:X-CUBE-AI/App/anomalydetector.c **** AI_ARRAY_OBJ_DECLARE(
+ 210:X-CUBE-AI/App/anomalydetector.c ****   conv2d_scratch0_array, AI_ARRAY_FORMAT_FLOAT,
+ 211:X-CUBE-AI/App/anomalydetector.c ****   NULL, NULL, 24, AI_STATIC)
+ 212:X-CUBE-AI/App/anomalydetector.c **** 
+ 213:X-CUBE-AI/App/anomalydetector.c **** /* Array#16 */
+ 214:X-CUBE-AI/App/anomalydetector.c **** AI_ARRAY_OBJ_DECLARE(
+ 215:X-CUBE-AI/App/anomalydetector.c ****   conv2d_1_scratch0_array, AI_ARRAY_FORMAT_FLOAT,
+ 216:X-CUBE-AI/App/anomalydetector.c ****   NULL, NULL, 48, AI_STATIC)
+ 217:X-CUBE-AI/App/anomalydetector.c **** 
+ 218:X-CUBE-AI/App/anomalydetector.c **** /**  Tensor declarations section  *********************************************/
+ 219:X-CUBE-AI/App/anomalydetector.c **** /* Tensor #0 */
+ 220:X-CUBE-AI/App/anomalydetector.c **** AI_TENSOR_OBJ_DECLARE(
+ 221:X-CUBE-AI/App/anomalydetector.c ****   input_0_output, AI_STATIC,
+ 222:X-CUBE-AI/App/anomalydetector.c ****   0, 0x0,
+ 223:X-CUBE-AI/App/anomalydetector.c ****   AI_SHAPE_INIT(4, 1, 1, 3, 25), AI_STRIDE_INIT(4, 4, 4, 4, 12),
+ 224:X-CUBE-AI/App/anomalydetector.c ****   1, &input_0_output_array, NULL)
+ 225:X-CUBE-AI/App/anomalydetector.c **** 
+ 226:X-CUBE-AI/App/anomalydetector.c **** /* Tensor #1 */
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s 			page 6
+
+
+ 227:X-CUBE-AI/App/anomalydetector.c **** AI_TENSOR_OBJ_DECLARE(
+ 228:X-CUBE-AI/App/anomalydetector.c ****   conv2d_output, AI_STATIC,
+ 229:X-CUBE-AI/App/anomalydetector.c ****   1, 0x0,
+ 230:X-CUBE-AI/App/anomalydetector.c ****   AI_SHAPE_INIT(4, 1, 4, 3, 13), AI_STRIDE_INIT(4, 4, 4, 16, 48),
+ 231:X-CUBE-AI/App/anomalydetector.c ****   1, &conv2d_output_array, NULL)
+ 232:X-CUBE-AI/App/anomalydetector.c **** 
+ 233:X-CUBE-AI/App/anomalydetector.c **** /* Tensor #2 */
+ 234:X-CUBE-AI/App/anomalydetector.c **** AI_TENSOR_OBJ_DECLARE(
+ 235:X-CUBE-AI/App/anomalydetector.c ****   conv2d_1_output, AI_STATIC,
+ 236:X-CUBE-AI/App/anomalydetector.c ****   2, 0x0,
+ 237:X-CUBE-AI/App/anomalydetector.c ****   AI_SHAPE_INIT(4, 1, 8, 3, 7), AI_STRIDE_INIT(4, 4, 4, 32, 96),
+ 238:X-CUBE-AI/App/anomalydetector.c ****   1, &conv2d_1_output_array, NULL)
+ 239:X-CUBE-AI/App/anomalydetector.c **** 
+ 240:X-CUBE-AI/App/anomalydetector.c **** /* Tensor #3 */
+ 241:X-CUBE-AI/App/anomalydetector.c **** AI_TENSOR_OBJ_DECLARE(
+ 242:X-CUBE-AI/App/anomalydetector.c ****   conv2d_1_output0, AI_STATIC,
+ 243:X-CUBE-AI/App/anomalydetector.c ****   3, 0x0,
+ 244:X-CUBE-AI/App/anomalydetector.c ****   AI_SHAPE_INIT(4, 1, 168, 1, 1), AI_STRIDE_INIT(4, 4, 4, 672, 672),
+ 245:X-CUBE-AI/App/anomalydetector.c ****   1, &conv2d_1_output_array, NULL)
+ 246:X-CUBE-AI/App/anomalydetector.c **** 
+ 247:X-CUBE-AI/App/anomalydetector.c **** /* Tensor #4 */
+ 248:X-CUBE-AI/App/anomalydetector.c **** AI_TENSOR_OBJ_DECLARE(
+ 249:X-CUBE-AI/App/anomalydetector.c ****   dense_output, AI_STATIC,
+ 250:X-CUBE-AI/App/anomalydetector.c ****   4, 0x0,
+ 251:X-CUBE-AI/App/anomalydetector.c ****   AI_SHAPE_INIT(4, 1, 25, 1, 1), AI_STRIDE_INIT(4, 4, 4, 100, 100),
+ 252:X-CUBE-AI/App/anomalydetector.c ****   1, &dense_output_array, NULL)
+ 253:X-CUBE-AI/App/anomalydetector.c **** 
+ 254:X-CUBE-AI/App/anomalydetector.c **** /* Tensor #5 */
+ 255:X-CUBE-AI/App/anomalydetector.c **** AI_TENSOR_OBJ_DECLARE(
+ 256:X-CUBE-AI/App/anomalydetector.c ****   dense_nl_output, AI_STATIC,
+ 257:X-CUBE-AI/App/anomalydetector.c ****   5, 0x0,
+ 258:X-CUBE-AI/App/anomalydetector.c ****   AI_SHAPE_INIT(4, 1, 25, 1, 1), AI_STRIDE_INIT(4, 4, 4, 100, 100),
+ 259:X-CUBE-AI/App/anomalydetector.c ****   1, &dense_nl_output_array, NULL)
+ 260:X-CUBE-AI/App/anomalydetector.c **** 
+ 261:X-CUBE-AI/App/anomalydetector.c **** /* Tensor #6 */
+ 262:X-CUBE-AI/App/anomalydetector.c **** AI_TENSOR_OBJ_DECLARE(
+ 263:X-CUBE-AI/App/anomalydetector.c ****   dense_1_output, AI_STATIC,
+ 264:X-CUBE-AI/App/anomalydetector.c ****   6, 0x0,
+ 265:X-CUBE-AI/App/anomalydetector.c ****   AI_SHAPE_INIT(4, 1, 4, 1, 1), AI_STRIDE_INIT(4, 4, 4, 16, 16),
+ 266:X-CUBE-AI/App/anomalydetector.c ****   1, &dense_1_output_array, NULL)
+ 267:X-CUBE-AI/App/anomalydetector.c **** 
+ 268:X-CUBE-AI/App/anomalydetector.c **** /* Tensor #7 */
+ 269:X-CUBE-AI/App/anomalydetector.c **** AI_TENSOR_OBJ_DECLARE(
+ 270:X-CUBE-AI/App/anomalydetector.c ****   dense_1_nl_output, AI_STATIC,
+ 271:X-CUBE-AI/App/anomalydetector.c ****   7, 0x0,
+ 272:X-CUBE-AI/App/anomalydetector.c ****   AI_SHAPE_INIT(4, 1, 4, 1, 1), AI_STRIDE_INIT(4, 4, 4, 16, 16),
+ 273:X-CUBE-AI/App/anomalydetector.c ****   1, &dense_1_nl_output_array, NULL)
+ 274:X-CUBE-AI/App/anomalydetector.c **** 
+ 275:X-CUBE-AI/App/anomalydetector.c **** /* Tensor #8 */
+ 276:X-CUBE-AI/App/anomalydetector.c **** AI_TENSOR_OBJ_DECLARE(
+ 277:X-CUBE-AI/App/anomalydetector.c ****   conv2d_weights, AI_STATIC,
+ 278:X-CUBE-AI/App/anomalydetector.c ****   8, 0x0,
+ 279:X-CUBE-AI/App/anomalydetector.c ****   AI_SHAPE_INIT(4, 1, 3, 3, 4), AI_STRIDE_INIT(4, 4, 4, 12, 36),
+ 280:X-CUBE-AI/App/anomalydetector.c ****   1, &conv2d_weights_array, NULL)
+ 281:X-CUBE-AI/App/anomalydetector.c **** 
+ 282:X-CUBE-AI/App/anomalydetector.c **** /* Tensor #9 */
+ 283:X-CUBE-AI/App/anomalydetector.c **** AI_TENSOR_OBJ_DECLARE(
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s 			page 7
+
+
+ 284:X-CUBE-AI/App/anomalydetector.c ****   conv2d_bias, AI_STATIC,
+ 285:X-CUBE-AI/App/anomalydetector.c ****   9, 0x0,
+ 286:X-CUBE-AI/App/anomalydetector.c ****   AI_SHAPE_INIT(4, 1, 4, 1, 1), AI_STRIDE_INIT(4, 4, 4, 16, 16),
+ 287:X-CUBE-AI/App/anomalydetector.c ****   1, &conv2d_bias_array, NULL)
+ 288:X-CUBE-AI/App/anomalydetector.c **** 
+ 289:X-CUBE-AI/App/anomalydetector.c **** /* Tensor #10 */
+ 290:X-CUBE-AI/App/anomalydetector.c **** AI_TENSOR_OBJ_DECLARE(
+ 291:X-CUBE-AI/App/anomalydetector.c ****   conv2d_1_weights, AI_STATIC,
+ 292:X-CUBE-AI/App/anomalydetector.c ****   10, 0x0,
+ 293:X-CUBE-AI/App/anomalydetector.c ****   AI_SHAPE_INIT(4, 4, 3, 5, 8), AI_STRIDE_INIT(4, 4, 16, 48, 240),
+ 294:X-CUBE-AI/App/anomalydetector.c ****   1, &conv2d_1_weights_array, NULL)
+ 295:X-CUBE-AI/App/anomalydetector.c **** 
+ 296:X-CUBE-AI/App/anomalydetector.c **** /* Tensor #11 */
+ 297:X-CUBE-AI/App/anomalydetector.c **** AI_TENSOR_OBJ_DECLARE(
+ 298:X-CUBE-AI/App/anomalydetector.c ****   conv2d_1_bias, AI_STATIC,
+ 299:X-CUBE-AI/App/anomalydetector.c ****   11, 0x0,
+ 300:X-CUBE-AI/App/anomalydetector.c ****   AI_SHAPE_INIT(4, 1, 8, 1, 1), AI_STRIDE_INIT(4, 4, 4, 32, 32),
+ 301:X-CUBE-AI/App/anomalydetector.c ****   1, &conv2d_1_bias_array, NULL)
+ 302:X-CUBE-AI/App/anomalydetector.c **** 
+ 303:X-CUBE-AI/App/anomalydetector.c **** /* Tensor #12 */
+ 304:X-CUBE-AI/App/anomalydetector.c **** AI_TENSOR_OBJ_DECLARE(
+ 305:X-CUBE-AI/App/anomalydetector.c ****   dense_weights, AI_STATIC,
+ 306:X-CUBE-AI/App/anomalydetector.c ****   12, 0x0,
+ 307:X-CUBE-AI/App/anomalydetector.c ****   AI_SHAPE_INIT(4, 168, 25, 1, 1), AI_STRIDE_INIT(4, 4, 672, 16800, 16800),
+ 308:X-CUBE-AI/App/anomalydetector.c ****   1, &dense_weights_array, NULL)
+ 309:X-CUBE-AI/App/anomalydetector.c **** 
+ 310:X-CUBE-AI/App/anomalydetector.c **** /* Tensor #13 */
+ 311:X-CUBE-AI/App/anomalydetector.c **** AI_TENSOR_OBJ_DECLARE(
+ 312:X-CUBE-AI/App/anomalydetector.c ****   dense_bias, AI_STATIC,
+ 313:X-CUBE-AI/App/anomalydetector.c ****   13, 0x0,
+ 314:X-CUBE-AI/App/anomalydetector.c ****   AI_SHAPE_INIT(4, 1, 25, 1, 1), AI_STRIDE_INIT(4, 4, 4, 100, 100),
+ 315:X-CUBE-AI/App/anomalydetector.c ****   1, &dense_bias_array, NULL)
+ 316:X-CUBE-AI/App/anomalydetector.c **** 
+ 317:X-CUBE-AI/App/anomalydetector.c **** /* Tensor #14 */
+ 318:X-CUBE-AI/App/anomalydetector.c **** AI_TENSOR_OBJ_DECLARE(
+ 319:X-CUBE-AI/App/anomalydetector.c ****   dense_1_weights, AI_STATIC,
+ 320:X-CUBE-AI/App/anomalydetector.c ****   14, 0x0,
+ 321:X-CUBE-AI/App/anomalydetector.c ****   AI_SHAPE_INIT(4, 25, 4, 1, 1), AI_STRIDE_INIT(4, 4, 100, 400, 400),
+ 322:X-CUBE-AI/App/anomalydetector.c ****   1, &dense_1_weights_array, NULL)
+ 323:X-CUBE-AI/App/anomalydetector.c **** 
+ 324:X-CUBE-AI/App/anomalydetector.c **** /* Tensor #15 */
+ 325:X-CUBE-AI/App/anomalydetector.c **** AI_TENSOR_OBJ_DECLARE(
+ 326:X-CUBE-AI/App/anomalydetector.c ****   dense_1_bias, AI_STATIC,
+ 327:X-CUBE-AI/App/anomalydetector.c ****   15, 0x0,
+ 328:X-CUBE-AI/App/anomalydetector.c ****   AI_SHAPE_INIT(4, 1, 4, 1, 1), AI_STRIDE_INIT(4, 4, 4, 16, 16),
+ 329:X-CUBE-AI/App/anomalydetector.c ****   1, &dense_1_bias_array, NULL)
+ 330:X-CUBE-AI/App/anomalydetector.c **** 
+ 331:X-CUBE-AI/App/anomalydetector.c **** /* Tensor #16 */
+ 332:X-CUBE-AI/App/anomalydetector.c **** AI_TENSOR_OBJ_DECLARE(
+ 333:X-CUBE-AI/App/anomalydetector.c ****   conv2d_scratch0, AI_STATIC,
+ 334:X-CUBE-AI/App/anomalydetector.c ****   16, 0x0,
+ 335:X-CUBE-AI/App/anomalydetector.c ****   AI_SHAPE_INIT(4, 1, 4, 3, 2), AI_STRIDE_INIT(4, 4, 4, 16, 48),
+ 336:X-CUBE-AI/App/anomalydetector.c ****   1, &conv2d_scratch0_array, NULL)
+ 337:X-CUBE-AI/App/anomalydetector.c **** 
+ 338:X-CUBE-AI/App/anomalydetector.c **** /* Tensor #17 */
+ 339:X-CUBE-AI/App/anomalydetector.c **** AI_TENSOR_OBJ_DECLARE(
+ 340:X-CUBE-AI/App/anomalydetector.c ****   conv2d_1_scratch0, AI_STATIC,
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s 			page 8
+
+
+ 341:X-CUBE-AI/App/anomalydetector.c ****   17, 0x0,
+ 342:X-CUBE-AI/App/anomalydetector.c ****   AI_SHAPE_INIT(4, 1, 8, 3, 2), AI_STRIDE_INIT(4, 4, 4, 32, 96),
+ 343:X-CUBE-AI/App/anomalydetector.c ****   1, &conv2d_1_scratch0_array, NULL)
+ 344:X-CUBE-AI/App/anomalydetector.c **** 
+ 345:X-CUBE-AI/App/anomalydetector.c **** 
+ 346:X-CUBE-AI/App/anomalydetector.c **** 
+ 347:X-CUBE-AI/App/anomalydetector.c **** /**  Layer declarations section  **********************************************/
+ 348:X-CUBE-AI/App/anomalydetector.c **** 
+ 349:X-CUBE-AI/App/anomalydetector.c **** 
+ 350:X-CUBE-AI/App/anomalydetector.c **** AI_TENSOR_CHAIN_OBJ_DECLARE(
+ 351:X-CUBE-AI/App/anomalydetector.c ****   conv2d_chain, AI_STATIC_CONST, 4,
+ 352:X-CUBE-AI/App/anomalydetector.c ****   AI_TENSOR_LIST_OBJ_INIT(AI_FLAG_NONE, 1, &input_0_output),
+ 353:X-CUBE-AI/App/anomalydetector.c ****   AI_TENSOR_LIST_OBJ_INIT(AI_FLAG_NONE, 1, &conv2d_output),
+ 354:X-CUBE-AI/App/anomalydetector.c ****   AI_TENSOR_LIST_OBJ_INIT(AI_FLAG_NONE, 3, &conv2d_weights, &conv2d_bias, NULL),
+ 355:X-CUBE-AI/App/anomalydetector.c ****   AI_TENSOR_LIST_OBJ_INIT(AI_FLAG_NONE, 1, &conv2d_scratch0)
+ 356:X-CUBE-AI/App/anomalydetector.c **** )
+ 357:X-CUBE-AI/App/anomalydetector.c **** 
+ 358:X-CUBE-AI/App/anomalydetector.c **** AI_LAYER_OBJ_DECLARE(
+ 359:X-CUBE-AI/App/anomalydetector.c ****   conv2d_layer, 1,
+ 360:X-CUBE-AI/App/anomalydetector.c ****   OPTIMIZED_CONV2D_TYPE, 0x0, NULL,
+ 361:X-CUBE-AI/App/anomalydetector.c ****   conv2d_nl_pool, forward_conv2d_nl_pool,
+ 362:X-CUBE-AI/App/anomalydetector.c ****   &conv2d_chain,
+ 363:X-CUBE-AI/App/anomalydetector.c ****   &AI_NET_OBJ_INSTANCE, &conv2d_1_layer, AI_STATIC, 
+ 364:X-CUBE-AI/App/anomalydetector.c ****   .groups = 1, 
+ 365:X-CUBE-AI/App/anomalydetector.c ****   .nl_params = NULL, 
+ 366:X-CUBE-AI/App/anomalydetector.c ****   .nl_func = nl_func_relu_array_f32, 
+ 367:X-CUBE-AI/App/anomalydetector.c ****   .filter_stride = AI_SHAPE_2D_INIT(1, 1), 
+ 368:X-CUBE-AI/App/anomalydetector.c ****   .dilation = AI_SHAPE_2D_INIT(1, 1), 
+ 369:X-CUBE-AI/App/anomalydetector.c ****   .filter_pad = AI_SHAPE_INIT(4, 1, 1, 1, 1), 
+ 370:X-CUBE-AI/App/anomalydetector.c ****   .pool_size = AI_SHAPE_2D_INIT(1, 2), 
+ 371:X-CUBE-AI/App/anomalydetector.c ****   .pool_stride = AI_SHAPE_2D_INIT(1, 2), 
+ 372:X-CUBE-AI/App/anomalydetector.c ****   .pool_pad = AI_SHAPE_INIT(4, 0, 0, 1, 0), 
+ 373:X-CUBE-AI/App/anomalydetector.c ****   .pool_func = pool_func_mp_array_f32, 
+ 374:X-CUBE-AI/App/anomalydetector.c **** )
+ 375:X-CUBE-AI/App/anomalydetector.c **** 
+ 376:X-CUBE-AI/App/anomalydetector.c **** AI_TENSOR_CHAIN_OBJ_DECLARE(
+ 377:X-CUBE-AI/App/anomalydetector.c ****   conv2d_1_chain, AI_STATIC_CONST, 4,
+ 378:X-CUBE-AI/App/anomalydetector.c ****   AI_TENSOR_LIST_OBJ_INIT(AI_FLAG_NONE, 1, &conv2d_output),
+ 379:X-CUBE-AI/App/anomalydetector.c ****   AI_TENSOR_LIST_OBJ_INIT(AI_FLAG_NONE, 1, &conv2d_1_output),
+ 380:X-CUBE-AI/App/anomalydetector.c ****   AI_TENSOR_LIST_OBJ_INIT(AI_FLAG_NONE, 3, &conv2d_1_weights, &conv2d_1_bias, NULL),
+ 381:X-CUBE-AI/App/anomalydetector.c ****   AI_TENSOR_LIST_OBJ_INIT(AI_FLAG_NONE, 1, &conv2d_1_scratch0)
+ 382:X-CUBE-AI/App/anomalydetector.c **** )
+ 383:X-CUBE-AI/App/anomalydetector.c **** 
+ 384:X-CUBE-AI/App/anomalydetector.c **** AI_LAYER_OBJ_DECLARE(
+ 385:X-CUBE-AI/App/anomalydetector.c ****   conv2d_1_layer, 3,
+ 386:X-CUBE-AI/App/anomalydetector.c ****   OPTIMIZED_CONV2D_TYPE, 0x0, NULL,
+ 387:X-CUBE-AI/App/anomalydetector.c ****   conv2d_nl_pool, forward_conv2d_nl_pool,
+ 388:X-CUBE-AI/App/anomalydetector.c ****   &conv2d_1_chain,
+ 389:X-CUBE-AI/App/anomalydetector.c ****   &AI_NET_OBJ_INSTANCE, &dense_layer, AI_STATIC, 
+ 390:X-CUBE-AI/App/anomalydetector.c ****   .groups = 1, 
+ 391:X-CUBE-AI/App/anomalydetector.c ****   .nl_params = NULL, 
+ 392:X-CUBE-AI/App/anomalydetector.c ****   .nl_func = nl_func_relu_array_f32, 
+ 393:X-CUBE-AI/App/anomalydetector.c ****   .filter_stride = AI_SHAPE_2D_INIT(1, 1), 
+ 394:X-CUBE-AI/App/anomalydetector.c ****   .dilation = AI_SHAPE_2D_INIT(1, 1), 
+ 395:X-CUBE-AI/App/anomalydetector.c ****   .filter_pad = AI_SHAPE_INIT(4, 2, 1, 2, 1), 
+ 396:X-CUBE-AI/App/anomalydetector.c ****   .pool_size = AI_SHAPE_2D_INIT(1, 2), 
+ 397:X-CUBE-AI/App/anomalydetector.c ****   .pool_stride = AI_SHAPE_2D_INIT(1, 2), 
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s 			page 9
+
+
+ 398:X-CUBE-AI/App/anomalydetector.c ****   .pool_pad = AI_SHAPE_INIT(4, 0, 0, 1, 0), 
+ 399:X-CUBE-AI/App/anomalydetector.c ****   .pool_func = pool_func_mp_array_f32, 
+ 400:X-CUBE-AI/App/anomalydetector.c **** )
+ 401:X-CUBE-AI/App/anomalydetector.c **** 
+ 402:X-CUBE-AI/App/anomalydetector.c **** AI_TENSOR_CHAIN_OBJ_DECLARE(
+ 403:X-CUBE-AI/App/anomalydetector.c ****   dense_chain, AI_STATIC_CONST, 4,
+ 404:X-CUBE-AI/App/anomalydetector.c ****   AI_TENSOR_LIST_OBJ_INIT(AI_FLAG_NONE, 1, &conv2d_1_output0),
+ 405:X-CUBE-AI/App/anomalydetector.c ****   AI_TENSOR_LIST_OBJ_INIT(AI_FLAG_NONE, 1, &dense_output),
+ 406:X-CUBE-AI/App/anomalydetector.c ****   AI_TENSOR_LIST_OBJ_INIT(AI_FLAG_NONE, 2, &dense_weights, &dense_bias),
+ 407:X-CUBE-AI/App/anomalydetector.c ****   AI_TENSOR_LIST_OBJ_EMPTY
+ 408:X-CUBE-AI/App/anomalydetector.c **** )
+ 409:X-CUBE-AI/App/anomalydetector.c **** 
+ 410:X-CUBE-AI/App/anomalydetector.c **** AI_LAYER_OBJ_DECLARE(
+ 411:X-CUBE-AI/App/anomalydetector.c ****   dense_layer, 5,
+ 412:X-CUBE-AI/App/anomalydetector.c ****   DENSE_TYPE, 0x0, NULL,
+ 413:X-CUBE-AI/App/anomalydetector.c ****   dense, forward_dense,
+ 414:X-CUBE-AI/App/anomalydetector.c ****   &dense_chain,
+ 415:X-CUBE-AI/App/anomalydetector.c ****   &AI_NET_OBJ_INSTANCE, &dense_nl_layer, AI_STATIC, 
+ 416:X-CUBE-AI/App/anomalydetector.c **** )
+ 417:X-CUBE-AI/App/anomalydetector.c **** 
+ 418:X-CUBE-AI/App/anomalydetector.c **** AI_TENSOR_CHAIN_OBJ_DECLARE(
+ 419:X-CUBE-AI/App/anomalydetector.c ****   dense_nl_chain, AI_STATIC_CONST, 4,
+ 420:X-CUBE-AI/App/anomalydetector.c ****   AI_TENSOR_LIST_OBJ_INIT(AI_FLAG_NONE, 1, &dense_output),
+ 421:X-CUBE-AI/App/anomalydetector.c ****   AI_TENSOR_LIST_OBJ_INIT(AI_FLAG_NONE, 1, &dense_nl_output),
+ 422:X-CUBE-AI/App/anomalydetector.c ****   AI_TENSOR_LIST_OBJ_EMPTY,
+ 423:X-CUBE-AI/App/anomalydetector.c ****   AI_TENSOR_LIST_OBJ_EMPTY
+ 424:X-CUBE-AI/App/anomalydetector.c **** )
+ 425:X-CUBE-AI/App/anomalydetector.c **** 
+ 426:X-CUBE-AI/App/anomalydetector.c **** AI_LAYER_OBJ_DECLARE(
+ 427:X-CUBE-AI/App/anomalydetector.c ****   dense_nl_layer, 5,
+ 428:X-CUBE-AI/App/anomalydetector.c ****   NL_TYPE, 0x0, NULL,
+ 429:X-CUBE-AI/App/anomalydetector.c ****   nl, forward_relu,
+ 430:X-CUBE-AI/App/anomalydetector.c ****   &dense_nl_chain,
+ 431:X-CUBE-AI/App/anomalydetector.c ****   &AI_NET_OBJ_INSTANCE, &dense_1_layer, AI_STATIC, 
+ 432:X-CUBE-AI/App/anomalydetector.c ****   .nl_params = NULL, 
+ 433:X-CUBE-AI/App/anomalydetector.c **** )
+ 434:X-CUBE-AI/App/anomalydetector.c **** 
+ 435:X-CUBE-AI/App/anomalydetector.c **** AI_TENSOR_CHAIN_OBJ_DECLARE(
+ 436:X-CUBE-AI/App/anomalydetector.c ****   dense_1_chain, AI_STATIC_CONST, 4,
+ 437:X-CUBE-AI/App/anomalydetector.c ****   AI_TENSOR_LIST_OBJ_INIT(AI_FLAG_NONE, 1, &dense_nl_output),
+ 438:X-CUBE-AI/App/anomalydetector.c ****   AI_TENSOR_LIST_OBJ_INIT(AI_FLAG_NONE, 1, &dense_1_output),
+ 439:X-CUBE-AI/App/anomalydetector.c ****   AI_TENSOR_LIST_OBJ_INIT(AI_FLAG_NONE, 2, &dense_1_weights, &dense_1_bias),
+ 440:X-CUBE-AI/App/anomalydetector.c ****   AI_TENSOR_LIST_OBJ_EMPTY
+ 441:X-CUBE-AI/App/anomalydetector.c **** )
+ 442:X-CUBE-AI/App/anomalydetector.c **** 
+ 443:X-CUBE-AI/App/anomalydetector.c **** AI_LAYER_OBJ_DECLARE(
+ 444:X-CUBE-AI/App/anomalydetector.c ****   dense_1_layer, 7,
+ 445:X-CUBE-AI/App/anomalydetector.c ****   DENSE_TYPE, 0x0, NULL,
+ 446:X-CUBE-AI/App/anomalydetector.c ****   dense, forward_dense,
+ 447:X-CUBE-AI/App/anomalydetector.c ****   &dense_1_chain,
+ 448:X-CUBE-AI/App/anomalydetector.c ****   &AI_NET_OBJ_INSTANCE, &dense_1_nl_layer, AI_STATIC, 
+ 449:X-CUBE-AI/App/anomalydetector.c **** )
+ 450:X-CUBE-AI/App/anomalydetector.c **** 
+ 451:X-CUBE-AI/App/anomalydetector.c **** AI_TENSOR_CHAIN_OBJ_DECLARE(
+ 452:X-CUBE-AI/App/anomalydetector.c ****   dense_1_nl_chain, AI_STATIC_CONST, 4,
+ 453:X-CUBE-AI/App/anomalydetector.c ****   AI_TENSOR_LIST_OBJ_INIT(AI_FLAG_NONE, 1, &dense_1_output),
+ 454:X-CUBE-AI/App/anomalydetector.c ****   AI_TENSOR_LIST_OBJ_INIT(AI_FLAG_NONE, 1, &dense_1_nl_output),
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s 			page 10
+
+
+ 455:X-CUBE-AI/App/anomalydetector.c ****   AI_TENSOR_LIST_OBJ_EMPTY,
+ 456:X-CUBE-AI/App/anomalydetector.c ****   AI_TENSOR_LIST_OBJ_EMPTY
+ 457:X-CUBE-AI/App/anomalydetector.c **** )
+ 458:X-CUBE-AI/App/anomalydetector.c **** 
+ 459:X-CUBE-AI/App/anomalydetector.c **** AI_LAYER_OBJ_DECLARE(
+ 460:X-CUBE-AI/App/anomalydetector.c ****   dense_1_nl_layer, 7,
+ 461:X-CUBE-AI/App/anomalydetector.c ****   NL_TYPE, 0x0, NULL,
+ 462:X-CUBE-AI/App/anomalydetector.c ****   nl, forward_sm,
+ 463:X-CUBE-AI/App/anomalydetector.c ****   &dense_1_nl_chain,
+ 464:X-CUBE-AI/App/anomalydetector.c ****   &AI_NET_OBJ_INSTANCE, &dense_1_nl_layer, AI_STATIC, 
+ 465:X-CUBE-AI/App/anomalydetector.c ****   .nl_params = NULL, 
+ 466:X-CUBE-AI/App/anomalydetector.c **** )
+ 467:X-CUBE-AI/App/anomalydetector.c **** 
+ 468:X-CUBE-AI/App/anomalydetector.c **** 
+ 469:X-CUBE-AI/App/anomalydetector.c **** AI_NETWORK_OBJ_DECLARE(
+ 470:X-CUBE-AI/App/anomalydetector.c ****   AI_NET_OBJ_INSTANCE, AI_STATIC,
+ 471:X-CUBE-AI/App/anomalydetector.c ****   AI_BUFFER_OBJ_INIT(AI_BUFFER_FORMAT_U8,
+ 472:X-CUBE-AI/App/anomalydetector.c ****                      1, 1, 19428, 1,
+ 473:X-CUBE-AI/App/anomalydetector.c ****                      NULL),
+ 474:X-CUBE-AI/App/anomalydetector.c ****   AI_BUFFER_OBJ_INIT(AI_BUFFER_FORMAT_U8,
+ 475:X-CUBE-AI/App/anomalydetector.c ****                      1, 1, 1296, 1,
+ 476:X-CUBE-AI/App/anomalydetector.c ****                      NULL),
+ 477:X-CUBE-AI/App/anomalydetector.c ****   AI_TENSOR_LIST_IO_OBJ_INIT(AI_FLAG_NONE, AI_ANOMALYDETECTOR_IN_NUM, &input_0_output),
+ 478:X-CUBE-AI/App/anomalydetector.c ****   AI_TENSOR_LIST_IO_OBJ_INIT(AI_FLAG_NONE, AI_ANOMALYDETECTOR_OUT_NUM, &dense_1_nl_output),
+ 479:X-CUBE-AI/App/anomalydetector.c ****   &conv2d_layer, 0, NULL)
+ 480:X-CUBE-AI/App/anomalydetector.c **** 
+ 481:X-CUBE-AI/App/anomalydetector.c **** 
+ 482:X-CUBE-AI/App/anomalydetector.c **** 
+ 483:X-CUBE-AI/App/anomalydetector.c **** AI_DECLARE_STATIC
+ 484:X-CUBE-AI/App/anomalydetector.c **** ai_bool anomalydetector_configure_activations(
+ 485:X-CUBE-AI/App/anomalydetector.c ****   ai_network* net_ctx, const ai_buffer* activation_buffer)
+ 486:X-CUBE-AI/App/anomalydetector.c **** {
+ 487:X-CUBE-AI/App/anomalydetector.c ****   AI_ASSERT(net_ctx &&  activation_buffer && activation_buffer->data)
+ 488:X-CUBE-AI/App/anomalydetector.c **** 
+ 489:X-CUBE-AI/App/anomalydetector.c ****   ai_ptr activations = AI_PTR(AI_PTR_ALIGN(activation_buffer->data, 4));
+ 490:X-CUBE-AI/App/anomalydetector.c ****   AI_ASSERT(activations)
+ 491:X-CUBE-AI/App/anomalydetector.c ****   AI_UNUSED(net_ctx)
+ 492:X-CUBE-AI/App/anomalydetector.c **** 
+ 493:X-CUBE-AI/App/anomalydetector.c ****   {
+ 494:X-CUBE-AI/App/anomalydetector.c ****     /* Updating activations (byte) offsets */
+ 495:X-CUBE-AI/App/anomalydetector.c ****     input_0_output_array.data = AI_PTR(NULL);
+ 496:X-CUBE-AI/App/anomalydetector.c ****     input_0_output_array.data_start = AI_PTR(NULL);
+ 497:X-CUBE-AI/App/anomalydetector.c ****     conv2d_output_array.data = AI_PTR(activations + 480);
+ 498:X-CUBE-AI/App/anomalydetector.c ****     conv2d_output_array.data_start = AI_PTR(activations + 480);
+ 499:X-CUBE-AI/App/anomalydetector.c ****     conv2d_1_output_array.data = AI_PTR(activations + 0);
+ 500:X-CUBE-AI/App/anomalydetector.c ****     conv2d_1_output_array.data_start = AI_PTR(activations + 0);
+ 501:X-CUBE-AI/App/anomalydetector.c ****     dense_output_array.data = AI_PTR(activations + 672);
+ 502:X-CUBE-AI/App/anomalydetector.c ****     dense_output_array.data_start = AI_PTR(activations + 672);
+ 503:X-CUBE-AI/App/anomalydetector.c ****     dense_nl_output_array.data = AI_PTR(activations + 0);
+ 504:X-CUBE-AI/App/anomalydetector.c ****     dense_nl_output_array.data_start = AI_PTR(activations + 0);
+ 505:X-CUBE-AI/App/anomalydetector.c ****     dense_1_output_array.data = AI_PTR(activations + 100);
+ 506:X-CUBE-AI/App/anomalydetector.c ****     dense_1_output_array.data_start = AI_PTR(activations + 100);
+ 507:X-CUBE-AI/App/anomalydetector.c ****     dense_1_nl_output_array.data = AI_PTR(NULL);
+ 508:X-CUBE-AI/App/anomalydetector.c ****     dense_1_nl_output_array.data_start = AI_PTR(NULL);
+ 509:X-CUBE-AI/App/anomalydetector.c ****     conv2d_scratch0_array.data = AI_PTR(activations + 384);
+ 510:X-CUBE-AI/App/anomalydetector.c ****     conv2d_scratch0_array.data_start = AI_PTR(activations + 384);
+ 511:X-CUBE-AI/App/anomalydetector.c ****     conv2d_1_scratch0_array.data = AI_PTR(activations + 1104);
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s 			page 11
+
+
+ 512:X-CUBE-AI/App/anomalydetector.c ****     conv2d_1_scratch0_array.data_start = AI_PTR(activations + 1104);
+ 513:X-CUBE-AI/App/anomalydetector.c ****     
+ 514:X-CUBE-AI/App/anomalydetector.c ****   }
+ 515:X-CUBE-AI/App/anomalydetector.c ****   return true;
+ 516:X-CUBE-AI/App/anomalydetector.c **** }
+ 517:X-CUBE-AI/App/anomalydetector.c **** 
+ 518:X-CUBE-AI/App/anomalydetector.c **** 
+ 519:X-CUBE-AI/App/anomalydetector.c **** 
+ 520:X-CUBE-AI/App/anomalydetector.c **** AI_DECLARE_STATIC
+ 521:X-CUBE-AI/App/anomalydetector.c **** ai_bool anomalydetector_configure_weights(
+ 522:X-CUBE-AI/App/anomalydetector.c ****   ai_network* net_ctx, const ai_buffer* weights_buffer)
+ 523:X-CUBE-AI/App/anomalydetector.c **** {
+ 524:X-CUBE-AI/App/anomalydetector.c ****   AI_ASSERT(net_ctx &&  weights_buffer && weights_buffer->data)
+ 525:X-CUBE-AI/App/anomalydetector.c **** 
+ 526:X-CUBE-AI/App/anomalydetector.c ****   ai_ptr weights = AI_PTR(weights_buffer->data);
+ 527:X-CUBE-AI/App/anomalydetector.c ****   AI_ASSERT(weights)
+ 528:X-CUBE-AI/App/anomalydetector.c ****   AI_UNUSED(net_ctx)
+ 529:X-CUBE-AI/App/anomalydetector.c **** 
+ 530:X-CUBE-AI/App/anomalydetector.c ****   {
+ 531:X-CUBE-AI/App/anomalydetector.c ****     /* Updating weights (byte) offsets */
+ 532:X-CUBE-AI/App/anomalydetector.c ****     
+ 533:X-CUBE-AI/App/anomalydetector.c ****     conv2d_weights_array.format |= AI_FMT_FLAG_CONST;
+ 534:X-CUBE-AI/App/anomalydetector.c ****     conv2d_weights_array.data = AI_PTR(weights + 0);
+ 535:X-CUBE-AI/App/anomalydetector.c ****     conv2d_weights_array.data_start = AI_PTR(weights + 0);
+ 536:X-CUBE-AI/App/anomalydetector.c ****     conv2d_bias_array.format |= AI_FMT_FLAG_CONST;
+ 537:X-CUBE-AI/App/anomalydetector.c ****     conv2d_bias_array.data = AI_PTR(weights + 144);
+ 538:X-CUBE-AI/App/anomalydetector.c ****     conv2d_bias_array.data_start = AI_PTR(weights + 144);
+ 539:X-CUBE-AI/App/anomalydetector.c ****     conv2d_1_weights_array.format |= AI_FMT_FLAG_CONST;
+ 540:X-CUBE-AI/App/anomalydetector.c ****     conv2d_1_weights_array.data = AI_PTR(weights + 160);
+ 541:X-CUBE-AI/App/anomalydetector.c ****     conv2d_1_weights_array.data_start = AI_PTR(weights + 160);
+ 542:X-CUBE-AI/App/anomalydetector.c ****     conv2d_1_bias_array.format |= AI_FMT_FLAG_CONST;
+ 543:X-CUBE-AI/App/anomalydetector.c ****     conv2d_1_bias_array.data = AI_PTR(weights + 2080);
+ 544:X-CUBE-AI/App/anomalydetector.c ****     conv2d_1_bias_array.data_start = AI_PTR(weights + 2080);
+ 545:X-CUBE-AI/App/anomalydetector.c ****     dense_weights_array.format |= AI_FMT_FLAG_CONST;
+ 546:X-CUBE-AI/App/anomalydetector.c ****     dense_weights_array.data = AI_PTR(weights + 2112);
+ 547:X-CUBE-AI/App/anomalydetector.c ****     dense_weights_array.data_start = AI_PTR(weights + 2112);
+ 548:X-CUBE-AI/App/anomalydetector.c ****     dense_bias_array.format |= AI_FMT_FLAG_CONST;
+ 549:X-CUBE-AI/App/anomalydetector.c ****     dense_bias_array.data = AI_PTR(weights + 18912);
+ 550:X-CUBE-AI/App/anomalydetector.c ****     dense_bias_array.data_start = AI_PTR(weights + 18912);
+ 551:X-CUBE-AI/App/anomalydetector.c ****     dense_1_weights_array.format |= AI_FMT_FLAG_CONST;
+ 552:X-CUBE-AI/App/anomalydetector.c ****     dense_1_weights_array.data = AI_PTR(weights + 19012);
+ 553:X-CUBE-AI/App/anomalydetector.c ****     dense_1_weights_array.data_start = AI_PTR(weights + 19012);
+ 554:X-CUBE-AI/App/anomalydetector.c ****     dense_1_bias_array.format |= AI_FMT_FLAG_CONST;
+ 555:X-CUBE-AI/App/anomalydetector.c ****     dense_1_bias_array.data = AI_PTR(weights + 19412);
+ 556:X-CUBE-AI/App/anomalydetector.c ****     dense_1_bias_array.data_start = AI_PTR(weights + 19412);
+ 557:X-CUBE-AI/App/anomalydetector.c ****   }
+ 558:X-CUBE-AI/App/anomalydetector.c **** 
+ 559:X-CUBE-AI/App/anomalydetector.c ****   return true;
+ 560:X-CUBE-AI/App/anomalydetector.c **** }
+ 561:X-CUBE-AI/App/anomalydetector.c **** 
+ 562:X-CUBE-AI/App/anomalydetector.c **** 
+ 563:X-CUBE-AI/App/anomalydetector.c **** /**  PUBLIC APIs SECTION  *****************************************************/
+ 564:X-CUBE-AI/App/anomalydetector.c **** 
+ 565:X-CUBE-AI/App/anomalydetector.c **** AI_API_ENTRY
+ 566:X-CUBE-AI/App/anomalydetector.c **** ai_bool ai_anomalydetector_get_info(
+ 567:X-CUBE-AI/App/anomalydetector.c ****   ai_handle network, ai_network_report* report)
+ 568:X-CUBE-AI/App/anomalydetector.c **** {
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s 			page 12
+
+
+  46              		.loc 1 568 1 view -0
+  47              		.cfi_startproc
+  48              		@ args = 0, pretend = 0, frame = 120
+  49              		@ frame_needed = 0, uses_anonymous_args = 0
+  50              		.loc 1 568 1 is_stmt 0 view .LVU1
+  51 0000 30B5     		push	{r4, r5, lr}
+  52              	.LCFI0:
+  53              		.cfi_def_cfa_offset 12
+  54              		.cfi_offset 4, -12
+  55              		.cfi_offset 5, -8
+  56              		.cfi_offset 14, -4
+  57 0002 9FB0     		sub	sp, sp, #124
+  58              	.LCFI1:
+  59              		.cfi_def_cfa_offset 136
+  60 0004 0546     		mov	r5, r0
+  61 0006 0C46     		mov	r4, r1
+ 569:X-CUBE-AI/App/anomalydetector.c ****   ai_network* net_ctx = AI_NETWORK_ACQUIRE_CTX(network);
+  62              		.loc 1 569 3 is_stmt 1 view .LVU2
+  63              		.loc 1 569 25 is_stmt 0 view .LVU3
+  64 0008 FFF7FEFF 		bl	ai_platform_context_acquire
+  65              	.LVL1:
+ 570:X-CUBE-AI/App/anomalydetector.c **** 
+ 571:X-CUBE-AI/App/anomalydetector.c ****   if ( report && net_ctx )
+  66              		.loc 1 571 3 is_stmt 1 view .LVU4
+  67              		.loc 1 571 6 is_stmt 0 view .LVU5
+  68 000c 002C     		cmp	r4, #0
+  69 000e 2ED0     		beq	.L4
+  70              		.loc 1 571 15 discriminator 1 view .LVU6
+  71 0010 0028     		cmp	r0, #0
+  72 0012 2ED0     		beq	.L5
+  73              	.LBB2:
+ 572:X-CUBE-AI/App/anomalydetector.c ****   {
+ 573:X-CUBE-AI/App/anomalydetector.c ****     ai_network_report r = {
+  74              		.loc 1 573 5 is_stmt 1 view .LVU7
+  75              		.loc 1 573 23 is_stmt 0 view .LVU8
+  76 0014 7422     		movs	r2, #116
+  77 0016 0021     		movs	r1, #0
+  78 0018 01A8     		add	r0, sp, #4
+  79              	.LVL2:
+  80              		.loc 1 573 23 view .LVU9
+  81 001a FFF7FEFF 		bl	memset
+  82              	.LVL3:
+  83 001e 174B     		ldr	r3, .L7
+  84 0020 0193     		str	r3, [sp, #4]
+  85 0022 174B     		ldr	r3, .L7+4
+  86 0024 0293     		str	r3, [sp, #8]
+  87 0026 174B     		ldr	r3, .L7+8
+  88 0028 0393     		str	r3, [sp, #12]
+  89 002a 174B     		ldr	r3, .L7+12
+  90 002c 0493     		str	r3, [sp, #16]
+ 574:X-CUBE-AI/App/anomalydetector.c ****       .model_name        = AI_ANOMALYDETECTOR_MODEL_NAME,
+ 575:X-CUBE-AI/App/anomalydetector.c ****       .model_signature   = AI_ANOMALYDETECTOR_MODEL_SIGNATURE,
+ 576:X-CUBE-AI/App/anomalydetector.c ****       .model_datetime    = AI_TOOLS_DATE_TIME,
+ 577:X-CUBE-AI/App/anomalydetector.c ****       
+ 578:X-CUBE-AI/App/anomalydetector.c ****       .compile_datetime  = AI_TOOLS_COMPILE_TIME,
+ 579:X-CUBE-AI/App/anomalydetector.c ****       
+ 580:X-CUBE-AI/App/anomalydetector.c ****       .runtime_revision  = ai_platform_runtime_get_revision(),
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s 			page 13
+
+
+  91              		.loc 1 580 28 view .LVU10
+  92 002e FFF7FEFF 		bl	ai_platform_runtime_get_revision
+  93              	.LVL4:
+ 573:X-CUBE-AI/App/anomalydetector.c ****       .model_name        = AI_ANOMALYDETECTOR_MODEL_NAME,
+  94              		.loc 1 573 23 view .LVU11
+  95 0032 0590     		str	r0, [sp, #20]
+ 581:X-CUBE-AI/App/anomalydetector.c ****       .runtime_version   = ai_platform_runtime_get_version(),
+  96              		.loc 1 581 28 view .LVU12
+  97 0034 FFF7FEFF 		bl	ai_platform_runtime_get_version
+  98              	.LVL5:
+  99 0038 0690     		str	r0, [sp, #24]
+ 573:X-CUBE-AI/App/anomalydetector.c ****       .model_name        = AI_ANOMALYDETECTOR_MODEL_NAME,
+ 100              		.loc 1 573 23 view .LVU13
+ 101 003a 144B     		ldr	r3, .L7+16
+ 102 003c 0793     		str	r3, [sp, #28]
+ 103 003e 0623     		movs	r3, #6
+ 104 0040 8DF82030 		strb	r3, [sp, #32]
+ 582:X-CUBE-AI/App/anomalydetector.c **** 
+ 583:X-CUBE-AI/App/anomalydetector.c ****       .tool_revision     = AI_TOOLS_REVISION_ID,
+ 584:X-CUBE-AI/App/anomalydetector.c ****       .tool_version      = {AI_TOOLS_VERSION_MAJOR, AI_TOOLS_VERSION_MINOR,
+ 585:X-CUBE-AI/App/anomalydetector.c ****                             AI_TOOLS_VERSION_MICRO, 0x0},
+ 586:X-CUBE-AI/App/anomalydetector.c ****       .tool_api_version  = AI_STRUCT_INIT,
+ 587:X-CUBE-AI/App/anomalydetector.c **** 
+ 588:X-CUBE-AI/App/anomalydetector.c ****       .api_version            = ai_platform_api_get_version(),
+ 105              		.loc 1 588 33 view .LVU14
+ 106 0044 FFF7FEFF 		bl	ai_platform_api_get_version
+ 107              	.LVL6:
+ 108 0048 0A90     		str	r0, [sp, #40]
+ 589:X-CUBE-AI/App/anomalydetector.c ****       .interface_api_version  = ai_platform_interface_api_get_version(),
+ 109              		.loc 1 589 33 view .LVU15
+ 110 004a FFF7FEFF 		bl	ai_platform_interface_api_get_version
+ 111              	.LVL7:
+ 112 004e 0B90     		str	r0, [sp, #44]
+ 573:X-CUBE-AI/App/anomalydetector.c ****       .model_name        = AI_ANOMALYDETECTOR_MODEL_NAME,
+ 113              		.loc 1 573 23 view .LVU16
+ 114 0050 46F6E213 		movw	r3, #27106
+ 115 0054 0C93     		str	r3, [sp, #48]
+ 590:X-CUBE-AI/App/anomalydetector.c ****       
+ 591:X-CUBE-AI/App/anomalydetector.c ****       .n_macc            = 27106,
+ 592:X-CUBE-AI/App/anomalydetector.c ****       .n_inputs          = 0,
+ 593:X-CUBE-AI/App/anomalydetector.c ****       .inputs            = NULL,
+ 594:X-CUBE-AI/App/anomalydetector.c ****       .n_outputs         = 0,
+ 595:X-CUBE-AI/App/anomalydetector.c ****       .outputs           = NULL,
+ 596:X-CUBE-AI/App/anomalydetector.c ****       .activations       = AI_STRUCT_INIT,
+ 597:X-CUBE-AI/App/anomalydetector.c ****       .params            = AI_STRUCT_INIT,
+ 598:X-CUBE-AI/App/anomalydetector.c ****       .n_nodes           = 0,
+ 599:X-CUBE-AI/App/anomalydetector.c ****       .signature         = 0x0,
+ 600:X-CUBE-AI/App/anomalydetector.c ****     };
+ 601:X-CUBE-AI/App/anomalydetector.c **** 
+ 602:X-CUBE-AI/App/anomalydetector.c ****     if (!ai_platform_api_get_network_report(network, &r)) return false;
+ 116              		.loc 1 602 5 is_stmt 1 view .LVU17
+ 117              		.loc 1 602 10 is_stmt 0 view .LVU18
+ 118 0056 01A9     		add	r1, sp, #4
+ 119 0058 2846     		mov	r0, r5
+ 120 005a FFF7FEFF 		bl	ai_platform_api_get_network_report
+ 121              	.LVL8:
+ 122              		.loc 1 602 8 view .LVU19
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s 			page 14
+
+
+ 123 005e 0546     		mov	r5, r0
+ 124              	.LVL9:
+ 125              		.loc 1 602 8 view .LVU20
+ 126 0060 40B1     		cbz	r0, .L2
+ 603:X-CUBE-AI/App/anomalydetector.c **** 
+ 604:X-CUBE-AI/App/anomalydetector.c ****     *report = r;
+ 127              		.loc 1 604 5 is_stmt 1 view .LVU21
+ 128              		.loc 1 604 13 is_stmt 0 view .LVU22
+ 129 0062 7422     		movs	r2, #116
+ 130 0064 01A9     		add	r1, sp, #4
+ 131 0066 2046     		mov	r0, r4
+ 132 0068 FFF7FEFF 		bl	memcpy
+ 133              	.LVL10:
+ 605:X-CUBE-AI/App/anomalydetector.c ****     return true;
+ 134              		.loc 1 605 5 is_stmt 1 view .LVU23
+ 135              		.loc 1 605 12 is_stmt 0 view .LVU24
+ 136 006c 02E0     		b	.L2
+ 137              	.LVL11:
+ 138              	.L4:
+ 139              		.loc 1 605 12 view .LVU25
+ 140              	.LBE2:
+ 606:X-CUBE-AI/App/anomalydetector.c ****   }
+ 607:X-CUBE-AI/App/anomalydetector.c **** 
+ 608:X-CUBE-AI/App/anomalydetector.c ****   return false;
+ 141              		.loc 1 608 10 view .LVU26
+ 142 006e 0025     		movs	r5, #0
+ 143              	.LVL12:
+ 144              		.loc 1 608 10 view .LVU27
+ 145 0070 00E0     		b	.L2
+ 146              	.LVL13:
+ 147              	.L5:
+ 148              		.loc 1 608 10 view .LVU28
+ 149 0072 0025     		movs	r5, #0
+ 150              	.LVL14:
+ 151              	.L2:
+ 609:X-CUBE-AI/App/anomalydetector.c **** }
+ 152              		.loc 1 609 1 discriminator 1 view .LVU29
+ 153 0074 2846     		mov	r0, r5
+ 154 0076 1FB0     		add	sp, sp, #124
+ 155              	.LCFI2:
+ 156              		.cfi_def_cfa_offset 12
+ 157              		@ sp needed
+ 158 0078 30BD     		pop	{r4, r5, pc}
+ 159              	.LVL15:
+ 160              	.L8:
+ 161              		.loc 1 609 1 discriminator 1 view .LVU30
+ 162 007a 00BF     		.align	2
+ 163              	.L7:
+ 164 007c 00000000 		.word	.LC0
+ 165 0080 10000000 		.word	.LC1
+ 166 0084 34000000 		.word	.LC2
+ 167 0088 50000000 		.word	.LC3
+ 168 008c 68000000 		.word	.LC4
+ 169              		.cfi_endproc
+ 170              	.LFE5:
+ 172              		.section	.text.ai_anomalydetector_get_error,"ax",%progbits
+ 173              		.align	1
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s 			page 15
+
+
+ 174              		.global	ai_anomalydetector_get_error
+ 175              		.syntax unified
+ 176              		.thumb
+ 177              		.thumb_func
+ 178              		.fpu fpv4-sp-d16
+ 180              	ai_anomalydetector_get_error:
+ 181              	.LVL16:
+ 182              	.LFB6:
+ 610:X-CUBE-AI/App/anomalydetector.c **** 
+ 611:X-CUBE-AI/App/anomalydetector.c **** AI_API_ENTRY
+ 612:X-CUBE-AI/App/anomalydetector.c **** ai_error ai_anomalydetector_get_error(ai_handle network)
+ 613:X-CUBE-AI/App/anomalydetector.c **** {
+ 183              		.loc 1 613 1 is_stmt 1 view -0
+ 184              		.cfi_startproc
+ 185              		@ args = 0, pretend = 0, frame = 0
+ 186              		@ frame_needed = 0, uses_anonymous_args = 0
+ 187              		.loc 1 613 1 is_stmt 0 view .LVU32
+ 188 0000 08B5     		push	{r3, lr}
+ 189              	.LCFI3:
+ 190              		.cfi_def_cfa_offset 8
+ 191              		.cfi_offset 3, -8
+ 192              		.cfi_offset 14, -4
+ 614:X-CUBE-AI/App/anomalydetector.c ****   return ai_platform_network_get_error(network);
+ 193              		.loc 1 614 3 is_stmt 1 view .LVU33
+ 194              		.loc 1 614 10 is_stmt 0 view .LVU34
+ 195 0002 FFF7FEFF 		bl	ai_platform_network_get_error
+ 196              	.LVL17:
+ 615:X-CUBE-AI/App/anomalydetector.c **** }
+ 197              		.loc 1 615 1 view .LVU35
+ 198 0006 08BD     		pop	{r3, pc}
+ 199              		.cfi_endproc
+ 200              	.LFE6:
+ 202              		.section	.text.ai_anomalydetector_create,"ax",%progbits
+ 203              		.align	1
+ 204              		.global	ai_anomalydetector_create
+ 205              		.syntax unified
+ 206              		.thumb
+ 207              		.thumb_func
+ 208              		.fpu fpv4-sp-d16
+ 210              	ai_anomalydetector_create:
+ 211              	.LVL18:
+ 212              	.LFB7:
+ 616:X-CUBE-AI/App/anomalydetector.c **** 
+ 617:X-CUBE-AI/App/anomalydetector.c **** AI_API_ENTRY
+ 618:X-CUBE-AI/App/anomalydetector.c **** ai_error ai_anomalydetector_create(
+ 619:X-CUBE-AI/App/anomalydetector.c ****   ai_handle* network, const ai_buffer* network_config)
+ 620:X-CUBE-AI/App/anomalydetector.c **** {
+ 213              		.loc 1 620 1 is_stmt 1 view -0
+ 214              		.cfi_startproc
+ 215              		@ args = 0, pretend = 0, frame = 0
+ 216              		@ frame_needed = 0, uses_anonymous_args = 0
+ 217              		.loc 1 620 1 is_stmt 0 view .LVU37
+ 218 0000 00B5     		push	{lr}
+ 219              	.LCFI4:
+ 220              		.cfi_def_cfa_offset 4
+ 221              		.cfi_offset 14, -4
+ 222 0002 83B0     		sub	sp, sp, #12
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s 			page 16
+
+
+ 223              	.LCFI5:
+ 224              		.cfi_def_cfa_offset 16
+ 621:X-CUBE-AI/App/anomalydetector.c ****   return ai_platform_network_create(
+ 225              		.loc 1 621 3 is_stmt 1 view .LVU38
+ 226              		.loc 1 621 10 is_stmt 0 view .LVU39
+ 227 0004 0023     		movs	r3, #0
+ 228 0006 0193     		str	r3, [sp, #4]
+ 229 0008 0423     		movs	r3, #4
+ 230 000a 0093     		str	r3, [sp]
+ 231 000c 0123     		movs	r3, #1
+ 232 000e 034A     		ldr	r2, .L13
+ 233 0010 FFF7FEFF 		bl	ai_platform_network_create
+ 234              	.LVL19:
+ 622:X-CUBE-AI/App/anomalydetector.c ****     network, network_config, 
+ 623:X-CUBE-AI/App/anomalydetector.c ****     &AI_NET_OBJ_INSTANCE,
+ 624:X-CUBE-AI/App/anomalydetector.c ****     AI_TOOLS_API_VERSION_MAJOR, AI_TOOLS_API_VERSION_MINOR, AI_TOOLS_API_VERSION_MICRO);
+ 625:X-CUBE-AI/App/anomalydetector.c **** }
+ 235              		.loc 1 625 1 view .LVU40
+ 236 0014 03B0     		add	sp, sp, #12
+ 237              	.LCFI6:
+ 238              		.cfi_def_cfa_offset 4
+ 239              		@ sp needed
+ 240 0016 5DF804FB 		ldr	pc, [sp], #4
+ 241              	.L14:
+ 242 001a 00BF     		.align	2
+ 243              	.L13:
+ 244 001c 00000000 		.word	.LANCHOR0
+ 245              		.cfi_endproc
+ 246              	.LFE7:
+ 248              		.section	.text.ai_anomalydetector_destroy,"ax",%progbits
+ 249              		.align	1
+ 250              		.global	ai_anomalydetector_destroy
+ 251              		.syntax unified
+ 252              		.thumb
+ 253              		.thumb_func
+ 254              		.fpu fpv4-sp-d16
+ 256              	ai_anomalydetector_destroy:
+ 257              	.LVL20:
+ 258              	.LFB8:
+ 626:X-CUBE-AI/App/anomalydetector.c **** 
+ 627:X-CUBE-AI/App/anomalydetector.c **** AI_API_ENTRY
+ 628:X-CUBE-AI/App/anomalydetector.c **** ai_handle ai_anomalydetector_destroy(ai_handle network)
+ 629:X-CUBE-AI/App/anomalydetector.c **** {
+ 259              		.loc 1 629 1 is_stmt 1 view -0
+ 260              		.cfi_startproc
+ 261              		@ args = 0, pretend = 0, frame = 0
+ 262              		@ frame_needed = 0, uses_anonymous_args = 0
+ 263              		.loc 1 629 1 is_stmt 0 view .LVU42
+ 264 0000 08B5     		push	{r3, lr}
+ 265              	.LCFI7:
+ 266              		.cfi_def_cfa_offset 8
+ 267              		.cfi_offset 3, -8
+ 268              		.cfi_offset 14, -4
+ 630:X-CUBE-AI/App/anomalydetector.c ****   return ai_platform_network_destroy(network);
+ 269              		.loc 1 630 3 is_stmt 1 view .LVU43
+ 270              		.loc 1 630 10 is_stmt 0 view .LVU44
+ 271 0002 FFF7FEFF 		bl	ai_platform_network_destroy
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s 			page 17
+
+
+ 272              	.LVL21:
+ 631:X-CUBE-AI/App/anomalydetector.c **** }
+ 273              		.loc 1 631 1 view .LVU45
+ 274 0006 08BD     		pop	{r3, pc}
+ 275              		.cfi_endproc
+ 276              	.LFE8:
+ 278              		.section	.text.ai_anomalydetector_init,"ax",%progbits
+ 279              		.align	1
+ 280              		.global	ai_anomalydetector_init
+ 281              		.syntax unified
+ 282              		.thumb
+ 283              		.thumb_func
+ 284              		.fpu fpv4-sp-d16
+ 286              	ai_anomalydetector_init:
+ 287              	.LVL22:
+ 288              	.LFB9:
+ 632:X-CUBE-AI/App/anomalydetector.c **** 
+ 633:X-CUBE-AI/App/anomalydetector.c **** AI_API_ENTRY
+ 634:X-CUBE-AI/App/anomalydetector.c **** ai_bool ai_anomalydetector_init(
+ 635:X-CUBE-AI/App/anomalydetector.c ****   ai_handle network, const ai_network_params* params)
+ 636:X-CUBE-AI/App/anomalydetector.c **** {
+ 289              		.loc 1 636 1 is_stmt 1 view -0
+ 290              		.cfi_startproc
+ 291              		@ args = 0, pretend = 0, frame = 0
+ 292              		@ frame_needed = 0, uses_anonymous_args = 0
+ 293              		.loc 1 636 1 is_stmt 0 view .LVU47
+ 294 0000 38B5     		push	{r3, r4, r5, lr}
+ 295              	.LCFI8:
+ 296              		.cfi_def_cfa_offset 16
+ 297              		.cfi_offset 3, -16
+ 298              		.cfi_offset 4, -12
+ 299              		.cfi_offset 5, -8
+ 300              		.cfi_offset 14, -4
+ 301 0002 0546     		mov	r5, r0
+ 302 0004 0C46     		mov	r4, r1
+ 637:X-CUBE-AI/App/anomalydetector.c ****   ai_network* net_ctx = ai_platform_network_init(network, params);
+ 303              		.loc 1 637 3 is_stmt 1 view .LVU48
+ 304              		.loc 1 637 25 is_stmt 0 view .LVU49
+ 305 0006 FFF7FEFF 		bl	ai_platform_network_init
+ 306              	.LVL23:
+ 638:X-CUBE-AI/App/anomalydetector.c ****   if ( !net_ctx ) return false;
+ 307              		.loc 1 638 3 is_stmt 1 view .LVU50
+ 308              		.loc 1 638 6 is_stmt 0 view .LVU51
+ 309 000a 0028     		cmp	r0, #0
+ 310 000c 77D0     		beq	.L19
+ 639:X-CUBE-AI/App/anomalydetector.c **** 
+ 640:X-CUBE-AI/App/anomalydetector.c ****   ai_bool ok = true;
+ 311              		.loc 1 640 3 is_stmt 1 view .LVU52
+ 312              	.LVL24:
+ 641:X-CUBE-AI/App/anomalydetector.c ****   ok &= anomalydetector_configure_weights(net_ctx, &params->params);
+ 313              		.loc 1 641 3 view .LVU53
+ 314              	.LBB7:
+ 315              	.LBI7:
+ 521:X-CUBE-AI/App/anomalydetector.c ****   ai_network* net_ctx, const ai_buffer* weights_buffer)
+ 316              		.loc 1 521 9 view .LVU54
+ 317              	.LBB8:
+ 524:X-CUBE-AI/App/anomalydetector.c **** 
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s 			page 18
+
+
+ 318              		.loc 1 524 3 view .LVU55
+ 524:X-CUBE-AI/App/anomalydetector.c **** 
+ 319              		.loc 1 524 3 view .LVU56
+ 524:X-CUBE-AI/App/anomalydetector.c **** 
+ 320              		.loc 1 524 3 view .LVU57
+ 526:X-CUBE-AI/App/anomalydetector.c ****   AI_ASSERT(weights)
+ 321              		.loc 1 526 3 view .LVU58
+ 526:X-CUBE-AI/App/anomalydetector.c ****   AI_ASSERT(weights)
+ 322              		.loc 1 526 10 is_stmt 0 view .LVU59
+ 323 000e 2369     		ldr	r3, [r4, #16]
+ 324              	.LVL25:
+ 527:X-CUBE-AI/App/anomalydetector.c ****   AI_UNUSED(net_ctx)
+ 325              		.loc 1 527 3 is_stmt 1 view .LVU60
+ 527:X-CUBE-AI/App/anomalydetector.c ****   AI_UNUSED(net_ctx)
+ 326              		.loc 1 527 3 view .LVU61
+ 527:X-CUBE-AI/App/anomalydetector.c ****   AI_UNUSED(net_ctx)
+ 327              		.loc 1 527 3 view .LVU62
+ 528:X-CUBE-AI/App/anomalydetector.c **** 
+ 328              		.loc 1 528 3 view .LVU63
+ 533:X-CUBE-AI/App/anomalydetector.c ****     conv2d_weights_array.data = AI_PTR(weights + 0);
+ 329              		.loc 1 533 5 view .LVU64
+ 533:X-CUBE-AI/App/anomalydetector.c ****     conv2d_weights_array.data = AI_PTR(weights + 0);
+ 330              		.loc 1 533 33 is_stmt 0 view .LVU65
+ 331 0010 3C4A     		ldr	r2, .L21
+ 332 0012 1168     		ldr	r1, [r2]
+ 333 0014 41F08041 		orr	r1, r1, #1073741824
+ 334 0018 1160     		str	r1, [r2]
+ 534:X-CUBE-AI/App/anomalydetector.c ****     conv2d_weights_array.data_start = AI_PTR(weights + 0);
+ 335              		.loc 1 534 5 is_stmt 1 view .LVU66
+ 534:X-CUBE-AI/App/anomalydetector.c ****     conv2d_weights_array.data_start = AI_PTR(weights + 0);
+ 336              		.loc 1 534 31 is_stmt 0 view .LVU67
+ 337 001a 9360     		str	r3, [r2, #8]
+ 535:X-CUBE-AI/App/anomalydetector.c ****     conv2d_bias_array.format |= AI_FMT_FLAG_CONST;
+ 338              		.loc 1 535 5 is_stmt 1 view .LVU68
+ 535:X-CUBE-AI/App/anomalydetector.c ****     conv2d_bias_array.format |= AI_FMT_FLAG_CONST;
+ 339              		.loc 1 535 37 is_stmt 0 view .LVU69
+ 340 001c D360     		str	r3, [r2, #12]
+ 536:X-CUBE-AI/App/anomalydetector.c ****     conv2d_bias_array.data = AI_PTR(weights + 144);
+ 341              		.loc 1 536 5 is_stmt 1 view .LVU70
+ 536:X-CUBE-AI/App/anomalydetector.c ****     conv2d_bias_array.data = AI_PTR(weights + 144);
+ 342              		.loc 1 536 30 is_stmt 0 view .LVU71
+ 343 001e 3A4A     		ldr	r2, .L21+4
+ 344 0020 1168     		ldr	r1, [r2]
+ 345 0022 41F08041 		orr	r1, r1, #1073741824
+ 346 0026 1160     		str	r1, [r2]
+ 537:X-CUBE-AI/App/anomalydetector.c ****     conv2d_bias_array.data_start = AI_PTR(weights + 144);
+ 347              		.loc 1 537 5 is_stmt 1 view .LVU72
+ 537:X-CUBE-AI/App/anomalydetector.c ****     conv2d_bias_array.data_start = AI_PTR(weights + 144);
+ 348              		.loc 1 537 30 is_stmt 0 view .LVU73
+ 349 0028 03F19001 		add	r1, r3, #144
+ 537:X-CUBE-AI/App/anomalydetector.c ****     conv2d_bias_array.data_start = AI_PTR(weights + 144);
+ 350              		.loc 1 537 28 view .LVU74
+ 351 002c 9160     		str	r1, [r2, #8]
+ 538:X-CUBE-AI/App/anomalydetector.c ****     conv2d_1_weights_array.format |= AI_FMT_FLAG_CONST;
+ 352              		.loc 1 538 5 is_stmt 1 view .LVU75
+ 538:X-CUBE-AI/App/anomalydetector.c ****     conv2d_1_weights_array.format |= AI_FMT_FLAG_CONST;
+ 353              		.loc 1 538 34 is_stmt 0 view .LVU76
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s 			page 19
+
+
+ 354 002e D160     		str	r1, [r2, #12]
+ 539:X-CUBE-AI/App/anomalydetector.c ****     conv2d_1_weights_array.data = AI_PTR(weights + 160);
+ 355              		.loc 1 539 5 is_stmt 1 view .LVU77
+ 539:X-CUBE-AI/App/anomalydetector.c ****     conv2d_1_weights_array.data = AI_PTR(weights + 160);
+ 356              		.loc 1 539 35 is_stmt 0 view .LVU78
+ 357 0030 364A     		ldr	r2, .L21+8
+ 358 0032 1168     		ldr	r1, [r2]
+ 359 0034 41F08041 		orr	r1, r1, #1073741824
+ 360 0038 1160     		str	r1, [r2]
+ 540:X-CUBE-AI/App/anomalydetector.c ****     conv2d_1_weights_array.data_start = AI_PTR(weights + 160);
+ 361              		.loc 1 540 5 is_stmt 1 view .LVU79
+ 540:X-CUBE-AI/App/anomalydetector.c ****     conv2d_1_weights_array.data_start = AI_PTR(weights + 160);
+ 362              		.loc 1 540 35 is_stmt 0 view .LVU80
+ 363 003a 03F1A001 		add	r1, r3, #160
+ 540:X-CUBE-AI/App/anomalydetector.c ****     conv2d_1_weights_array.data_start = AI_PTR(weights + 160);
+ 364              		.loc 1 540 33 view .LVU81
+ 365 003e 9160     		str	r1, [r2, #8]
+ 541:X-CUBE-AI/App/anomalydetector.c ****     conv2d_1_bias_array.format |= AI_FMT_FLAG_CONST;
+ 366              		.loc 1 541 5 is_stmt 1 view .LVU82
+ 541:X-CUBE-AI/App/anomalydetector.c ****     conv2d_1_bias_array.format |= AI_FMT_FLAG_CONST;
+ 367              		.loc 1 541 39 is_stmt 0 view .LVU83
+ 368 0040 D160     		str	r1, [r2, #12]
+ 542:X-CUBE-AI/App/anomalydetector.c ****     conv2d_1_bias_array.data = AI_PTR(weights + 2080);
+ 369              		.loc 1 542 5 is_stmt 1 view .LVU84
+ 542:X-CUBE-AI/App/anomalydetector.c ****     conv2d_1_bias_array.data = AI_PTR(weights + 2080);
+ 370              		.loc 1 542 32 is_stmt 0 view .LVU85
+ 371 0042 334A     		ldr	r2, .L21+12
+ 372 0044 1168     		ldr	r1, [r2]
+ 373 0046 41F08041 		orr	r1, r1, #1073741824
+ 374 004a 1160     		str	r1, [r2]
+ 543:X-CUBE-AI/App/anomalydetector.c ****     conv2d_1_bias_array.data_start = AI_PTR(weights + 2080);
+ 375              		.loc 1 543 5 is_stmt 1 view .LVU86
+ 543:X-CUBE-AI/App/anomalydetector.c ****     conv2d_1_bias_array.data_start = AI_PTR(weights + 2080);
+ 376              		.loc 1 543 32 is_stmt 0 view .LVU87
+ 377 004c 03F50261 		add	r1, r3, #2080
+ 543:X-CUBE-AI/App/anomalydetector.c ****     conv2d_1_bias_array.data_start = AI_PTR(weights + 2080);
+ 378              		.loc 1 543 30 view .LVU88
+ 379 0050 9160     		str	r1, [r2, #8]
+ 544:X-CUBE-AI/App/anomalydetector.c ****     dense_weights_array.format |= AI_FMT_FLAG_CONST;
+ 380              		.loc 1 544 5 is_stmt 1 view .LVU89
+ 544:X-CUBE-AI/App/anomalydetector.c ****     dense_weights_array.format |= AI_FMT_FLAG_CONST;
+ 381              		.loc 1 544 36 is_stmt 0 view .LVU90
+ 382 0052 D160     		str	r1, [r2, #12]
+ 545:X-CUBE-AI/App/anomalydetector.c ****     dense_weights_array.data = AI_PTR(weights + 2112);
+ 383              		.loc 1 545 5 is_stmt 1 view .LVU91
+ 545:X-CUBE-AI/App/anomalydetector.c ****     dense_weights_array.data = AI_PTR(weights + 2112);
+ 384              		.loc 1 545 32 is_stmt 0 view .LVU92
+ 385 0054 2F4A     		ldr	r2, .L21+16
+ 386 0056 1168     		ldr	r1, [r2]
+ 387 0058 41F08041 		orr	r1, r1, #1073741824
+ 388 005c 1160     		str	r1, [r2]
+ 546:X-CUBE-AI/App/anomalydetector.c ****     dense_weights_array.data_start = AI_PTR(weights + 2112);
+ 389              		.loc 1 546 5 is_stmt 1 view .LVU93
+ 546:X-CUBE-AI/App/anomalydetector.c ****     dense_weights_array.data_start = AI_PTR(weights + 2112);
+ 390              		.loc 1 546 32 is_stmt 0 view .LVU94
+ 391 005e 03F50461 		add	r1, r3, #2112
+ 546:X-CUBE-AI/App/anomalydetector.c ****     dense_weights_array.data_start = AI_PTR(weights + 2112);
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s 			page 20
+
+
+ 392              		.loc 1 546 30 view .LVU95
+ 393 0062 9160     		str	r1, [r2, #8]
+ 547:X-CUBE-AI/App/anomalydetector.c ****     dense_bias_array.format |= AI_FMT_FLAG_CONST;
+ 394              		.loc 1 547 5 is_stmt 1 view .LVU96
+ 547:X-CUBE-AI/App/anomalydetector.c ****     dense_bias_array.format |= AI_FMT_FLAG_CONST;
+ 395              		.loc 1 547 36 is_stmt 0 view .LVU97
+ 396 0064 D160     		str	r1, [r2, #12]
+ 548:X-CUBE-AI/App/anomalydetector.c ****     dense_bias_array.data = AI_PTR(weights + 18912);
+ 397              		.loc 1 548 5 is_stmt 1 view .LVU98
+ 548:X-CUBE-AI/App/anomalydetector.c ****     dense_bias_array.data = AI_PTR(weights + 18912);
+ 398              		.loc 1 548 29 is_stmt 0 view .LVU99
+ 399 0066 2C4A     		ldr	r2, .L21+20
+ 400 0068 1168     		ldr	r1, [r2]
+ 401 006a 41F08041 		orr	r1, r1, #1073741824
+ 402 006e 1160     		str	r1, [r2]
+ 549:X-CUBE-AI/App/anomalydetector.c ****     dense_bias_array.data_start = AI_PTR(weights + 18912);
+ 403              		.loc 1 549 5 is_stmt 1 view .LVU100
+ 549:X-CUBE-AI/App/anomalydetector.c ****     dense_bias_array.data_start = AI_PTR(weights + 18912);
+ 404              		.loc 1 549 29 is_stmt 0 view .LVU101
+ 405 0070 03F59341 		add	r1, r3, #18816
+ 406 0074 6031     		adds	r1, r1, #96
+ 549:X-CUBE-AI/App/anomalydetector.c ****     dense_bias_array.data_start = AI_PTR(weights + 18912);
+ 407              		.loc 1 549 27 view .LVU102
+ 408 0076 9160     		str	r1, [r2, #8]
+ 550:X-CUBE-AI/App/anomalydetector.c ****     dense_1_weights_array.format |= AI_FMT_FLAG_CONST;
+ 409              		.loc 1 550 5 is_stmt 1 view .LVU103
+ 550:X-CUBE-AI/App/anomalydetector.c ****     dense_1_weights_array.format |= AI_FMT_FLAG_CONST;
+ 410              		.loc 1 550 33 is_stmt 0 view .LVU104
+ 411 0078 D160     		str	r1, [r2, #12]
+ 551:X-CUBE-AI/App/anomalydetector.c ****     dense_1_weights_array.data = AI_PTR(weights + 19012);
+ 412              		.loc 1 551 5 is_stmt 1 view .LVU105
+ 551:X-CUBE-AI/App/anomalydetector.c ****     dense_1_weights_array.data = AI_PTR(weights + 19012);
+ 413              		.loc 1 551 34 is_stmt 0 view .LVU106
+ 414 007a 284A     		ldr	r2, .L21+24
+ 415 007c 1168     		ldr	r1, [r2]
+ 416 007e 41F08041 		orr	r1, r1, #1073741824
+ 417 0082 1160     		str	r1, [r2]
+ 552:X-CUBE-AI/App/anomalydetector.c ****     dense_1_weights_array.data_start = AI_PTR(weights + 19012);
+ 418              		.loc 1 552 5 is_stmt 1 view .LVU107
+ 552:X-CUBE-AI/App/anomalydetector.c ****     dense_1_weights_array.data_start = AI_PTR(weights + 19012);
+ 419              		.loc 1 552 34 is_stmt 0 view .LVU108
+ 420 0084 03F59441 		add	r1, r3, #18944
+ 421 0088 4431     		adds	r1, r1, #68
+ 552:X-CUBE-AI/App/anomalydetector.c ****     dense_1_weights_array.data_start = AI_PTR(weights + 19012);
+ 422              		.loc 1 552 32 view .LVU109
+ 423 008a 9160     		str	r1, [r2, #8]
+ 553:X-CUBE-AI/App/anomalydetector.c ****     dense_1_bias_array.format |= AI_FMT_FLAG_CONST;
+ 424              		.loc 1 553 5 is_stmt 1 view .LVU110
+ 553:X-CUBE-AI/App/anomalydetector.c ****     dense_1_bias_array.format |= AI_FMT_FLAG_CONST;
+ 425              		.loc 1 553 38 is_stmt 0 view .LVU111
+ 426 008c D160     		str	r1, [r2, #12]
+ 554:X-CUBE-AI/App/anomalydetector.c ****     dense_1_bias_array.data = AI_PTR(weights + 19412);
+ 427              		.loc 1 554 5 is_stmt 1 view .LVU112
+ 554:X-CUBE-AI/App/anomalydetector.c ****     dense_1_bias_array.data = AI_PTR(weights + 19412);
+ 428              		.loc 1 554 31 is_stmt 0 view .LVU113
+ 429 008e 244A     		ldr	r2, .L21+28
+ 430 0090 1168     		ldr	r1, [r2]
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s 			page 21
+
+
+ 431 0092 41F08041 		orr	r1, r1, #1073741824
+ 432 0096 1160     		str	r1, [r2]
+ 555:X-CUBE-AI/App/anomalydetector.c ****     dense_1_bias_array.data_start = AI_PTR(weights + 19412);
+ 433              		.loc 1 555 5 is_stmt 1 view .LVU114
+ 555:X-CUBE-AI/App/anomalydetector.c ****     dense_1_bias_array.data_start = AI_PTR(weights + 19412);
+ 434              		.loc 1 555 31 is_stmt 0 view .LVU115
+ 435 0098 03F59743 		add	r3, r3, #19328
+ 436              	.LVL26:
+ 555:X-CUBE-AI/App/anomalydetector.c ****     dense_1_bias_array.data_start = AI_PTR(weights + 19412);
+ 437              		.loc 1 555 31 view .LVU116
+ 438 009c 5433     		adds	r3, r3, #84
+ 555:X-CUBE-AI/App/anomalydetector.c ****     dense_1_bias_array.data_start = AI_PTR(weights + 19412);
+ 439              		.loc 1 555 29 view .LVU117
+ 440 009e 9360     		str	r3, [r2, #8]
+ 556:X-CUBE-AI/App/anomalydetector.c ****   }
+ 441              		.loc 1 556 5 is_stmt 1 view .LVU118
+ 556:X-CUBE-AI/App/anomalydetector.c ****   }
+ 442              		.loc 1 556 35 is_stmt 0 view .LVU119
+ 443 00a0 D360     		str	r3, [r2, #12]
+ 559:X-CUBE-AI/App/anomalydetector.c **** }
+ 444              		.loc 1 559 3 is_stmt 1 view .LVU120
+ 445              	.LVL27:
+ 559:X-CUBE-AI/App/anomalydetector.c **** }
+ 446              		.loc 1 559 3 is_stmt 0 view .LVU121
+ 447              	.LBE8:
+ 448              	.LBE7:
+ 642:X-CUBE-AI/App/anomalydetector.c ****   ok &= anomalydetector_configure_activations(net_ctx, &params->activations);
+ 449              		.loc 1 642 3 is_stmt 1 view .LVU122
+ 450              	.LBB9:
+ 451              	.LBI9:
+ 484:X-CUBE-AI/App/anomalydetector.c ****   ai_network* net_ctx, const ai_buffer* activation_buffer)
+ 452              		.loc 1 484 9 view .LVU123
+ 453              	.LBB10:
+ 487:X-CUBE-AI/App/anomalydetector.c **** 
+ 454              		.loc 1 487 3 view .LVU124
+ 487:X-CUBE-AI/App/anomalydetector.c **** 
+ 455              		.loc 1 487 3 view .LVU125
+ 487:X-CUBE-AI/App/anomalydetector.c **** 
+ 456              		.loc 1 487 3 view .LVU126
+ 489:X-CUBE-AI/App/anomalydetector.c ****   AI_ASSERT(activations)
+ 457              		.loc 1 489 3 view .LVU127
+ 489:X-CUBE-AI/App/anomalydetector.c ****   AI_ASSERT(activations)
+ 458              		.loc 1 489 24 is_stmt 0 view .LVU128
+ 459 00a2 A36A     		ldr	r3, [r4, #40]
+ 460 00a4 0333     		adds	r3, r3, #3
+ 461 00a6 23F00303 		bic	r3, r3, #3
+ 462              	.LVL28:
+ 490:X-CUBE-AI/App/anomalydetector.c ****   AI_UNUSED(net_ctx)
+ 463              		.loc 1 490 3 is_stmt 1 view .LVU129
+ 490:X-CUBE-AI/App/anomalydetector.c ****   AI_UNUSED(net_ctx)
+ 464              		.loc 1 490 3 view .LVU130
+ 490:X-CUBE-AI/App/anomalydetector.c ****   AI_UNUSED(net_ctx)
+ 465              		.loc 1 490 3 view .LVU131
+ 491:X-CUBE-AI/App/anomalydetector.c **** 
+ 466              		.loc 1 491 3 view .LVU132
+ 495:X-CUBE-AI/App/anomalydetector.c ****     input_0_output_array.data_start = AI_PTR(NULL);
+ 467              		.loc 1 495 5 view .LVU133
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s 			page 22
+
+
+ 495:X-CUBE-AI/App/anomalydetector.c ****     input_0_output_array.data_start = AI_PTR(NULL);
+ 468              		.loc 1 495 31 is_stmt 0 view .LVU134
+ 469 00aa 1E49     		ldr	r1, .L21+32
+ 470 00ac 0022     		movs	r2, #0
+ 471 00ae 8A60     		str	r2, [r1, #8]
+ 496:X-CUBE-AI/App/anomalydetector.c ****     conv2d_output_array.data = AI_PTR(activations + 480);
+ 472              		.loc 1 496 5 is_stmt 1 view .LVU135
+ 496:X-CUBE-AI/App/anomalydetector.c ****     conv2d_output_array.data = AI_PTR(activations + 480);
+ 473              		.loc 1 496 37 is_stmt 0 view .LVU136
+ 474 00b0 CA60     		str	r2, [r1, #12]
+ 497:X-CUBE-AI/App/anomalydetector.c ****     conv2d_output_array.data_start = AI_PTR(activations + 480);
+ 475              		.loc 1 497 5 is_stmt 1 view .LVU137
+ 497:X-CUBE-AI/App/anomalydetector.c ****     conv2d_output_array.data_start = AI_PTR(activations + 480);
+ 476              		.loc 1 497 32 is_stmt 0 view .LVU138
+ 477 00b2 03F5F070 		add	r0, r3, #480
+ 478              	.LVL29:
+ 497:X-CUBE-AI/App/anomalydetector.c ****     conv2d_output_array.data_start = AI_PTR(activations + 480);
+ 479              		.loc 1 497 30 view .LVU139
+ 480 00b6 1C49     		ldr	r1, .L21+36
+ 481 00b8 8860     		str	r0, [r1, #8]
+ 498:X-CUBE-AI/App/anomalydetector.c ****     conv2d_1_output_array.data = AI_PTR(activations + 0);
+ 482              		.loc 1 498 5 is_stmt 1 view .LVU140
+ 498:X-CUBE-AI/App/anomalydetector.c ****     conv2d_1_output_array.data = AI_PTR(activations + 0);
+ 483              		.loc 1 498 36 is_stmt 0 view .LVU141
+ 484 00ba C860     		str	r0, [r1, #12]
+ 499:X-CUBE-AI/App/anomalydetector.c ****     conv2d_1_output_array.data_start = AI_PTR(activations + 0);
+ 485              		.loc 1 499 5 is_stmt 1 view .LVU142
+ 499:X-CUBE-AI/App/anomalydetector.c ****     conv2d_1_output_array.data_start = AI_PTR(activations + 0);
+ 486              		.loc 1 499 32 is_stmt 0 view .LVU143
+ 487 00bc 1B49     		ldr	r1, .L21+40
+ 488 00be 8B60     		str	r3, [r1, #8]
+ 500:X-CUBE-AI/App/anomalydetector.c ****     dense_output_array.data = AI_PTR(activations + 672);
+ 489              		.loc 1 500 5 is_stmt 1 view .LVU144
+ 500:X-CUBE-AI/App/anomalydetector.c ****     dense_output_array.data = AI_PTR(activations + 672);
+ 490              		.loc 1 500 38 is_stmt 0 view .LVU145
+ 491 00c0 CB60     		str	r3, [r1, #12]
+ 501:X-CUBE-AI/App/anomalydetector.c ****     dense_output_array.data_start = AI_PTR(activations + 672);
+ 492              		.loc 1 501 5 is_stmt 1 view .LVU146
+ 501:X-CUBE-AI/App/anomalydetector.c ****     dense_output_array.data_start = AI_PTR(activations + 672);
+ 493              		.loc 1 501 31 is_stmt 0 view .LVU147
+ 494 00c2 03F52870 		add	r0, r3, #672
+ 501:X-CUBE-AI/App/anomalydetector.c ****     dense_output_array.data_start = AI_PTR(activations + 672);
+ 495              		.loc 1 501 29 view .LVU148
+ 496 00c6 1A49     		ldr	r1, .L21+44
+ 497 00c8 8860     		str	r0, [r1, #8]
+ 502:X-CUBE-AI/App/anomalydetector.c ****     dense_nl_output_array.data = AI_PTR(activations + 0);
+ 498              		.loc 1 502 5 is_stmt 1 view .LVU149
+ 502:X-CUBE-AI/App/anomalydetector.c ****     dense_nl_output_array.data = AI_PTR(activations + 0);
+ 499              		.loc 1 502 35 is_stmt 0 view .LVU150
+ 500 00ca C860     		str	r0, [r1, #12]
+ 503:X-CUBE-AI/App/anomalydetector.c ****     dense_nl_output_array.data_start = AI_PTR(activations + 0);
+ 501              		.loc 1 503 5 is_stmt 1 view .LVU151
+ 503:X-CUBE-AI/App/anomalydetector.c ****     dense_nl_output_array.data_start = AI_PTR(activations + 0);
+ 502              		.loc 1 503 32 is_stmt 0 view .LVU152
+ 503 00cc 1949     		ldr	r1, .L21+48
+ 504 00ce 8B60     		str	r3, [r1, #8]
+ 504:X-CUBE-AI/App/anomalydetector.c ****     dense_1_output_array.data = AI_PTR(activations + 100);
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s 			page 23
+
+
+ 505              		.loc 1 504 5 is_stmt 1 view .LVU153
+ 504:X-CUBE-AI/App/anomalydetector.c ****     dense_1_output_array.data = AI_PTR(activations + 100);
+ 506              		.loc 1 504 38 is_stmt 0 view .LVU154
+ 507 00d0 CB60     		str	r3, [r1, #12]
+ 505:X-CUBE-AI/App/anomalydetector.c ****     dense_1_output_array.data_start = AI_PTR(activations + 100);
+ 508              		.loc 1 505 5 is_stmt 1 view .LVU155
+ 505:X-CUBE-AI/App/anomalydetector.c ****     dense_1_output_array.data_start = AI_PTR(activations + 100);
+ 509              		.loc 1 505 33 is_stmt 0 view .LVU156
+ 510 00d2 03F16400 		add	r0, r3, #100
+ 505:X-CUBE-AI/App/anomalydetector.c ****     dense_1_output_array.data_start = AI_PTR(activations + 100);
+ 511              		.loc 1 505 31 view .LVU157
+ 512 00d6 1849     		ldr	r1, .L21+52
+ 513 00d8 8860     		str	r0, [r1, #8]
+ 506:X-CUBE-AI/App/anomalydetector.c ****     dense_1_nl_output_array.data = AI_PTR(NULL);
+ 514              		.loc 1 506 5 is_stmt 1 view .LVU158
+ 506:X-CUBE-AI/App/anomalydetector.c ****     dense_1_nl_output_array.data = AI_PTR(NULL);
+ 515              		.loc 1 506 37 is_stmt 0 view .LVU159
+ 516 00da C860     		str	r0, [r1, #12]
+ 507:X-CUBE-AI/App/anomalydetector.c ****     dense_1_nl_output_array.data_start = AI_PTR(NULL);
+ 517              		.loc 1 507 5 is_stmt 1 view .LVU160
+ 507:X-CUBE-AI/App/anomalydetector.c ****     dense_1_nl_output_array.data_start = AI_PTR(NULL);
+ 518              		.loc 1 507 34 is_stmt 0 view .LVU161
+ 519 00dc 1749     		ldr	r1, .L21+56
+ 520 00de 8A60     		str	r2, [r1, #8]
+ 508:X-CUBE-AI/App/anomalydetector.c ****     conv2d_scratch0_array.data = AI_PTR(activations + 384);
+ 521              		.loc 1 508 5 is_stmt 1 view .LVU162
+ 508:X-CUBE-AI/App/anomalydetector.c ****     conv2d_scratch0_array.data = AI_PTR(activations + 384);
+ 522              		.loc 1 508 40 is_stmt 0 view .LVU163
+ 523 00e0 CA60     		str	r2, [r1, #12]
+ 509:X-CUBE-AI/App/anomalydetector.c ****     conv2d_scratch0_array.data_start = AI_PTR(activations + 384);
+ 524              		.loc 1 509 5 is_stmt 1 view .LVU164
+ 509:X-CUBE-AI/App/anomalydetector.c ****     conv2d_scratch0_array.data_start = AI_PTR(activations + 384);
+ 525              		.loc 1 509 34 is_stmt 0 view .LVU165
+ 526 00e2 03F5C071 		add	r1, r3, #384
+ 509:X-CUBE-AI/App/anomalydetector.c ****     conv2d_scratch0_array.data_start = AI_PTR(activations + 384);
+ 527              		.loc 1 509 32 view .LVU166
+ 528 00e6 164A     		ldr	r2, .L21+60
+ 529 00e8 9160     		str	r1, [r2, #8]
+ 510:X-CUBE-AI/App/anomalydetector.c ****     conv2d_1_scratch0_array.data = AI_PTR(activations + 1104);
+ 530              		.loc 1 510 5 is_stmt 1 view .LVU167
+ 510:X-CUBE-AI/App/anomalydetector.c ****     conv2d_1_scratch0_array.data = AI_PTR(activations + 1104);
+ 531              		.loc 1 510 38 is_stmt 0 view .LVU168
+ 532 00ea D160     		str	r1, [r2, #12]
+ 511:X-CUBE-AI/App/anomalydetector.c ****     conv2d_1_scratch0_array.data_start = AI_PTR(activations + 1104);
+ 533              		.loc 1 511 5 is_stmt 1 view .LVU169
+ 511:X-CUBE-AI/App/anomalydetector.c ****     conv2d_1_scratch0_array.data_start = AI_PTR(activations + 1104);
+ 534              		.loc 1 511 36 is_stmt 0 view .LVU170
+ 535 00ec 03F58A63 		add	r3, r3, #1104
+ 536              	.LVL30:
+ 511:X-CUBE-AI/App/anomalydetector.c ****     conv2d_1_scratch0_array.data_start = AI_PTR(activations + 1104);
+ 537              		.loc 1 511 34 view .LVU171
+ 538 00f0 144A     		ldr	r2, .L21+64
+ 539 00f2 9360     		str	r3, [r2, #8]
+ 512:X-CUBE-AI/App/anomalydetector.c ****     
+ 540              		.loc 1 512 5 is_stmt 1 view .LVU172
+ 512:X-CUBE-AI/App/anomalydetector.c ****     
+ 541              		.loc 1 512 40 is_stmt 0 view .LVU173
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s 			page 24
+
+
+ 542 00f4 D360     		str	r3, [r2, #12]
+ 515:X-CUBE-AI/App/anomalydetector.c **** }
+ 543              		.loc 1 515 3 is_stmt 1 view .LVU174
+ 544              	.LVL31:
+ 515:X-CUBE-AI/App/anomalydetector.c **** }
+ 545              		.loc 1 515 3 is_stmt 0 view .LVU175
+ 546              	.LBE10:
+ 547              	.LBE9:
+ 643:X-CUBE-AI/App/anomalydetector.c **** 
+ 644:X-CUBE-AI/App/anomalydetector.c ****   ok &= ai_platform_network_post_init(network);
+ 548              		.loc 1 644 3 is_stmt 1 view .LVU176
+ 549              		.loc 1 644 9 is_stmt 0 view .LVU177
+ 550 00f6 2846     		mov	r0, r5
+ 551 00f8 FFF7FEFF 		bl	ai_platform_network_post_init
+ 552              	.LVL32:
+ 645:X-CUBE-AI/App/anomalydetector.c **** 
+ 646:X-CUBE-AI/App/anomalydetector.c ****   return ok;
+ 553              		.loc 1 646 3 is_stmt 1 view .LVU178
+ 554              	.L18:
+ 647:X-CUBE-AI/App/anomalydetector.c **** }
+ 555              		.loc 1 647 1 is_stmt 0 view .LVU179
+ 556 00fc 38BD     		pop	{r3, r4, r5, pc}
+ 557              	.LVL33:
+ 558              	.L19:
+ 638:X-CUBE-AI/App/anomalydetector.c **** 
+ 559              		.loc 1 638 26 view .LVU180
+ 560 00fe 0020     		movs	r0, #0
+ 561              	.LVL34:
+ 638:X-CUBE-AI/App/anomalydetector.c **** 
+ 562              		.loc 1 638 26 view .LVU181
+ 563 0100 FCE7     		b	.L18
+ 564              	.L22:
+ 565 0102 00BF     		.align	2
+ 566              	.L21:
+ 567 0104 00000000 		.word	.LANCHOR1
+ 568 0108 00000000 		.word	.LANCHOR2
+ 569 010c 00000000 		.word	.LANCHOR3
+ 570 0110 00000000 		.word	.LANCHOR4
+ 571 0114 00000000 		.word	.LANCHOR5
+ 572 0118 00000000 		.word	.LANCHOR6
+ 573 011c 00000000 		.word	.LANCHOR7
+ 574 0120 00000000 		.word	.LANCHOR8
+ 575 0124 00000000 		.word	.LANCHOR9
+ 576 0128 00000000 		.word	.LANCHOR10
+ 577 012c 00000000 		.word	.LANCHOR11
+ 578 0130 00000000 		.word	.LANCHOR12
+ 579 0134 00000000 		.word	.LANCHOR13
+ 580 0138 00000000 		.word	.LANCHOR14
+ 581 013c 00000000 		.word	.LANCHOR15
+ 582 0140 00000000 		.word	.LANCHOR16
+ 583 0144 00000000 		.word	.LANCHOR17
+ 584              		.cfi_endproc
+ 585              	.LFE9:
+ 587              		.section	.text.ai_anomalydetector_run,"ax",%progbits
+ 588              		.align	1
+ 589              		.global	ai_anomalydetector_run
+ 590              		.syntax unified
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s 			page 25
+
+
+ 591              		.thumb
+ 592              		.thumb_func
+ 593              		.fpu fpv4-sp-d16
+ 595              	ai_anomalydetector_run:
+ 596              	.LVL35:
+ 597              	.LFB10:
+ 648:X-CUBE-AI/App/anomalydetector.c **** 
+ 649:X-CUBE-AI/App/anomalydetector.c **** 
+ 650:X-CUBE-AI/App/anomalydetector.c **** AI_API_ENTRY
+ 651:X-CUBE-AI/App/anomalydetector.c **** ai_i32 ai_anomalydetector_run(
+ 652:X-CUBE-AI/App/anomalydetector.c ****   ai_handle network, const ai_buffer* input, ai_buffer* output)
+ 653:X-CUBE-AI/App/anomalydetector.c **** {
+ 598              		.loc 1 653 1 is_stmt 1 view -0
+ 599              		.cfi_startproc
+ 600              		@ args = 0, pretend = 0, frame = 0
+ 601              		@ frame_needed = 0, uses_anonymous_args = 0
+ 602              		.loc 1 653 1 is_stmt 0 view .LVU183
+ 603 0000 08B5     		push	{r3, lr}
+ 604              	.LCFI9:
+ 605              		.cfi_def_cfa_offset 8
+ 606              		.cfi_offset 3, -8
+ 607              		.cfi_offset 14, -4
+ 654:X-CUBE-AI/App/anomalydetector.c ****   return ai_platform_network_process(network, input, output);
+ 608              		.loc 1 654 3 is_stmt 1 view .LVU184
+ 609              		.loc 1 654 10 is_stmt 0 view .LVU185
+ 610 0002 FFF7FEFF 		bl	ai_platform_network_process
+ 611              	.LVL36:
+ 655:X-CUBE-AI/App/anomalydetector.c **** }
+ 612              		.loc 1 655 1 view .LVU186
+ 613 0006 08BD     		pop	{r3, pc}
+ 614              		.cfi_endproc
+ 615              	.LFE10:
+ 617              		.section	.text.ai_anomalydetector_forward,"ax",%progbits
+ 618              		.align	1
+ 619              		.global	ai_anomalydetector_forward
+ 620              		.syntax unified
+ 621              		.thumb
+ 622              		.thumb_func
+ 623              		.fpu fpv4-sp-d16
+ 625              	ai_anomalydetector_forward:
+ 626              	.LVL37:
+ 627              	.LFB11:
+ 656:X-CUBE-AI/App/anomalydetector.c **** 
+ 657:X-CUBE-AI/App/anomalydetector.c **** AI_API_ENTRY
+ 658:X-CUBE-AI/App/anomalydetector.c **** ai_i32 ai_anomalydetector_forward(ai_handle network, const ai_buffer* input)
+ 659:X-CUBE-AI/App/anomalydetector.c **** {
+ 628              		.loc 1 659 1 is_stmt 1 view -0
+ 629              		.cfi_startproc
+ 630              		@ args = 0, pretend = 0, frame = 0
+ 631              		@ frame_needed = 0, uses_anonymous_args = 0
+ 632              		.loc 1 659 1 is_stmt 0 view .LVU188
+ 633 0000 08B5     		push	{r3, lr}
+ 634              	.LCFI10:
+ 635              		.cfi_def_cfa_offset 8
+ 636              		.cfi_offset 3, -8
+ 637              		.cfi_offset 14, -4
+ 660:X-CUBE-AI/App/anomalydetector.c ****   return ai_platform_network_process(network, input, NULL);
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s 			page 26
+
+
+ 638              		.loc 1 660 3 is_stmt 1 view .LVU189
+ 639              		.loc 1 660 10 is_stmt 0 view .LVU190
+ 640 0002 0022     		movs	r2, #0
+ 641 0004 FFF7FEFF 		bl	ai_platform_network_process
+ 642              	.LVL38:
+ 661:X-CUBE-AI/App/anomalydetector.c **** }
+ 643              		.loc 1 661 1 view .LVU191
+ 644 0008 08BD     		pop	{r3, pc}
+ 645              		.cfi_endproc
+ 646              	.LFE11:
+ 648              		.section	.bss.__compound_literal.53,"aw",%nobits
+ 649              		.align	2
+ 652              	__compound_literal.53:
+ 653 0000 00000000 		.space	4
+ 654              		.section	.bss.__compound_literal.57,"aw",%nobits
+ 655              		.align	2
+ 658              	__compound_literal.57:
+ 659 0000 00000000 		.space	4
+ 660              		.section	.bss.__compound_literal.58,"aw",%nobits
+ 661              		.align	2
+ 664              	__compound_literal.58:
+ 665 0000 00000000 		.space	4
+ 666              		.section	.bss.__compound_literal.63,"aw",%nobits
+ 667              		.align	2
+ 670              	__compound_literal.63:
+ 671 0000 00000000 		.space	4
+ 672              		.section	.bss.__compound_literal.67,"aw",%nobits
+ 673              		.align	2
+ 676              	__compound_literal.67:
+ 677 0000 00000000 		.space	4
+ 678              		.section	.bss.__compound_literal.68,"aw",%nobits
+ 679              		.align	2
+ 682              	__compound_literal.68:
+ 683 0000 00000000 		.space	4
+ 684              		.section	.bss.__compound_literal.71,"aw",%nobits
+ 685              		.align	2
+ 688              	__compound_literal.71:
+ 689 0000 00000000 		.space	24
+ 689      00000000 
+ 689      00000000 
+ 689      00000000 
+ 689      00000000 
+ 690              		.section	.bss.__compound_literal.72,"aw",%nobits
+ 691              		.align	2
+ 694              	__compound_literal.72:
+ 695 0000 00000000 		.space	16
+ 695      00000000 
+ 695      00000000 
+ 695      00000000 
+ 696              		.section	.bss.__compound_literal.73,"aw",%nobits
+ 697              		.align	2
+ 700              	__compound_literal.73:
+ 701 0000 00000000 		.space	8
+ 701      00000000 
+ 702              		.section	.bss.__compound_literal.76,"aw",%nobits
+ 703              		.align	2
+ 706              	__compound_literal.76:
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s 			page 27
+
+
+ 707 0000 00000000 		.space	24
+ 707      00000000 
+ 707      00000000 
+ 707      00000000 
+ 707      00000000 
+ 708              		.section	.bss.__compound_literal.77,"aw",%nobits
+ 709              		.align	2
+ 712              	__compound_literal.77:
+ 713 0000 00000000 		.space	16
+ 713      00000000 
+ 713      00000000 
+ 713      00000000 
+ 714              		.section	.bss.__compound_literal.78,"aw",%nobits
+ 715              		.align	2
+ 718              	__compound_literal.78:
+ 719 0000 00000000 		.space	8
+ 719      00000000 
+ 720              		.section	.data.__compound_literal.0,"aw"
+ 721              		.align	2
+ 724              	__compound_literal.0:
+ 725 0000 01000000 		.word	1
+ 726 0004 01000000 		.word	1
+ 727 0008 03000000 		.word	3
+ 728 000c 19000000 		.word	25
+ 729              		.section	.data.__compound_literal.1,"aw"
+ 730              		.align	2
+ 733              	__compound_literal.1:
+ 734 0000 04000000 		.word	4
+ 735 0004 04000000 		.word	4
+ 736 0008 04000000 		.word	4
+ 737 000c 0C000000 		.word	12
+ 738              		.section	.data.__compound_literal.10,"aw"
+ 739              		.align	2
+ 742              	__compound_literal.10:
+ 743 0000 01000000 		.word	1
+ 744 0004 19000000 		.word	25
+ 745 0008 01000000 		.word	1
+ 746 000c 01000000 		.word	1
+ 747              		.section	.data.__compound_literal.11,"aw"
+ 748              		.align	2
+ 751              	__compound_literal.11:
+ 752 0000 04000000 		.word	4
+ 753 0004 04000000 		.word	4
+ 754 0008 64000000 		.word	100
+ 755 000c 64000000 		.word	100
+ 756              		.section	.data.__compound_literal.12,"aw"
+ 757              		.align	2
+ 760              	__compound_literal.12:
+ 761 0000 01000000 		.word	1
+ 762 0004 04000000 		.word	4
+ 763 0008 01000000 		.word	1
+ 764 000c 01000000 		.word	1
+ 765              		.section	.data.__compound_literal.13,"aw"
+ 766              		.align	2
+ 769              	__compound_literal.13:
+ 770 0000 04000000 		.word	4
+ 771 0004 04000000 		.word	4
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s 			page 28
+
+
+ 772 0008 10000000 		.word	16
+ 773 000c 10000000 		.word	16
+ 774              		.section	.data.__compound_literal.14,"aw"
+ 775              		.align	2
+ 778              	__compound_literal.14:
+ 779 0000 01000000 		.word	1
+ 780 0004 04000000 		.word	4
+ 781 0008 01000000 		.word	1
+ 782 000c 01000000 		.word	1
+ 783              		.section	.data.__compound_literal.15,"aw"
+ 784              		.align	2
+ 787              	__compound_literal.15:
+ 788 0000 04000000 		.word	4
+ 789 0004 04000000 		.word	4
+ 790 0008 10000000 		.word	16
+ 791 000c 10000000 		.word	16
+ 792              		.section	.data.__compound_literal.16,"aw"
+ 793              		.align	2
+ 796              	__compound_literal.16:
+ 797 0000 01000000 		.word	1
+ 798 0004 03000000 		.word	3
+ 799 0008 03000000 		.word	3
+ 800 000c 04000000 		.word	4
+ 801              		.section	.data.__compound_literal.17,"aw"
+ 802              		.align	2
+ 805              	__compound_literal.17:
+ 806 0000 04000000 		.word	4
+ 807 0004 04000000 		.word	4
+ 808 0008 0C000000 		.word	12
+ 809 000c 24000000 		.word	36
+ 810              		.section	.data.__compound_literal.18,"aw"
+ 811              		.align	2
+ 814              	__compound_literal.18:
+ 815 0000 01000000 		.word	1
+ 816 0004 04000000 		.word	4
+ 817 0008 01000000 		.word	1
+ 818 000c 01000000 		.word	1
+ 819              		.section	.data.__compound_literal.19,"aw"
+ 820              		.align	2
+ 823              	__compound_literal.19:
+ 824 0000 04000000 		.word	4
+ 825 0004 04000000 		.word	4
+ 826 0008 10000000 		.word	16
+ 827 000c 10000000 		.word	16
+ 828              		.section	.data.__compound_literal.2,"aw"
+ 829              		.align	2
+ 832              	__compound_literal.2:
+ 833 0000 01000000 		.word	1
+ 834 0004 04000000 		.word	4
+ 835 0008 03000000 		.word	3
+ 836 000c 0D000000 		.word	13
+ 837              		.section	.data.__compound_literal.20,"aw"
+ 838              		.align	2
+ 841              	__compound_literal.20:
+ 842 0000 04000000 		.word	4
+ 843 0004 03000000 		.word	3
+ 844 0008 05000000 		.word	5
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s 			page 29
+
+
+ 845 000c 08000000 		.word	8
+ 846              		.section	.data.__compound_literal.21,"aw"
+ 847              		.align	2
+ 850              	__compound_literal.21:
+ 851 0000 04000000 		.word	4
+ 852 0004 10000000 		.word	16
+ 853 0008 30000000 		.word	48
+ 854 000c F0000000 		.word	240
+ 855              		.section	.data.__compound_literal.22,"aw"
+ 856              		.align	2
+ 859              	__compound_literal.22:
+ 860 0000 01000000 		.word	1
+ 861 0004 08000000 		.word	8
+ 862 0008 01000000 		.word	1
+ 863 000c 01000000 		.word	1
+ 864              		.section	.data.__compound_literal.23,"aw"
+ 865              		.align	2
+ 868              	__compound_literal.23:
+ 869 0000 04000000 		.word	4
+ 870 0004 04000000 		.word	4
+ 871 0008 20000000 		.word	32
+ 872 000c 20000000 		.word	32
+ 873              		.section	.data.__compound_literal.24,"aw"
+ 874              		.align	2
+ 877              	__compound_literal.24:
+ 878 0000 A8000000 		.word	168
+ 879 0004 19000000 		.word	25
+ 880 0008 01000000 		.word	1
+ 881 000c 01000000 		.word	1
+ 882              		.section	.data.__compound_literal.25,"aw"
+ 883              		.align	2
+ 886              	__compound_literal.25:
+ 887 0000 04000000 		.word	4
+ 888 0004 A0020000 		.word	672
+ 889 0008 A0410000 		.word	16800
+ 890 000c A0410000 		.word	16800
+ 891              		.section	.data.__compound_literal.26,"aw"
+ 892              		.align	2
+ 895              	__compound_literal.26:
+ 896 0000 01000000 		.word	1
+ 897 0004 19000000 		.word	25
+ 898 0008 01000000 		.word	1
+ 899 000c 01000000 		.word	1
+ 900              		.section	.data.__compound_literal.27,"aw"
+ 901              		.align	2
+ 904              	__compound_literal.27:
+ 905 0000 04000000 		.word	4
+ 906 0004 04000000 		.word	4
+ 907 0008 64000000 		.word	100
+ 908 000c 64000000 		.word	100
+ 909              		.section	.data.__compound_literal.28,"aw"
+ 910              		.align	2
+ 913              	__compound_literal.28:
+ 914 0000 19000000 		.word	25
+ 915 0004 04000000 		.word	4
+ 916 0008 01000000 		.word	1
+ 917 000c 01000000 		.word	1
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s 			page 30
+
+
+ 918              		.section	.data.__compound_literal.29,"aw"
+ 919              		.align	2
+ 922              	__compound_literal.29:
+ 923 0000 04000000 		.word	4
+ 924 0004 64000000 		.word	100
+ 925 0008 90010000 		.word	400
+ 926 000c 90010000 		.word	400
+ 927              		.section	.data.__compound_literal.3,"aw"
+ 928              		.align	2
+ 931              	__compound_literal.3:
+ 932 0000 04000000 		.word	4
+ 933 0004 04000000 		.word	4
+ 934 0008 10000000 		.word	16
+ 935 000c 30000000 		.word	48
+ 936              		.section	.data.__compound_literal.30,"aw"
+ 937              		.align	2
+ 940              	__compound_literal.30:
+ 941 0000 01000000 		.word	1
+ 942 0004 04000000 		.word	4
+ 943 0008 01000000 		.word	1
+ 944 000c 01000000 		.word	1
+ 945              		.section	.data.__compound_literal.31,"aw"
+ 946              		.align	2
+ 949              	__compound_literal.31:
+ 950 0000 04000000 		.word	4
+ 951 0004 04000000 		.word	4
+ 952 0008 10000000 		.word	16
+ 953 000c 10000000 		.word	16
+ 954              		.section	.data.__compound_literal.32,"aw"
+ 955              		.align	2
+ 958              	__compound_literal.32:
+ 959 0000 01000000 		.word	1
+ 960 0004 04000000 		.word	4
+ 961 0008 03000000 		.word	3
+ 962 000c 02000000 		.word	2
+ 963              		.section	.data.__compound_literal.33,"aw"
+ 964              		.align	2
+ 967              	__compound_literal.33:
+ 968 0000 04000000 		.word	4
+ 969 0004 04000000 		.word	4
+ 970 0008 10000000 		.word	16
+ 971 000c 30000000 		.word	48
+ 972              		.section	.data.__compound_literal.34,"aw"
+ 973              		.align	2
+ 976              	__compound_literal.34:
+ 977 0000 01000000 		.word	1
+ 978 0004 08000000 		.word	8
+ 979 0008 03000000 		.word	3
+ 980 000c 02000000 		.word	2
+ 981              		.section	.data.__compound_literal.35,"aw"
+ 982              		.align	2
+ 985              	__compound_literal.35:
+ 986 0000 04000000 		.word	4
+ 987 0004 04000000 		.word	4
+ 988 0008 20000000 		.word	32
+ 989 000c 60000000 		.word	96
+ 990              		.section	.data.__compound_literal.36,"aw"
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s 			page 31
+
+
+ 991              		.align	2
+ 994              	__compound_literal.36:
+ 995 0000 00000000 		.word	input_0_output
+ 996              		.section	.data.__compound_literal.37,"aw"
+ 997              		.align	2
+ 1000              	__compound_literal.37:
+ 1001 0000 00000000 		.word	conv2d_output
+ 1002              		.section	.data.__compound_literal.38,"aw"
+ 1003              		.align	2
+ 1006              	__compound_literal.38:
+ 1007 0000 00000000 		.word	conv2d_weights
+ 1008 0004 00000000 		.word	conv2d_bias
+ 1009 0008 00000000 		.word	0
+ 1010              		.section	.data.__compound_literal.39,"aw"
+ 1011              		.align	2
+ 1014              	__compound_literal.39:
+ 1015 0000 00000000 		.word	conv2d_scratch0
+ 1016              		.section	.data.__compound_literal.4,"aw"
+ 1017              		.align	2
+ 1020              	__compound_literal.4:
+ 1021 0000 01000000 		.word	1
+ 1022 0004 08000000 		.word	8
+ 1023 0008 03000000 		.word	3
+ 1024 000c 07000000 		.word	7
+ 1025              		.section	.data.__compound_literal.40,"aw"
+ 1026              		.align	2
+ 1029              	__compound_literal.40:
+ 1030 0000 0100     		.short	1
+ 1031 0002 0000     		.short	0
+ 1032 0004 00000000 		.word	__compound_literal.36
+ 1033 0008 00000000 		.word	0
+ 1034 000c 0100     		.short	1
+ 1035 000e 0000     		.short	0
+ 1036 0010 00000000 		.word	__compound_literal.37
+ 1037 0014 00000000 		.word	0
+ 1038 0018 0300     		.short	3
+ 1039 001a 0000     		.short	0
+ 1040 001c 00000000 		.word	__compound_literal.38
+ 1041 0020 00000000 		.word	0
+ 1042 0024 0100     		.short	1
+ 1043 0026 0000     		.short	0
+ 1044 0028 00000000 		.word	__compound_literal.39
+ 1045 002c 00000000 		.word	0
+ 1046              		.section	.data.__compound_literal.41,"aw"
+ 1047              		.align	2
+ 1050              	__compound_literal.41:
+ 1051 0000 01000000 		.word	1
+ 1052 0004 01000000 		.word	1
+ 1053 0008 01000000 		.word	1
+ 1054 000c 01000000 		.word	1
+ 1055              		.section	.data.__compound_literal.42,"aw"
+ 1056              		.align	2
+ 1059              	__compound_literal.42:
+ 1060 0000 00000000 		.word	0
+ 1061 0004 00000000 		.word	0
+ 1062 0008 01000000 		.word	1
+ 1063 000c 00000000 		.word	0
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s 			page 32
+
+
+ 1064              		.section	.data.__compound_literal.43,"aw"
+ 1065              		.align	2
+ 1068              	__compound_literal.43:
+ 1069 0000 00000000 		.word	conv2d_output
+ 1070              		.section	.data.__compound_literal.44,"aw"
+ 1071              		.align	2
+ 1074              	__compound_literal.44:
+ 1075 0000 00000000 		.word	conv2d_1_output
+ 1076              		.section	.data.__compound_literal.45,"aw"
+ 1077              		.align	2
+ 1080              	__compound_literal.45:
+ 1081 0000 00000000 		.word	conv2d_1_weights
+ 1082 0004 00000000 		.word	conv2d_1_bias
+ 1083 0008 00000000 		.word	0
+ 1084              		.section	.data.__compound_literal.46,"aw"
+ 1085              		.align	2
+ 1088              	__compound_literal.46:
+ 1089 0000 00000000 		.word	conv2d_1_scratch0
+ 1090              		.section	.data.__compound_literal.47,"aw"
+ 1091              		.align	2
+ 1094              	__compound_literal.47:
+ 1095 0000 0100     		.short	1
+ 1096 0002 0000     		.short	0
+ 1097 0004 00000000 		.word	__compound_literal.43
+ 1098 0008 00000000 		.word	0
+ 1099 000c 0100     		.short	1
+ 1100 000e 0000     		.short	0
+ 1101 0010 00000000 		.word	__compound_literal.44
+ 1102 0014 00000000 		.word	0
+ 1103 0018 0300     		.short	3
+ 1104 001a 0000     		.short	0
+ 1105 001c 00000000 		.word	__compound_literal.45
+ 1106 0020 00000000 		.word	0
+ 1107 0024 0100     		.short	1
+ 1108 0026 0000     		.short	0
+ 1109 0028 00000000 		.word	__compound_literal.46
+ 1110 002c 00000000 		.word	0
+ 1111              		.section	.data.__compound_literal.48,"aw"
+ 1112              		.align	2
+ 1115              	__compound_literal.48:
+ 1116 0000 02000000 		.word	2
+ 1117 0004 01000000 		.word	1
+ 1118 0008 02000000 		.word	2
+ 1119 000c 01000000 		.word	1
+ 1120              		.section	.data.__compound_literal.49,"aw"
+ 1121              		.align	2
+ 1124              	__compound_literal.49:
+ 1125 0000 00000000 		.word	0
+ 1126 0004 00000000 		.word	0
+ 1127 0008 01000000 		.word	1
+ 1128 000c 00000000 		.word	0
+ 1129              		.section	.data.__compound_literal.5,"aw"
+ 1130              		.align	2
+ 1133              	__compound_literal.5:
+ 1134 0000 04000000 		.word	4
+ 1135 0004 04000000 		.word	4
+ 1136 0008 20000000 		.word	32
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s 			page 33
+
+
+ 1137 000c 60000000 		.word	96
+ 1138              		.section	.data.__compound_literal.50,"aw"
+ 1139              		.align	2
+ 1142              	__compound_literal.50:
+ 1143 0000 00000000 		.word	conv2d_1_output0
+ 1144              		.section	.data.__compound_literal.51,"aw"
+ 1145              		.align	2
+ 1148              	__compound_literal.51:
+ 1149 0000 00000000 		.word	dense_output
+ 1150              		.section	.data.__compound_literal.52,"aw"
+ 1151              		.align	2
+ 1154              	__compound_literal.52:
+ 1155 0000 00000000 		.word	dense_weights
+ 1156 0004 00000000 		.word	dense_bias
+ 1157              		.section	.data.__compound_literal.54,"aw"
+ 1158              		.align	2
+ 1161              	__compound_literal.54:
+ 1162 0000 0100     		.short	1
+ 1163 0002 0000     		.short	0
+ 1164 0004 00000000 		.word	__compound_literal.50
+ 1165 0008 00000000 		.word	0
+ 1166 000c 0100     		.short	1
+ 1167 000e 0000     		.short	0
+ 1168 0010 00000000 		.word	__compound_literal.51
+ 1169 0014 00000000 		.word	0
+ 1170 0018 0200     		.short	2
+ 1171 001a 0000     		.short	0
+ 1172 001c 00000000 		.word	__compound_literal.52
+ 1173 0020 00000000 		.word	0
+ 1174 0024 0000     		.short	0
+ 1175 0026 0000     		.short	0
+ 1176 0028 00000000 		.word	__compound_literal.53
+ 1177 002c 00000000 		.word	0
+ 1178              		.section	.data.__compound_literal.55,"aw"
+ 1179              		.align	2
+ 1182              	__compound_literal.55:
+ 1183 0000 00000000 		.word	dense_output
+ 1184              		.section	.data.__compound_literal.56,"aw"
+ 1185              		.align	2
+ 1188              	__compound_literal.56:
+ 1189 0000 00000000 		.word	dense_nl_output
+ 1190              		.section	.data.__compound_literal.59,"aw"
+ 1191              		.align	2
+ 1194              	__compound_literal.59:
+ 1195 0000 0100     		.short	1
+ 1196 0002 0000     		.short	0
+ 1197 0004 00000000 		.word	__compound_literal.55
+ 1198 0008 00000000 		.word	0
+ 1199 000c 0100     		.short	1
+ 1200 000e 0000     		.short	0
+ 1201 0010 00000000 		.word	__compound_literal.56
+ 1202 0014 00000000 		.word	0
+ 1203 0018 0000     		.short	0
+ 1204 001a 0000     		.short	0
+ 1205 001c 00000000 		.word	__compound_literal.57
+ 1206 0020 00000000 		.word	0
+ 1207 0024 0000     		.short	0
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s 			page 34
+
+
+ 1208 0026 0000     		.short	0
+ 1209 0028 00000000 		.word	__compound_literal.58
+ 1210 002c 00000000 		.word	0
+ 1211              		.section	.data.__compound_literal.6,"aw"
+ 1212              		.align	2
+ 1215              	__compound_literal.6:
+ 1216 0000 01000000 		.word	1
+ 1217 0004 A8000000 		.word	168
+ 1218 0008 01000000 		.word	1
+ 1219 000c 01000000 		.word	1
+ 1220              		.section	.data.__compound_literal.60,"aw"
+ 1221              		.align	2
+ 1224              	__compound_literal.60:
+ 1225 0000 00000000 		.word	dense_nl_output
+ 1226              		.section	.data.__compound_literal.61,"aw"
+ 1227              		.align	2
+ 1230              	__compound_literal.61:
+ 1231 0000 00000000 		.word	dense_1_output
+ 1232              		.section	.data.__compound_literal.62,"aw"
+ 1233              		.align	2
+ 1236              	__compound_literal.62:
+ 1237 0000 00000000 		.word	dense_1_weights
+ 1238 0004 00000000 		.word	dense_1_bias
+ 1239              		.section	.data.__compound_literal.64,"aw"
+ 1240              		.align	2
+ 1243              	__compound_literal.64:
+ 1244 0000 0100     		.short	1
+ 1245 0002 0000     		.short	0
+ 1246 0004 00000000 		.word	__compound_literal.60
+ 1247 0008 00000000 		.word	0
+ 1248 000c 0100     		.short	1
+ 1249 000e 0000     		.short	0
+ 1250 0010 00000000 		.word	__compound_literal.61
+ 1251 0014 00000000 		.word	0
+ 1252 0018 0200     		.short	2
+ 1253 001a 0000     		.short	0
+ 1254 001c 00000000 		.word	__compound_literal.62
+ 1255 0020 00000000 		.word	0
+ 1256 0024 0000     		.short	0
+ 1257 0026 0000     		.short	0
+ 1258 0028 00000000 		.word	__compound_literal.63
+ 1259 002c 00000000 		.word	0
+ 1260              		.section	.data.__compound_literal.65,"aw"
+ 1261              		.align	2
+ 1264              	__compound_literal.65:
+ 1265 0000 00000000 		.word	dense_1_output
+ 1266              		.section	.data.__compound_literal.66,"aw"
+ 1267              		.align	2
+ 1270              	__compound_literal.66:
+ 1271 0000 00000000 		.word	dense_1_nl_output
+ 1272              		.section	.data.__compound_literal.69,"aw"
+ 1273              		.align	2
+ 1276              	__compound_literal.69:
+ 1277 0000 0100     		.short	1
+ 1278 0002 0000     		.short	0
+ 1279 0004 00000000 		.word	__compound_literal.65
+ 1280 0008 00000000 		.word	0
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s 			page 35
+
+
+ 1281 000c 0100     		.short	1
+ 1282 000e 0000     		.short	0
+ 1283 0010 00000000 		.word	__compound_literal.66
+ 1284 0014 00000000 		.word	0
+ 1285 0018 0000     		.short	0
+ 1286 001a 0000     		.short	0
+ 1287 001c 00000000 		.word	__compound_literal.67
+ 1288 0020 00000000 		.word	0
+ 1289 0024 0000     		.short	0
+ 1290 0026 0000     		.short	0
+ 1291 0028 00000000 		.word	__compound_literal.68
+ 1292 002c 00000000 		.word	0
+ 1293              		.section	.data.__compound_literal.7,"aw"
+ 1294              		.align	2
+ 1297              	__compound_literal.7:
+ 1298 0000 04000000 		.word	4
+ 1299 0004 04000000 		.word	4
+ 1300 0008 A0020000 		.word	672
+ 1301 000c A0020000 		.word	672
+ 1302              		.section	.data.__compound_literal.70,"aw"
+ 1303              		.align	2
+ 1306              	__compound_literal.70:
+ 1307 0000 00000000 		.word	input_0_output
+ 1308              		.section	.data.__compound_literal.74,"aw"
+ 1309              		.align	2
+ 1312              	__compound_literal.74:
+ 1313 0000 00000000 		.word	__compound_literal.72
+ 1314 0004 00000000 		.word	__compound_literal.71
+ 1315 0008 00000000 		.word	__compound_literal.73
+ 1316              		.section	.data.__compound_literal.75,"aw"
+ 1317              		.align	2
+ 1320              	__compound_literal.75:
+ 1321 0000 00000000 		.word	dense_1_nl_output
+ 1322              		.section	.data.__compound_literal.79,"aw"
+ 1323              		.align	2
+ 1326              	__compound_literal.79:
+ 1327 0000 00000000 		.word	__compound_literal.77
+ 1328 0004 00000000 		.word	__compound_literal.76
+ 1329 0008 00000000 		.word	__compound_literal.78
+ 1330              		.section	.data.__compound_literal.8,"aw"
+ 1331              		.align	2
+ 1334              	__compound_literal.8:
+ 1335 0000 01000000 		.word	1
+ 1336 0004 19000000 		.word	25
+ 1337 0008 01000000 		.word	1
+ 1338 000c 01000000 		.word	1
+ 1339              		.section	.data.__compound_literal.80,"aw"
+ 1340              		.align	2
+ 1343              	__compound_literal.80:
+ 1344 0000 0100     		.short	1
+ 1345 0002 0000     		.short	0
+ 1346 0004 00000000 		.word	__compound_literal.70
+ 1347 0008 00000000 		.word	__compound_literal.74
+ 1348 000c 0100     		.short	1
+ 1349 000e 0000     		.short	0
+ 1350 0010 00000000 		.word	__compound_literal.75
+ 1351 0014 00000000 		.word	__compound_literal.79
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s 			page 36
+
+
+ 1352              		.section	.data.__compound_literal.9,"aw"
+ 1353              		.align	2
+ 1356              	__compound_literal.9:
+ 1357 0000 04000000 		.word	4
+ 1358 0004 04000000 		.word	4
+ 1359 0008 64000000 		.word	100
+ 1360 000c 64000000 		.word	100
+ 1361              		.section	.data.conv2d_1_bias,"aw"
+ 1362              		.align	2
+ 1365              	conv2d_1_bias:
+ 1366 0000 00000000 		.word	0
+ 1367 0004 0B00     		.short	11
+ 1368 0006 00       		.byte	0
+ 1369 0007 01       		.byte	1
+ 1370 0008 00       		.byte	0
+ 1371 0009 04       		.byte	4
+ 1372 000a 00       		.byte	0
+ 1373 000b 00       		.byte	0
+ 1374 000c 00000000 		.word	__compound_literal.22
+ 1375 0010 01       		.byte	1
+ 1376 0011 04       		.byte	4
+ 1377 0012 00       		.byte	0
+ 1378 0013 00       		.byte	0
+ 1379 0014 00000000 		.word	__compound_literal.23
+ 1380 0018 00000000 		.word	conv2d_1_bias_array
+ 1381              		.section	.data.conv2d_1_bias_array,"aw"
+ 1382              		.align	2
+ 1383              		.set	.LANCHOR4,. + 0
+ 1386              	conv2d_1_bias_array:
+ 1387 0000 40108201 		.word	25301056
+ 1388 0004 08000000 		.word	8
+ 1389 0008 00000000 		.word	0
+ 1390 000c 00000000 		.word	0
+ 1391              		.section	.data.conv2d_1_layer,"aw"
+ 1392              		.align	2
+ 1395              	conv2d_1_layer:
+ 1396 0000 0901     		.short	265
+ 1397 0002 0300     		.short	3
+ 1398 0004 00000000 		.word	0
+ 1399 0008 00000000 		.word	0
+ 1400 000c 00000000 		.word	g_anomalydetector
+ 1401 0010 00000000 		.word	dense_layer
+ 1402 0014 00000000 		.word	forward_conv2d_nl_pool
+ 1403 0018 00000000 		.word	conv2d_1_chain
+ 1404 001c 01000000 		.word	1
+ 1405 0020 00000000 		.word	0
+ 1406 0024 00000000 		.word	nl_func_relu_array_f32
+ 1407 0028 01000000 		.word	1
+ 1408 002c 01000000 		.word	1
+ 1409 0030 01000000 		.word	1
+ 1410 0034 01000000 		.word	1
+ 1411 0038 00       		.byte	0
+ 1412 0039 04       		.byte	4
+ 1413 003a 00       		.byte	0
+ 1414 003b 00       		.byte	0
+ 1415 003c 00000000 		.word	__compound_literal.48
+ 1416 0040 01000000 		.word	1
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s 			page 37
+
+
+ 1417 0044 02000000 		.word	2
+ 1418 0048 01000000 		.word	1
+ 1419 004c 02000000 		.word	2
+ 1420 0050 00       		.byte	0
+ 1421 0051 04       		.byte	4
+ 1422 0052 00       		.byte	0
+ 1423 0053 00       		.byte	0
+ 1424 0054 00000000 		.word	__compound_literal.49
+ 1425 0058 00000000 		.word	pool_func_mp_array_f32
+ 1426              		.section	.data.conv2d_1_output,"aw"
+ 1427              		.align	2
+ 1430              	conv2d_1_output:
+ 1431 0000 00000000 		.word	0
+ 1432 0004 0200     		.short	2
+ 1433 0006 00       		.byte	0
+ 1434 0007 01       		.byte	1
+ 1435 0008 00       		.byte	0
+ 1436 0009 04       		.byte	4
+ 1437 000a 00       		.byte	0
+ 1438 000b 00       		.byte	0
+ 1439 000c 00000000 		.word	__compound_literal.4
+ 1440 0010 01       		.byte	1
+ 1441 0011 04       		.byte	4
+ 1442 0012 00       		.byte	0
+ 1443 0013 00       		.byte	0
+ 1444 0014 00000000 		.word	__compound_literal.5
+ 1445 0018 00000000 		.word	conv2d_1_output_array
+ 1446              		.section	.data.conv2d_1_output0,"aw"
+ 1447              		.align	2
+ 1450              	conv2d_1_output0:
+ 1451 0000 00000000 		.word	0
+ 1452 0004 0300     		.short	3
+ 1453 0006 00       		.byte	0
+ 1454 0007 01       		.byte	1
+ 1455 0008 00       		.byte	0
+ 1456 0009 04       		.byte	4
+ 1457 000a 00       		.byte	0
+ 1458 000b 00       		.byte	0
+ 1459 000c 00000000 		.word	__compound_literal.6
+ 1460 0010 01       		.byte	1
+ 1461 0011 04       		.byte	4
+ 1462 0012 00       		.byte	0
+ 1463 0013 00       		.byte	0
+ 1464 0014 00000000 		.word	__compound_literal.7
+ 1465 0018 00000000 		.word	conv2d_1_output_array
+ 1466              		.section	.data.conv2d_1_output_array,"aw"
+ 1467              		.align	2
+ 1468              		.set	.LANCHOR11,. + 0
+ 1471              	conv2d_1_output_array:
+ 1472 0000 40108201 		.word	25301056
+ 1473 0004 A8000000 		.word	168
+ 1474 0008 00000000 		.word	0
+ 1475 000c 00000000 		.word	0
+ 1476              		.section	.data.conv2d_1_scratch0,"aw"
+ 1477              		.align	2
+ 1480              	conv2d_1_scratch0:
+ 1481 0000 00000000 		.word	0
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s 			page 38
+
+
+ 1482 0004 1100     		.short	17
+ 1483 0006 00       		.byte	0
+ 1484 0007 01       		.byte	1
+ 1485 0008 00       		.byte	0
+ 1486 0009 04       		.byte	4
+ 1487 000a 00       		.byte	0
+ 1488 000b 00       		.byte	0
+ 1489 000c 00000000 		.word	__compound_literal.34
+ 1490 0010 01       		.byte	1
+ 1491 0011 04       		.byte	4
+ 1492 0012 00       		.byte	0
+ 1493 0013 00       		.byte	0
+ 1494 0014 00000000 		.word	__compound_literal.35
+ 1495 0018 00000000 		.word	conv2d_1_scratch0_array
+ 1496              		.section	.data.conv2d_1_scratch0_array,"aw"
+ 1497              		.align	2
+ 1498              		.set	.LANCHOR17,. + 0
+ 1501              	conv2d_1_scratch0_array:
+ 1502 0000 40108201 		.word	25301056
+ 1503 0004 30000000 		.word	48
+ 1504 0008 00000000 		.word	0
+ 1505 000c 00000000 		.word	0
+ 1506              		.section	.data.conv2d_1_weights,"aw"
+ 1507              		.align	2
+ 1510              	conv2d_1_weights:
+ 1511 0000 00000000 		.word	0
+ 1512 0004 0A00     		.short	10
+ 1513 0006 00       		.byte	0
+ 1514 0007 01       		.byte	1
+ 1515 0008 00       		.byte	0
+ 1516 0009 04       		.byte	4
+ 1517 000a 00       		.byte	0
+ 1518 000b 00       		.byte	0
+ 1519 000c 00000000 		.word	__compound_literal.20
+ 1520 0010 01       		.byte	1
+ 1521 0011 04       		.byte	4
+ 1522 0012 00       		.byte	0
+ 1523 0013 00       		.byte	0
+ 1524 0014 00000000 		.word	__compound_literal.21
+ 1525 0018 00000000 		.word	conv2d_1_weights_array
+ 1526              		.section	.data.conv2d_1_weights_array,"aw"
+ 1527              		.align	2
+ 1528              		.set	.LANCHOR3,. + 0
+ 1531              	conv2d_1_weights_array:
+ 1532 0000 40108201 		.word	25301056
+ 1533 0004 E0010000 		.word	480
+ 1534 0008 00000000 		.word	0
+ 1535 000c 00000000 		.word	0
+ 1536              		.section	.data.conv2d_bias,"aw"
+ 1537              		.align	2
+ 1540              	conv2d_bias:
+ 1541 0000 00000000 		.word	0
+ 1542 0004 0900     		.short	9
+ 1543 0006 00       		.byte	0
+ 1544 0007 01       		.byte	1
+ 1545 0008 00       		.byte	0
+ 1546 0009 04       		.byte	4
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s 			page 39
+
+
+ 1547 000a 00       		.byte	0
+ 1548 000b 00       		.byte	0
+ 1549 000c 00000000 		.word	__compound_literal.18
+ 1550 0010 01       		.byte	1
+ 1551 0011 04       		.byte	4
+ 1552 0012 00       		.byte	0
+ 1553 0013 00       		.byte	0
+ 1554 0014 00000000 		.word	__compound_literal.19
+ 1555 0018 00000000 		.word	conv2d_bias_array
+ 1556              		.section	.data.conv2d_bias_array,"aw"
+ 1557              		.align	2
+ 1558              		.set	.LANCHOR2,. + 0
+ 1561              	conv2d_bias_array:
+ 1562 0000 40108201 		.word	25301056
+ 1563 0004 04000000 		.word	4
+ 1564 0008 00000000 		.word	0
+ 1565 000c 00000000 		.word	0
+ 1566              		.section	.data.conv2d_layer,"aw"
+ 1567              		.align	2
+ 1570              	conv2d_layer:
+ 1571 0000 0901     		.short	265
+ 1572 0002 0100     		.short	1
+ 1573 0004 00000000 		.word	0
+ 1574 0008 00000000 		.word	0
+ 1575 000c 00000000 		.word	g_anomalydetector
+ 1576 0010 00000000 		.word	conv2d_1_layer
+ 1577 0014 00000000 		.word	forward_conv2d_nl_pool
+ 1578 0018 00000000 		.word	conv2d_chain
+ 1579 001c 01000000 		.word	1
+ 1580 0020 00000000 		.word	0
+ 1581 0024 00000000 		.word	nl_func_relu_array_f32
+ 1582 0028 01000000 		.word	1
+ 1583 002c 01000000 		.word	1
+ 1584 0030 01000000 		.word	1
+ 1585 0034 01000000 		.word	1
+ 1586 0038 00       		.byte	0
+ 1587 0039 04       		.byte	4
+ 1588 003a 00       		.byte	0
+ 1589 003b 00       		.byte	0
+ 1590 003c 00000000 		.word	__compound_literal.41
+ 1591 0040 01000000 		.word	1
+ 1592 0044 02000000 		.word	2
+ 1593 0048 01000000 		.word	1
+ 1594 004c 02000000 		.word	2
+ 1595 0050 00       		.byte	0
+ 1596 0051 04       		.byte	4
+ 1597 0052 00       		.byte	0
+ 1598 0053 00       		.byte	0
+ 1599 0054 00000000 		.word	__compound_literal.42
+ 1600 0058 00000000 		.word	pool_func_mp_array_f32
+ 1601              		.section	.data.conv2d_output,"aw"
+ 1602              		.align	2
+ 1605              	conv2d_output:
+ 1606 0000 00000000 		.word	0
+ 1607 0004 0100     		.short	1
+ 1608 0006 00       		.byte	0
+ 1609 0007 01       		.byte	1
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s 			page 40
+
+
+ 1610 0008 00       		.byte	0
+ 1611 0009 04       		.byte	4
+ 1612 000a 00       		.byte	0
+ 1613 000b 00       		.byte	0
+ 1614 000c 00000000 		.word	__compound_literal.2
+ 1615 0010 01       		.byte	1
+ 1616 0011 04       		.byte	4
+ 1617 0012 00       		.byte	0
+ 1618 0013 00       		.byte	0
+ 1619 0014 00000000 		.word	__compound_literal.3
+ 1620 0018 00000000 		.word	conv2d_output_array
+ 1621              		.section	.data.conv2d_output_array,"aw"
+ 1622              		.align	2
+ 1623              		.set	.LANCHOR10,. + 0
+ 1626              	conv2d_output_array:
+ 1627 0000 40108201 		.word	25301056
+ 1628 0004 9C000000 		.word	156
+ 1629 0008 00000000 		.word	0
+ 1630 000c 00000000 		.word	0
+ 1631              		.section	.data.conv2d_scratch0,"aw"
+ 1632              		.align	2
+ 1635              	conv2d_scratch0:
+ 1636 0000 00000000 		.word	0
+ 1637 0004 1000     		.short	16
+ 1638 0006 00       		.byte	0
+ 1639 0007 01       		.byte	1
+ 1640 0008 00       		.byte	0
+ 1641 0009 04       		.byte	4
+ 1642 000a 00       		.byte	0
+ 1643 000b 00       		.byte	0
+ 1644 000c 00000000 		.word	__compound_literal.32
+ 1645 0010 01       		.byte	1
+ 1646 0011 04       		.byte	4
+ 1647 0012 00       		.byte	0
+ 1648 0013 00       		.byte	0
+ 1649 0014 00000000 		.word	__compound_literal.33
+ 1650 0018 00000000 		.word	conv2d_scratch0_array
+ 1651              		.section	.data.conv2d_scratch0_array,"aw"
+ 1652              		.align	2
+ 1653              		.set	.LANCHOR16,. + 0
+ 1656              	conv2d_scratch0_array:
+ 1657 0000 40108201 		.word	25301056
+ 1658 0004 18000000 		.word	24
+ 1659 0008 00000000 		.word	0
+ 1660 000c 00000000 		.word	0
+ 1661              		.section	.data.conv2d_weights,"aw"
+ 1662              		.align	2
+ 1665              	conv2d_weights:
+ 1666 0000 00000000 		.word	0
+ 1667 0004 0800     		.short	8
+ 1668 0006 00       		.byte	0
+ 1669 0007 01       		.byte	1
+ 1670 0008 00       		.byte	0
+ 1671 0009 04       		.byte	4
+ 1672 000a 00       		.byte	0
+ 1673 000b 00       		.byte	0
+ 1674 000c 00000000 		.word	__compound_literal.16
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s 			page 41
+
+
+ 1675 0010 01       		.byte	1
+ 1676 0011 04       		.byte	4
+ 1677 0012 00       		.byte	0
+ 1678 0013 00       		.byte	0
+ 1679 0014 00000000 		.word	__compound_literal.17
+ 1680 0018 00000000 		.word	conv2d_weights_array
+ 1681              		.section	.data.conv2d_weights_array,"aw"
+ 1682              		.align	2
+ 1683              		.set	.LANCHOR1,. + 0
+ 1686              	conv2d_weights_array:
+ 1687 0000 40108201 		.word	25301056
+ 1688 0004 24000000 		.word	36
+ 1689 0008 00000000 		.word	0
+ 1690 000c 00000000 		.word	0
+ 1691              		.section	.data.dense_1_bias,"aw"
+ 1692              		.align	2
+ 1695              	dense_1_bias:
+ 1696 0000 00000000 		.word	0
+ 1697 0004 0F00     		.short	15
+ 1698 0006 00       		.byte	0
+ 1699 0007 01       		.byte	1
+ 1700 0008 00       		.byte	0
+ 1701 0009 04       		.byte	4
+ 1702 000a 00       		.byte	0
+ 1703 000b 00       		.byte	0
+ 1704 000c 00000000 		.word	__compound_literal.30
+ 1705 0010 01       		.byte	1
+ 1706 0011 04       		.byte	4
+ 1707 0012 00       		.byte	0
+ 1708 0013 00       		.byte	0
+ 1709 0014 00000000 		.word	__compound_literal.31
+ 1710 0018 00000000 		.word	dense_1_bias_array
+ 1711              		.section	.data.dense_1_bias_array,"aw"
+ 1712              		.align	2
+ 1713              		.set	.LANCHOR8,. + 0
+ 1716              	dense_1_bias_array:
+ 1717 0000 40108201 		.word	25301056
+ 1718 0004 04000000 		.word	4
+ 1719 0008 00000000 		.word	0
+ 1720 000c 00000000 		.word	0
+ 1721              		.section	.data.dense_1_layer,"aw"
+ 1722              		.align	2
+ 1725              	dense_1_layer:
+ 1726 0000 0401     		.short	260
+ 1727 0002 0700     		.short	7
+ 1728 0004 00000000 		.word	0
+ 1729 0008 00000000 		.word	0
+ 1730 000c 00000000 		.word	g_anomalydetector
+ 1731 0010 00000000 		.word	dense_1_nl_layer
+ 1732 0014 00000000 		.word	forward_dense
+ 1733 0018 00000000 		.word	dense_1_chain
+ 1734              		.section	.data.dense_1_nl_layer,"aw"
+ 1735              		.align	2
+ 1738              	dense_1_nl_layer:
+ 1739 0000 0701     		.short	263
+ 1740 0002 0700     		.short	7
+ 1741 0004 00000000 		.word	0
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s 			page 42
+
+
+ 1742 0008 00000000 		.word	0
+ 1743 000c 00000000 		.word	g_anomalydetector
+ 1744 0010 00000000 		.word	dense_1_nl_layer
+ 1745 0014 00000000 		.word	forward_sm
+ 1746 0018 00000000 		.word	dense_1_nl_chain
+ 1747 001c 00000000 		.word	0
+ 1748              		.section	.data.dense_1_nl_output,"aw"
+ 1749              		.align	2
+ 1752              	dense_1_nl_output:
+ 1753 0000 00000000 		.word	0
+ 1754 0004 0700     		.short	7
+ 1755 0006 00       		.byte	0
+ 1756 0007 01       		.byte	1
+ 1757 0008 00       		.byte	0
+ 1758 0009 04       		.byte	4
+ 1759 000a 00       		.byte	0
+ 1760 000b 00       		.byte	0
+ 1761 000c 00000000 		.word	__compound_literal.14
+ 1762 0010 01       		.byte	1
+ 1763 0011 04       		.byte	4
+ 1764 0012 00       		.byte	0
+ 1765 0013 00       		.byte	0
+ 1766 0014 00000000 		.word	__compound_literal.15
+ 1767 0018 00000000 		.word	dense_1_nl_output_array
+ 1768              		.section	.data.dense_1_nl_output_array,"aw"
+ 1769              		.align	2
+ 1770              		.set	.LANCHOR15,. + 0
+ 1773              	dense_1_nl_output_array:
+ 1774 0000 40108209 		.word	159518784
+ 1775 0004 04000000 		.word	4
+ 1776 0008 00000000 		.word	0
+ 1777 000c 00000000 		.word	0
+ 1778              		.section	.data.dense_1_output,"aw"
+ 1779              		.align	2
+ 1782              	dense_1_output:
+ 1783 0000 00000000 		.word	0
+ 1784 0004 0600     		.short	6
+ 1785 0006 00       		.byte	0
+ 1786 0007 01       		.byte	1
+ 1787 0008 00       		.byte	0
+ 1788 0009 04       		.byte	4
+ 1789 000a 00       		.byte	0
+ 1790 000b 00       		.byte	0
+ 1791 000c 00000000 		.word	__compound_literal.12
+ 1792 0010 01       		.byte	1
+ 1793 0011 04       		.byte	4
+ 1794 0012 00       		.byte	0
+ 1795 0013 00       		.byte	0
+ 1796 0014 00000000 		.word	__compound_literal.13
+ 1797 0018 00000000 		.word	dense_1_output_array
+ 1798              		.section	.data.dense_1_output_array,"aw"
+ 1799              		.align	2
+ 1800              		.set	.LANCHOR14,. + 0
+ 1803              	dense_1_output_array:
+ 1804 0000 40108201 		.word	25301056
+ 1805 0004 04000000 		.word	4
+ 1806 0008 00000000 		.word	0
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s 			page 43
+
+
+ 1807 000c 00000000 		.word	0
+ 1808              		.section	.data.dense_1_weights,"aw"
+ 1809              		.align	2
+ 1812              	dense_1_weights:
+ 1813 0000 00000000 		.word	0
+ 1814 0004 0E00     		.short	14
+ 1815 0006 00       		.byte	0
+ 1816 0007 01       		.byte	1
+ 1817 0008 00       		.byte	0
+ 1818 0009 04       		.byte	4
+ 1819 000a 00       		.byte	0
+ 1820 000b 00       		.byte	0
+ 1821 000c 00000000 		.word	__compound_literal.28
+ 1822 0010 01       		.byte	1
+ 1823 0011 04       		.byte	4
+ 1824 0012 00       		.byte	0
+ 1825 0013 00       		.byte	0
+ 1826 0014 00000000 		.word	__compound_literal.29
+ 1827 0018 00000000 		.word	dense_1_weights_array
+ 1828              		.section	.data.dense_1_weights_array,"aw"
+ 1829              		.align	2
+ 1830              		.set	.LANCHOR7,. + 0
+ 1833              	dense_1_weights_array:
+ 1834 0000 40108201 		.word	25301056
+ 1835 0004 64000000 		.word	100
+ 1836 0008 00000000 		.word	0
+ 1837 000c 00000000 		.word	0
+ 1838              		.section	.data.dense_bias,"aw"
+ 1839              		.align	2
+ 1842              	dense_bias:
+ 1843 0000 00000000 		.word	0
+ 1844 0004 0D00     		.short	13
+ 1845 0006 00       		.byte	0
+ 1846 0007 01       		.byte	1
+ 1847 0008 00       		.byte	0
+ 1848 0009 04       		.byte	4
+ 1849 000a 00       		.byte	0
+ 1850 000b 00       		.byte	0
+ 1851 000c 00000000 		.word	__compound_literal.26
+ 1852 0010 01       		.byte	1
+ 1853 0011 04       		.byte	4
+ 1854 0012 00       		.byte	0
+ 1855 0013 00       		.byte	0
+ 1856 0014 00000000 		.word	__compound_literal.27
+ 1857 0018 00000000 		.word	dense_bias_array
+ 1858              		.section	.data.dense_bias_array,"aw"
+ 1859              		.align	2
+ 1860              		.set	.LANCHOR6,. + 0
+ 1863              	dense_bias_array:
+ 1864 0000 40108201 		.word	25301056
+ 1865 0004 19000000 		.word	25
+ 1866 0008 00000000 		.word	0
+ 1867 000c 00000000 		.word	0
+ 1868              		.section	.data.dense_layer,"aw"
+ 1869              		.align	2
+ 1872              	dense_layer:
+ 1873 0000 0401     		.short	260
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s 			page 44
+
+
+ 1874 0002 0500     		.short	5
+ 1875 0004 00000000 		.word	0
+ 1876 0008 00000000 		.word	0
+ 1877 000c 00000000 		.word	g_anomalydetector
+ 1878 0010 00000000 		.word	dense_nl_layer
+ 1879 0014 00000000 		.word	forward_dense
+ 1880 0018 00000000 		.word	dense_chain
+ 1881              		.section	.data.dense_nl_layer,"aw"
+ 1882              		.align	2
+ 1885              	dense_nl_layer:
+ 1886 0000 0701     		.short	263
+ 1887 0002 0500     		.short	5
+ 1888 0004 00000000 		.word	0
+ 1889 0008 00000000 		.word	0
+ 1890 000c 00000000 		.word	g_anomalydetector
+ 1891 0010 00000000 		.word	dense_1_layer
+ 1892 0014 00000000 		.word	forward_relu
+ 1893 0018 00000000 		.word	dense_nl_chain
+ 1894 001c 00000000 		.word	0
+ 1895              		.section	.data.dense_nl_output,"aw"
+ 1896              		.align	2
+ 1899              	dense_nl_output:
+ 1900 0000 00000000 		.word	0
+ 1901 0004 0500     		.short	5
+ 1902 0006 00       		.byte	0
+ 1903 0007 01       		.byte	1
+ 1904 0008 00       		.byte	0
+ 1905 0009 04       		.byte	4
+ 1906 000a 00       		.byte	0
+ 1907 000b 00       		.byte	0
+ 1908 000c 00000000 		.word	__compound_literal.10
+ 1909 0010 01       		.byte	1
+ 1910 0011 04       		.byte	4
+ 1911 0012 00       		.byte	0
+ 1912 0013 00       		.byte	0
+ 1913 0014 00000000 		.word	__compound_literal.11
+ 1914 0018 00000000 		.word	dense_nl_output_array
+ 1915              		.section	.data.dense_nl_output_array,"aw"
+ 1916              		.align	2
+ 1917              		.set	.LANCHOR13,. + 0
+ 1920              	dense_nl_output_array:
+ 1921 0000 40108201 		.word	25301056
+ 1922 0004 19000000 		.word	25
+ 1923 0008 00000000 		.word	0
+ 1924 000c 00000000 		.word	0
+ 1925              		.section	.data.dense_output,"aw"
+ 1926              		.align	2
+ 1929              	dense_output:
+ 1930 0000 00000000 		.word	0
+ 1931 0004 0400     		.short	4
+ 1932 0006 00       		.byte	0
+ 1933 0007 01       		.byte	1
+ 1934 0008 00       		.byte	0
+ 1935 0009 04       		.byte	4
+ 1936 000a 00       		.byte	0
+ 1937 000b 00       		.byte	0
+ 1938 000c 00000000 		.word	__compound_literal.8
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s 			page 45
+
+
+ 1939 0010 01       		.byte	1
+ 1940 0011 04       		.byte	4
+ 1941 0012 00       		.byte	0
+ 1942 0013 00       		.byte	0
+ 1943 0014 00000000 		.word	__compound_literal.9
+ 1944 0018 00000000 		.word	dense_output_array
+ 1945              		.section	.data.dense_output_array,"aw"
+ 1946              		.align	2
+ 1947              		.set	.LANCHOR12,. + 0
+ 1950              	dense_output_array:
+ 1951 0000 40108201 		.word	25301056
+ 1952 0004 19000000 		.word	25
+ 1953 0008 00000000 		.word	0
+ 1954 000c 00000000 		.word	0
+ 1955              		.section	.data.dense_weights,"aw"
+ 1956              		.align	2
+ 1959              	dense_weights:
+ 1960 0000 00000000 		.word	0
+ 1961 0004 0C00     		.short	12
+ 1962 0006 00       		.byte	0
+ 1963 0007 01       		.byte	1
+ 1964 0008 00       		.byte	0
+ 1965 0009 04       		.byte	4
+ 1966 000a 00       		.byte	0
+ 1967 000b 00       		.byte	0
+ 1968 000c 00000000 		.word	__compound_literal.24
+ 1969 0010 01       		.byte	1
+ 1970 0011 04       		.byte	4
+ 1971 0012 00       		.byte	0
+ 1972 0013 00       		.byte	0
+ 1973 0014 00000000 		.word	__compound_literal.25
+ 1974 0018 00000000 		.word	dense_weights_array
+ 1975              		.section	.data.dense_weights_array,"aw"
+ 1976              		.align	2
+ 1977              		.set	.LANCHOR5,. + 0
+ 1980              	dense_weights_array:
+ 1981 0000 40108201 		.word	25301056
+ 1982 0004 68100000 		.word	4200
+ 1983 0008 00000000 		.word	0
+ 1984 000c 00000000 		.word	0
+ 1985              		.section	.data.g_anomalydetector,"aw"
+ 1986              		.align	2
+ 1987              		.set	.LANCHOR0,. + 0
+ 1990              	g_anomalydetector:
+ 1991 0000 00000000 		.word	0
+ 1992 0004 00000000 		.word	0
+ 1993 0008 00000000 		.word	0
+ 1994 000c 00000000 		.word	0
+ 1995 0010 00       		.byte	0
+ 1996 0011 00       		.byte	0
+ 1997 0012 00       		.byte	0
+ 1998 0013 00       		.byte	0
+ 1999 0014 0000     		.short	0
+ 2000 0016 0000     		.short	0
+ 2001 0018 40040400 		.word	263232
+ 2002 001c 0100     		.short	1
+ 2003 001e 0100     		.short	1
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s 			page 46
+
+
+ 2004 0020 0100     		.short	1
+ 2005 0022 0000     		.space	2
+ 2006 0024 E44B0000 		.word	19428
+ 2007 0028 00000000 		.word	0
+ 2008 002c 00000000 		.word	0
+ 2009 0030 40040400 		.word	263232
+ 2010 0034 0100     		.short	1
+ 2011 0036 0100     		.short	1
+ 2012 0038 0100     		.short	1
+ 2013 003a 0000     		.space	2
+ 2014 003c 10050000 		.word	1296
+ 2015 0040 00000000 		.word	0
+ 2016 0044 00000000 		.word	0
+ 2017 0048 0200     		.short	2
+ 2018 004a 0000     		.short	0
+ 2019 004c 00000000 		.word	__compound_literal.80
+ 2020 0050 00000000 		.word	conv2d_layer
+ 2021 0054 00000000 		.word	0
+ 2022 0058 00000000 		.word	0
+ 2023 005c 00000000 		.word	0
+ 2024 0060 00000000 		.space	4
+ 2025              		.section	.data.input_0_output,"aw"
+ 2026              		.align	2
+ 2029              	input_0_output:
+ 2030 0000 00000000 		.word	0
+ 2031 0004 0000     		.short	0
+ 2032 0006 00       		.byte	0
+ 2033 0007 01       		.byte	1
+ 2034 0008 00       		.byte	0
+ 2035 0009 04       		.byte	4
+ 2036 000a 00       		.byte	0
+ 2037 000b 00       		.byte	0
+ 2038 000c 00000000 		.word	__compound_literal.0
+ 2039 0010 01       		.byte	1
+ 2040 0011 04       		.byte	4
+ 2041 0012 00       		.byte	0
+ 2042 0013 00       		.byte	0
+ 2043 0014 00000000 		.word	__compound_literal.1
+ 2044 0018 00000000 		.word	input_0_output_array
+ 2045              		.section	.data.input_0_output_array,"aw"
+ 2046              		.align	2
+ 2047              		.set	.LANCHOR9,. + 0
+ 2050              	input_0_output_array:
+ 2051 0000 40108209 		.word	159518784
+ 2052 0004 4B000000 		.word	75
+ 2053 0008 00000000 		.word	0
+ 2054 000c 00000000 		.word	0
+ 2055              		.section	.rodata.conv2d_1_chain,"a"
+ 2056              		.align	2
+ 2059              	conv2d_1_chain:
+ 2060 0000 0400     		.short	4
+ 2061 0002 0000     		.short	0
+ 2062 0004 00000000 		.word	__compound_literal.47
+ 2063              		.section	.rodata.conv2d_chain,"a"
+ 2064              		.align	2
+ 2067              	conv2d_chain:
+ 2068 0000 0400     		.short	4
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s 			page 47
+
+
+ 2069 0002 0000     		.short	0
+ 2070 0004 00000000 		.word	__compound_literal.40
+ 2071              		.section	.rodata.dense_1_chain,"a"
+ 2072              		.align	2
+ 2075              	dense_1_chain:
+ 2076 0000 0400     		.short	4
+ 2077 0002 0000     		.short	0
+ 2078 0004 00000000 		.word	__compound_literal.64
+ 2079              		.section	.rodata.dense_1_nl_chain,"a"
+ 2080              		.align	2
+ 2083              	dense_1_nl_chain:
+ 2084 0000 0400     		.short	4
+ 2085 0002 0000     		.short	0
+ 2086 0004 00000000 		.word	__compound_literal.69
+ 2087              		.section	.rodata.dense_chain,"a"
+ 2088              		.align	2
+ 2091              	dense_chain:
+ 2092 0000 0400     		.short	4
+ 2093 0002 0000     		.short	0
+ 2094 0004 00000000 		.word	__compound_literal.54
+ 2095              		.section	.rodata.dense_nl_chain,"a"
+ 2096              		.align	2
+ 2099              	dense_nl_chain:
+ 2100 0000 0400     		.short	4
+ 2101 0002 0000     		.short	0
+ 2102 0004 00000000 		.word	__compound_literal.59
+ 2103              		.text
+ 2104              	.Letext0:
+ 2105              		.file 2 "c:\\gnu\\gnu_arm_embedded_toolchain\\10-2020-q4-major\\arm-none-eabi\\include\\machine\\_
+ 2106              		.file 3 "c:\\gnu\\gnu_arm_embedded_toolchain\\10-2020-q4-major\\arm-none-eabi\\include\\sys\\_stdi
+ 2107              		.file 4 "Middlewares/ST/AI/Inc/ai_platform.h"
+ 2108              		.file 5 "Middlewares/ST/AI/Inc/datatypes_network.h"
+ 2109              		.file 6 "Middlewares/ST/AI/Inc/core_datatypes.h"
+ 2110              		.file 7 "Middlewares/ST/AI/Inc/ai_datatypes_format.h"
+ 2111              		.file 8 "Middlewares/ST/AI/Inc/ai_platform_interface.h"
+ 2112              		.file 9 "Middlewares/ST/AI/Inc/core_common.h"
+ 2113              		.file 10 "Middlewares/ST/AI/Inc/layers_common.h"
+ 2114              		.file 11 "Middlewares/ST/AI/Inc/layers_nl.h"
+ 2115              		.file 12 "Middlewares/ST/AI/Inc/layers_pool.h"
+ 2116              		.file 13 "Middlewares/ST/AI/Inc/layers_conv2d.h"
+ 2117              		.file 14 "<built-in>"
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s 			page 48
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 anomalydetector.c
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:18     .rodata.ai_anomalydetector_get_info.str1.4:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:34     .text.ai_anomalydetector_get_info:00000000 $t
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:42     .text.ai_anomalydetector_get_info:00000000 ai_anomalydetector_get_info
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:164    .text.ai_anomalydetector_get_info:0000007c $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:173    .text.ai_anomalydetector_get_error:00000000 $t
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:180    .text.ai_anomalydetector_get_error:00000000 ai_anomalydetector_get_error
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:203    .text.ai_anomalydetector_create:00000000 $t
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:210    .text.ai_anomalydetector_create:00000000 ai_anomalydetector_create
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:244    .text.ai_anomalydetector_create:0000001c $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:249    .text.ai_anomalydetector_destroy:00000000 $t
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:256    .text.ai_anomalydetector_destroy:00000000 ai_anomalydetector_destroy
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:279    .text.ai_anomalydetector_init:00000000 $t
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:286    .text.ai_anomalydetector_init:00000000 ai_anomalydetector_init
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:567    .text.ai_anomalydetector_init:00000104 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:588    .text.ai_anomalydetector_run:00000000 $t
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:595    .text.ai_anomalydetector_run:00000000 ai_anomalydetector_run
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:618    .text.ai_anomalydetector_forward:00000000 $t
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:625    .text.ai_anomalydetector_forward:00000000 ai_anomalydetector_forward
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:649    .bss.__compound_literal.53:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:652    .bss.__compound_literal.53:00000000 __compound_literal.53
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:655    .bss.__compound_literal.57:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:658    .bss.__compound_literal.57:00000000 __compound_literal.57
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:661    .bss.__compound_literal.58:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:664    .bss.__compound_literal.58:00000000 __compound_literal.58
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:667    .bss.__compound_literal.63:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:670    .bss.__compound_literal.63:00000000 __compound_literal.63
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:673    .bss.__compound_literal.67:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:676    .bss.__compound_literal.67:00000000 __compound_literal.67
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:679    .bss.__compound_literal.68:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:682    .bss.__compound_literal.68:00000000 __compound_literal.68
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:685    .bss.__compound_literal.71:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:688    .bss.__compound_literal.71:00000000 __compound_literal.71
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:691    .bss.__compound_literal.72:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:694    .bss.__compound_literal.72:00000000 __compound_literal.72
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:697    .bss.__compound_literal.73:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:700    .bss.__compound_literal.73:00000000 __compound_literal.73
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:703    .bss.__compound_literal.76:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:706    .bss.__compound_literal.76:00000000 __compound_literal.76
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:709    .bss.__compound_literal.77:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:712    .bss.__compound_literal.77:00000000 __compound_literal.77
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:715    .bss.__compound_literal.78:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:718    .bss.__compound_literal.78:00000000 __compound_literal.78
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:721    .data.__compound_literal.0:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:724    .data.__compound_literal.0:00000000 __compound_literal.0
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:730    .data.__compound_literal.1:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:733    .data.__compound_literal.1:00000000 __compound_literal.1
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:739    .data.__compound_literal.10:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:742    .data.__compound_literal.10:00000000 __compound_literal.10
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:748    .data.__compound_literal.11:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:751    .data.__compound_literal.11:00000000 __compound_literal.11
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:757    .data.__compound_literal.12:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:760    .data.__compound_literal.12:00000000 __compound_literal.12
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:766    .data.__compound_literal.13:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:769    .data.__compound_literal.13:00000000 __compound_literal.13
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:775    .data.__compound_literal.14:00000000 $d
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s 			page 49
+
+
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:778    .data.__compound_literal.14:00000000 __compound_literal.14
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:784    .data.__compound_literal.15:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:787    .data.__compound_literal.15:00000000 __compound_literal.15
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:793    .data.__compound_literal.16:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:796    .data.__compound_literal.16:00000000 __compound_literal.16
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:802    .data.__compound_literal.17:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:805    .data.__compound_literal.17:00000000 __compound_literal.17
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:811    .data.__compound_literal.18:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:814    .data.__compound_literal.18:00000000 __compound_literal.18
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:820    .data.__compound_literal.19:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:823    .data.__compound_literal.19:00000000 __compound_literal.19
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:829    .data.__compound_literal.2:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:832    .data.__compound_literal.2:00000000 __compound_literal.2
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:838    .data.__compound_literal.20:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:841    .data.__compound_literal.20:00000000 __compound_literal.20
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:847    .data.__compound_literal.21:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:850    .data.__compound_literal.21:00000000 __compound_literal.21
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:856    .data.__compound_literal.22:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:859    .data.__compound_literal.22:00000000 __compound_literal.22
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:865    .data.__compound_literal.23:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:868    .data.__compound_literal.23:00000000 __compound_literal.23
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:874    .data.__compound_literal.24:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:877    .data.__compound_literal.24:00000000 __compound_literal.24
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:883    .data.__compound_literal.25:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:886    .data.__compound_literal.25:00000000 __compound_literal.25
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:892    .data.__compound_literal.26:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:895    .data.__compound_literal.26:00000000 __compound_literal.26
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:901    .data.__compound_literal.27:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:904    .data.__compound_literal.27:00000000 __compound_literal.27
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:910    .data.__compound_literal.28:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:913    .data.__compound_literal.28:00000000 __compound_literal.28
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:919    .data.__compound_literal.29:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:922    .data.__compound_literal.29:00000000 __compound_literal.29
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:928    .data.__compound_literal.3:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:931    .data.__compound_literal.3:00000000 __compound_literal.3
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:937    .data.__compound_literal.30:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:940    .data.__compound_literal.30:00000000 __compound_literal.30
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:946    .data.__compound_literal.31:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:949    .data.__compound_literal.31:00000000 __compound_literal.31
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:955    .data.__compound_literal.32:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:958    .data.__compound_literal.32:00000000 __compound_literal.32
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:964    .data.__compound_literal.33:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:967    .data.__compound_literal.33:00000000 __compound_literal.33
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:973    .data.__compound_literal.34:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:976    .data.__compound_literal.34:00000000 __compound_literal.34
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:982    .data.__compound_literal.35:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:985    .data.__compound_literal.35:00000000 __compound_literal.35
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:991    .data.__compound_literal.36:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:994    .data.__compound_literal.36:00000000 __compound_literal.36
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:2029   .data.input_0_output:00000000 input_0_output
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:997    .data.__compound_literal.37:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1000   .data.__compound_literal.37:00000000 __compound_literal.37
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1605   .data.conv2d_output:00000000 conv2d_output
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1003   .data.__compound_literal.38:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1006   .data.__compound_literal.38:00000000 __compound_literal.38
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1665   .data.conv2d_weights:00000000 conv2d_weights
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1540   .data.conv2d_bias:00000000 conv2d_bias
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s 			page 50
+
+
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1011   .data.__compound_literal.39:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1014   .data.__compound_literal.39:00000000 __compound_literal.39
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1635   .data.conv2d_scratch0:00000000 conv2d_scratch0
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1017   .data.__compound_literal.4:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1020   .data.__compound_literal.4:00000000 __compound_literal.4
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1026   .data.__compound_literal.40:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1029   .data.__compound_literal.40:00000000 __compound_literal.40
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1047   .data.__compound_literal.41:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1050   .data.__compound_literal.41:00000000 __compound_literal.41
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1056   .data.__compound_literal.42:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1059   .data.__compound_literal.42:00000000 __compound_literal.42
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1065   .data.__compound_literal.43:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1068   .data.__compound_literal.43:00000000 __compound_literal.43
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1071   .data.__compound_literal.44:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1074   .data.__compound_literal.44:00000000 __compound_literal.44
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1430   .data.conv2d_1_output:00000000 conv2d_1_output
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1077   .data.__compound_literal.45:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1080   .data.__compound_literal.45:00000000 __compound_literal.45
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1510   .data.conv2d_1_weights:00000000 conv2d_1_weights
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1365   .data.conv2d_1_bias:00000000 conv2d_1_bias
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1085   .data.__compound_literal.46:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1088   .data.__compound_literal.46:00000000 __compound_literal.46
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1480   .data.conv2d_1_scratch0:00000000 conv2d_1_scratch0
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1091   .data.__compound_literal.47:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1094   .data.__compound_literal.47:00000000 __compound_literal.47
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1112   .data.__compound_literal.48:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1115   .data.__compound_literal.48:00000000 __compound_literal.48
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1121   .data.__compound_literal.49:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1124   .data.__compound_literal.49:00000000 __compound_literal.49
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1130   .data.__compound_literal.5:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1133   .data.__compound_literal.5:00000000 __compound_literal.5
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1139   .data.__compound_literal.50:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1142   .data.__compound_literal.50:00000000 __compound_literal.50
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1450   .data.conv2d_1_output0:00000000 conv2d_1_output0
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1145   .data.__compound_literal.51:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1148   .data.__compound_literal.51:00000000 __compound_literal.51
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1929   .data.dense_output:00000000 dense_output
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1151   .data.__compound_literal.52:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1154   .data.__compound_literal.52:00000000 __compound_literal.52
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1959   .data.dense_weights:00000000 dense_weights
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1842   .data.dense_bias:00000000 dense_bias
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1158   .data.__compound_literal.54:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1161   .data.__compound_literal.54:00000000 __compound_literal.54
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1179   .data.__compound_literal.55:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1182   .data.__compound_literal.55:00000000 __compound_literal.55
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1185   .data.__compound_literal.56:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1188   .data.__compound_literal.56:00000000 __compound_literal.56
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1899   .data.dense_nl_output:00000000 dense_nl_output
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1191   .data.__compound_literal.59:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1194   .data.__compound_literal.59:00000000 __compound_literal.59
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1212   .data.__compound_literal.6:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1215   .data.__compound_literal.6:00000000 __compound_literal.6
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1221   .data.__compound_literal.60:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1224   .data.__compound_literal.60:00000000 __compound_literal.60
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1227   .data.__compound_literal.61:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1230   .data.__compound_literal.61:00000000 __compound_literal.61
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1782   .data.dense_1_output:00000000 dense_1_output
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s 			page 51
+
+
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1233   .data.__compound_literal.62:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1236   .data.__compound_literal.62:00000000 __compound_literal.62
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1812   .data.dense_1_weights:00000000 dense_1_weights
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1695   .data.dense_1_bias:00000000 dense_1_bias
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1240   .data.__compound_literal.64:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1243   .data.__compound_literal.64:00000000 __compound_literal.64
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1261   .data.__compound_literal.65:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1264   .data.__compound_literal.65:00000000 __compound_literal.65
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1267   .data.__compound_literal.66:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1270   .data.__compound_literal.66:00000000 __compound_literal.66
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1752   .data.dense_1_nl_output:00000000 dense_1_nl_output
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1273   .data.__compound_literal.69:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1276   .data.__compound_literal.69:00000000 __compound_literal.69
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1294   .data.__compound_literal.7:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1297   .data.__compound_literal.7:00000000 __compound_literal.7
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1303   .data.__compound_literal.70:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1306   .data.__compound_literal.70:00000000 __compound_literal.70
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1309   .data.__compound_literal.74:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1312   .data.__compound_literal.74:00000000 __compound_literal.74
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1317   .data.__compound_literal.75:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1320   .data.__compound_literal.75:00000000 __compound_literal.75
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1323   .data.__compound_literal.79:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1326   .data.__compound_literal.79:00000000 __compound_literal.79
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1331   .data.__compound_literal.8:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1334   .data.__compound_literal.8:00000000 __compound_literal.8
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1340   .data.__compound_literal.80:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1343   .data.__compound_literal.80:00000000 __compound_literal.80
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1353   .data.__compound_literal.9:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1356   .data.__compound_literal.9:00000000 __compound_literal.9
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1362   .data.conv2d_1_bias:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1386   .data.conv2d_1_bias_array:00000000 conv2d_1_bias_array
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1382   .data.conv2d_1_bias_array:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1392   .data.conv2d_1_layer:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1395   .data.conv2d_1_layer:00000000 conv2d_1_layer
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1990   .data.g_anomalydetector:00000000 g_anomalydetector
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1872   .data.dense_layer:00000000 dense_layer
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:2059   .rodata.conv2d_1_chain:00000000 conv2d_1_chain
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1427   .data.conv2d_1_output:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1471   .data.conv2d_1_output_array:00000000 conv2d_1_output_array
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1447   .data.conv2d_1_output0:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1467   .data.conv2d_1_output_array:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1477   .data.conv2d_1_scratch0:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1501   .data.conv2d_1_scratch0_array:00000000 conv2d_1_scratch0_array
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1497   .data.conv2d_1_scratch0_array:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1507   .data.conv2d_1_weights:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1531   .data.conv2d_1_weights_array:00000000 conv2d_1_weights_array
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1527   .data.conv2d_1_weights_array:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1537   .data.conv2d_bias:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1561   .data.conv2d_bias_array:00000000 conv2d_bias_array
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1557   .data.conv2d_bias_array:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1567   .data.conv2d_layer:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1570   .data.conv2d_layer:00000000 conv2d_layer
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:2067   .rodata.conv2d_chain:00000000 conv2d_chain
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1602   .data.conv2d_output:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1626   .data.conv2d_output_array:00000000 conv2d_output_array
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1622   .data.conv2d_output_array:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1632   .data.conv2d_scratch0:00000000 $d
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s 			page 52
+
+
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1656   .data.conv2d_scratch0_array:00000000 conv2d_scratch0_array
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1652   .data.conv2d_scratch0_array:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1662   .data.conv2d_weights:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1686   .data.conv2d_weights_array:00000000 conv2d_weights_array
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1682   .data.conv2d_weights_array:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1692   .data.dense_1_bias:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1716   .data.dense_1_bias_array:00000000 dense_1_bias_array
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1712   .data.dense_1_bias_array:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1722   .data.dense_1_layer:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1725   .data.dense_1_layer:00000000 dense_1_layer
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1738   .data.dense_1_nl_layer:00000000 dense_1_nl_layer
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:2075   .rodata.dense_1_chain:00000000 dense_1_chain
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1735   .data.dense_1_nl_layer:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:2083   .rodata.dense_1_nl_chain:00000000 dense_1_nl_chain
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1749   .data.dense_1_nl_output:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1773   .data.dense_1_nl_output_array:00000000 dense_1_nl_output_array
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1769   .data.dense_1_nl_output_array:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1779   .data.dense_1_output:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1803   .data.dense_1_output_array:00000000 dense_1_output_array
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1799   .data.dense_1_output_array:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1809   .data.dense_1_weights:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1833   .data.dense_1_weights_array:00000000 dense_1_weights_array
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1829   .data.dense_1_weights_array:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1839   .data.dense_bias:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1863   .data.dense_bias_array:00000000 dense_bias_array
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1859   .data.dense_bias_array:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1869   .data.dense_layer:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1885   .data.dense_nl_layer:00000000 dense_nl_layer
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:2091   .rodata.dense_chain:00000000 dense_chain
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1882   .data.dense_nl_layer:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:2099   .rodata.dense_nl_chain:00000000 dense_nl_chain
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1896   .data.dense_nl_output:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1920   .data.dense_nl_output_array:00000000 dense_nl_output_array
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1916   .data.dense_nl_output_array:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1926   .data.dense_output:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1950   .data.dense_output_array:00000000 dense_output_array
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1946   .data.dense_output_array:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1956   .data.dense_weights:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1980   .data.dense_weights_array:00000000 dense_weights_array
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1976   .data.dense_weights_array:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:1986   .data.g_anomalydetector:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:2026   .data.input_0_output:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:2050   .data.input_0_output_array:00000000 input_0_output_array
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:2046   .data.input_0_output_array:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:2056   .rodata.conv2d_1_chain:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:2064   .rodata.conv2d_chain:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:2072   .rodata.dense_1_chain:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:2080   .rodata.dense_1_nl_chain:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:2088   .rodata.dense_chain:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s:2096   .rodata.dense_nl_chain:00000000 $d
+
+UNDEFINED SYMBOLS
+ai_platform_context_acquire
+memset
+ai_platform_runtime_get_revision
+ai_platform_runtime_get_version
+ai_platform_api_get_version
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccwRWTRZ.s 			page 53
+
+
+ai_platform_interface_api_get_version
+ai_platform_api_get_network_report
+memcpy
+ai_platform_network_get_error
+ai_platform_network_create
+ai_platform_network_destroy
+ai_platform_network_init
+ai_platform_network_post_init
+ai_platform_network_process
+forward_conv2d_nl_pool
+nl_func_relu_array_f32
+pool_func_mp_array_f32
+forward_dense
+forward_sm
+forward_relu

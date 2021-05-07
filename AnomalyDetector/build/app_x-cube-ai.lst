@@ -1,0 +1,1002 @@
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccAVjfP8.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"app_x-cube-ai.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.rodata.ai_log_err.str1.4,"aMS",%progbits,1
+  18              		.align	2
+  19              	.LC0:
+  20 0000 54454D50 		.ascii	"TEMPLATE - Error (%s) - type=0x%02x code=0x%02x\015"
+  20      4C415445 
+  20      202D2045 
+  20      72726F72 
+  20      20282573 
+  21 0030 0A00     		.ascii	"\012\000"
+  22 0032 0000     		.align	2
+  23              	.LC1:
+  24 0034 54454D50 		.ascii	"TEMPLATE - Error - type=0x%02x code=0x%02x\015\012\000"
+  24      4C415445 
+  24      202D2045 
+  24      72726F72 
+  24      202D2074 
+  25              		.section	.text.ai_log_err,"ax",%progbits
+  26              		.align	1
+  27              		.arch armv7e-m
+  28              		.syntax unified
+  29              		.thumb
+  30              		.thumb_func
+  31              		.fpu fpv4-sp-d16
+  33              	ai_log_err:
+  34              	.LVL0:
+  35              	.LFB133:
+  36              		.file 1 "X-CUBE-AI/App/app_x-cube-ai.c"
+   1:X-CUBE-AI/App/app_x-cube-ai.c **** 
+   2:X-CUBE-AI/App/app_x-cube-ai.c **** #ifdef __cplusplus
+   3:X-CUBE-AI/App/app_x-cube-ai.c ****  extern "C" {
+   4:X-CUBE-AI/App/app_x-cube-ai.c **** #endif
+   5:X-CUBE-AI/App/app_x-cube-ai.c **** /**
+   6:X-CUBE-AI/App/app_x-cube-ai.c ****   ******************************************************************************
+   7:X-CUBE-AI/App/app_x-cube-ai.c ****   * @file           : app_x-cube-ai.c
+   8:X-CUBE-AI/App/app_x-cube-ai.c ****   * @brief          : AI program body
+   9:X-CUBE-AI/App/app_x-cube-ai.c ****   ******************************************************************************
+  10:X-CUBE-AI/App/app_x-cube-ai.c ****   * This notice applies to any and all portions of this file
+  11:X-CUBE-AI/App/app_x-cube-ai.c ****   * that are not between comment pairs USER CODE BEGIN and
+  12:X-CUBE-AI/App/app_x-cube-ai.c ****   * USER CODE END. Other portions of this file, whether
+  13:X-CUBE-AI/App/app_x-cube-ai.c ****   * inserted by the user or by software development tools
+  14:X-CUBE-AI/App/app_x-cube-ai.c ****   * are owned by their respective copyright owners.
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccAVjfP8.s 			page 2
+
+
+  15:X-CUBE-AI/App/app_x-cube-ai.c ****   *
+  16:X-CUBE-AI/App/app_x-cube-ai.c ****   * Copyright (c) 2018 STMicroelectronics International N.V.
+  17:X-CUBE-AI/App/app_x-cube-ai.c ****   * All rights reserved.
+  18:X-CUBE-AI/App/app_x-cube-ai.c ****   *
+  19:X-CUBE-AI/App/app_x-cube-ai.c ****   * Redistribution and use in source and binary forms, with or without
+  20:X-CUBE-AI/App/app_x-cube-ai.c ****   * modification, are permitted, provided that the following conditions are met:
+  21:X-CUBE-AI/App/app_x-cube-ai.c ****   *
+  22:X-CUBE-AI/App/app_x-cube-ai.c ****   * 1. Redistribution of source code must retain the above copyright notice,
+  23:X-CUBE-AI/App/app_x-cube-ai.c ****   *    this list of conditions and the following disclaimer.
+  24:X-CUBE-AI/App/app_x-cube-ai.c ****   * 2. Redistributions in binary form must reproduce the above copyright notice,
+  25:X-CUBE-AI/App/app_x-cube-ai.c ****   *    this list of conditions and the following disclaimer in the documentation
+  26:X-CUBE-AI/App/app_x-cube-ai.c ****   *    and/or other materials provided with the distribution.
+  27:X-CUBE-AI/App/app_x-cube-ai.c ****   * 3. Neither the name of STMicroelectronics nor the names of other
+  28:X-CUBE-AI/App/app_x-cube-ai.c ****   *    contributors to this software may be used to endorse or promote products
+  29:X-CUBE-AI/App/app_x-cube-ai.c ****   *    derived from this software without specific written permission.
+  30:X-CUBE-AI/App/app_x-cube-ai.c ****   * 4. This software, including modifications and/or derivative works of this
+  31:X-CUBE-AI/App/app_x-cube-ai.c ****   *    software, must execute solely and exclusively on microcontroller or
+  32:X-CUBE-AI/App/app_x-cube-ai.c ****   *    microprocessor devices manufactured by or for STMicroelectronics.
+  33:X-CUBE-AI/App/app_x-cube-ai.c ****   * 5. Redistribution and use of this software other than as permitted under
+  34:X-CUBE-AI/App/app_x-cube-ai.c ****   *    this license is void and will automatically terminate your rights under
+  35:X-CUBE-AI/App/app_x-cube-ai.c ****   *    this license.
+  36:X-CUBE-AI/App/app_x-cube-ai.c ****   *
+  37:X-CUBE-AI/App/app_x-cube-ai.c ****   * THIS SOFTWARE IS PROVIDED BY STMICROELECTRONICS AND CONTRIBUTORS "AS IS"
+  38:X-CUBE-AI/App/app_x-cube-ai.c ****   * AND ANY EXPRESS, IMPLIED OR STATUTORY WARRANTIES, INCLUDING, BUT NOT
+  39:X-CUBE-AI/App/app_x-cube-ai.c ****   * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+  40:X-CUBE-AI/App/app_x-cube-ai.c ****   * PARTICULAR PURPOSE AND NON-INFRINGEMENT OF THIRD PARTY INTELLECTUAL PROPERTY
+  41:X-CUBE-AI/App/app_x-cube-ai.c ****   * RIGHTS ARE DISCLAIMED TO THE FULLEST EXTENT PERMITTED BY LAW. IN NO EVENT
+  42:X-CUBE-AI/App/app_x-cube-ai.c ****   * SHALL STMICROELECTRONICS OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+  43:X-CUBE-AI/App/app_x-cube-ai.c ****   * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+  44:X-CUBE-AI/App/app_x-cube-ai.c ****   * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
+  45:X-CUBE-AI/App/app_x-cube-ai.c ****   * OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+  46:X-CUBE-AI/App/app_x-cube-ai.c ****   * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+  47:X-CUBE-AI/App/app_x-cube-ai.c ****   * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+  48:X-CUBE-AI/App/app_x-cube-ai.c ****   * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  49:X-CUBE-AI/App/app_x-cube-ai.c ****   *
+  50:X-CUBE-AI/App/app_x-cube-ai.c ****   ******************************************************************************
+  51:X-CUBE-AI/App/app_x-cube-ai.c ****   */
+  52:X-CUBE-AI/App/app_x-cube-ai.c ****  /*
+  53:X-CUBE-AI/App/app_x-cube-ai.c ****   * Description
+  54:X-CUBE-AI/App/app_x-cube-ai.c ****   *   v1.0 - Minimum template to show how to use the Embedded Client API
+  55:X-CUBE-AI/App/app_x-cube-ai.c ****   *          model. Only one input and one output is supported. All
+  56:X-CUBE-AI/App/app_x-cube-ai.c ****   *          memory resources are allocated statically (AI_NETWORK_XX, defines
+  57:X-CUBE-AI/App/app_x-cube-ai.c ****   *          are used).
+  58:X-CUBE-AI/App/app_x-cube-ai.c ****   *          Re-target of the printf function is out-of-scope.
+  59:X-CUBE-AI/App/app_x-cube-ai.c ****   *
+  60:X-CUBE-AI/App/app_x-cube-ai.c ****   *   For more information, see the embeded documentation:
+  61:X-CUBE-AI/App/app_x-cube-ai.c ****   *
+  62:X-CUBE-AI/App/app_x-cube-ai.c ****   *       [1] %X_CUBE_AI_DIR%/Documentation/index.html
+  63:X-CUBE-AI/App/app_x-cube-ai.c ****   *
+  64:X-CUBE-AI/App/app_x-cube-ai.c ****   *   X_CUBE_AI_DIR indicates the location where the X-CUBE-AI pack is installed
+  65:X-CUBE-AI/App/app_x-cube-ai.c ****   *   typical : C:\Users\<user_name>\STM32Cube\Repository\STMicroelectronics\X-CUBE-AI\6.0.0
+  66:X-CUBE-AI/App/app_x-cube-ai.c ****   */
+  67:X-CUBE-AI/App/app_x-cube-ai.c **** /* Includes ------------------------------------------------------------------*/
+  68:X-CUBE-AI/App/app_x-cube-ai.c **** /* System headers */
+  69:X-CUBE-AI/App/app_x-cube-ai.c **** #include <stdint.h>
+  70:X-CUBE-AI/App/app_x-cube-ai.c **** #include <stdlib.h>
+  71:X-CUBE-AI/App/app_x-cube-ai.c **** #include <stdio.h>
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccAVjfP8.s 			page 3
+
+
+  72:X-CUBE-AI/App/app_x-cube-ai.c **** #include <inttypes.h>
+  73:X-CUBE-AI/App/app_x-cube-ai.c **** #include <string.h>
+  74:X-CUBE-AI/App/app_x-cube-ai.c **** 
+  75:X-CUBE-AI/App/app_x-cube-ai.c **** #include "app_x-cube-ai.h"
+  76:X-CUBE-AI/App/app_x-cube-ai.c **** #include "main.h"
+  77:X-CUBE-AI/App/app_x-cube-ai.c **** #include "ai_datatypes_defines.h"
+  78:X-CUBE-AI/App/app_x-cube-ai.c **** 
+  79:X-CUBE-AI/App/app_x-cube-ai.c **** /* USER CODE BEGIN includes */
+  80:X-CUBE-AI/App/app_x-cube-ai.c **** /* USER CODE END includes */
+  81:X-CUBE-AI/App/app_x-cube-ai.c **** /* Global AI objects */
+  82:X-CUBE-AI/App/app_x-cube-ai.c **** static ai_handle anomalydetector = AI_HANDLE_NULL;
+  83:X-CUBE-AI/App/app_x-cube-ai.c **** static ai_network_report anomalydetector_info;
+  84:X-CUBE-AI/App/app_x-cube-ai.c **** 
+  85:X-CUBE-AI/App/app_x-cube-ai.c **** /* Global c-array to handle the activations buffer */
+  86:X-CUBE-AI/App/app_x-cube-ai.c **** AI_ALIGNED(4)
+  87:X-CUBE-AI/App/app_x-cube-ai.c **** static ai_u8 activations[AI_ANOMALYDETECTOR_DATA_ACTIVATIONS_SIZE];
+  88:X-CUBE-AI/App/app_x-cube-ai.c **** 
+  89:X-CUBE-AI/App/app_x-cube-ai.c **** /*  In the case where "--allocate-inputs" option is used, memory buffer can be
+  90:X-CUBE-AI/App/app_x-cube-ai.c ****  *  used from the activations buffer. This is not mandatory.
+  91:X-CUBE-AI/App/app_x-cube-ai.c ****  */
+  92:X-CUBE-AI/App/app_x-cube-ai.c **** #if !defined(AI_ANOMALYDETECTOR_INPUTS_IN_ACTIVATIONS)
+  93:X-CUBE-AI/App/app_x-cube-ai.c **** /* Allocate data payload for input tensor */
+  94:X-CUBE-AI/App/app_x-cube-ai.c **** AI_ALIGNED(4)
+  95:X-CUBE-AI/App/app_x-cube-ai.c **** static ai_u8 in_data_s[AI_ANOMALYDETECTOR_IN_1_SIZE_BYTES];
+  96:X-CUBE-AI/App/app_x-cube-ai.c **** #endif
+  97:X-CUBE-AI/App/app_x-cube-ai.c **** 
+  98:X-CUBE-AI/App/app_x-cube-ai.c **** /*  In the case where "--allocate-outputs" option is used, memory buffer can be
+  99:X-CUBE-AI/App/app_x-cube-ai.c ****  *  used from the activations buffer. This is no mandatory.
+ 100:X-CUBE-AI/App/app_x-cube-ai.c ****  */
+ 101:X-CUBE-AI/App/app_x-cube-ai.c **** #if !defined(AI_ANOMALYDETECTOR_OUTPUTS_IN_ACTIVATIONS)
+ 102:X-CUBE-AI/App/app_x-cube-ai.c **** /* Allocate data payload for the output tensor */
+ 103:X-CUBE-AI/App/app_x-cube-ai.c **** AI_ALIGNED(4)
+ 104:X-CUBE-AI/App/app_x-cube-ai.c **** static ai_u8 out_data_s[AI_ANOMALYDETECTOR_OUT_1_SIZE_BYTES];
+ 105:X-CUBE-AI/App/app_x-cube-ai.c **** #endif
+ 106:X-CUBE-AI/App/app_x-cube-ai.c **** 
+ 107:X-CUBE-AI/App/app_x-cube-ai.c **** static void ai_log_err(const ai_error err, const char *fct)
+ 108:X-CUBE-AI/App/app_x-cube-ai.c **** {
+  37              		.loc 1 108 1 view -0
+  38              		.cfi_startproc
+  39              		@ Volatile: function does not return.
+  40              		@ args = 0, pretend = 0, frame = 0
+  41              		@ frame_needed = 0, uses_anonymous_args = 0
+  42              		.loc 1 108 1 is_stmt 0 view .LVU1
+  43 0000 08B5     		push	{r3, lr}
+  44              	.LCFI0:
+  45              		.cfi_def_cfa_offset 8
+  46              		.cfi_offset 3, -8
+  47              		.cfi_offset 14, -4
+ 109:X-CUBE-AI/App/app_x-cube-ai.c ****   /* USER CODE BEGIN log */
+ 110:X-CUBE-AI/App/app_x-cube-ai.c ****   if (fct)
+  48              		.loc 1 110 3 is_stmt 1 view .LVU2
+  49              		.loc 1 110 6 is_stmt 0 view .LVU3
+  50 0002 29B1     		cbz	r1, .L2
+ 111:X-CUBE-AI/App/app_x-cube-ai.c ****     printf("TEMPLATE - Error (%s) - type=0x%02x code=0x%02x\r\n", fct,
+  51              		.loc 1 111 5 is_stmt 1 view .LVU4
+  52 0004 030A     		lsrs	r3, r0, #8
+  53 0006 C2B2     		uxtb	r2, r0
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccAVjfP8.s 			page 4
+
+
+  54 0008 0448     		ldr	r0, .L5
+  55              	.LVL1:
+  56              		.loc 1 111 5 is_stmt 0 view .LVU5
+  57 000a FFF7FEFF 		bl	printf
+  58              	.LVL2:
+  59              	.L3:
+ 112:X-CUBE-AI/App/app_x-cube-ai.c ****         err.type, err.code);
+ 113:X-CUBE-AI/App/app_x-cube-ai.c ****   else
+ 114:X-CUBE-AI/App/app_x-cube-ai.c ****     printf("TEMPLATE - Error - type=0x%02x code=0x%02x\r\n", err.type, err.code);
+ 115:X-CUBE-AI/App/app_x-cube-ai.c **** 
+ 116:X-CUBE-AI/App/app_x-cube-ai.c ****   do {} while (1);
+  60              		.loc 1 116 3 is_stmt 1 discriminator 1 view .LVU6
+  61              		.loc 1 116 7 discriminator 1 view .LVU7
+  62              		.loc 1 116 15 discriminator 1 view .LVU8
+  63 000e FEE7     		b	.L3
+  64              	.LVL3:
+  65              	.L2:
+ 114:X-CUBE-AI/App/app_x-cube-ai.c **** 
+  66              		.loc 1 114 5 view .LVU9
+  67 0010 020A     		lsrs	r2, r0, #8
+  68 0012 C1B2     		uxtb	r1, r0
+  69              	.LVL4:
+ 114:X-CUBE-AI/App/app_x-cube-ai.c **** 
+  70              		.loc 1 114 5 is_stmt 0 view .LVU10
+  71 0014 0248     		ldr	r0, .L5+4
+  72              	.LVL5:
+ 114:X-CUBE-AI/App/app_x-cube-ai.c **** 
+  73              		.loc 1 114 5 view .LVU11
+  74 0016 FFF7FEFF 		bl	printf
+  75              	.LVL6:
+  76 001a F8E7     		b	.L3
+  77              	.L6:
+  78              		.align	2
+  79              	.L5:
+  80 001c 00000000 		.word	.LC0
+  81 0020 34000000 		.word	.LC1
+  82              		.cfi_endproc
+  83              	.LFE133:
+  85              		.section	.rodata.ai_boostrap.str1.4,"aMS",%progbits,1
+  86              		.align	2
+  87              	.LC2:
+  88 0000 61695F61 		.ascii	"ai_anomalydetector_create\000"
+  88      6E6F6D61 
+  88      6C796465 
+  88      74656374 
+  88      6F725F63 
+  89 001a 0000     		.align	2
+  90              	.LC3:
+  91 001c 61695F61 		.ascii	"ai_anomalydetector_init\000"
+  91      6E6F6D61 
+  91      6C796465 
+  91      74656374 
+  91      6F725F69 
+  92              		.align	2
+  93              	.LC4:
+  94 0034 61695F61 		.ascii	"ai_anomalydetector_get_error\000"
+  94      6E6F6D61 
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccAVjfP8.s 			page 5
+
+
+  94      6C796465 
+  94      74656374 
+  94      6F725F67 
+  95              		.section	.text.ai_boostrap,"ax",%progbits
+  96              		.align	1
+  97              		.syntax unified
+  98              		.thumb
+  99              		.thumb_func
+ 100              		.fpu fpv4-sp-d16
+ 102              	ai_boostrap:
+ 103              	.LVL7:
+ 104              	.LFB134:
+ 117:X-CUBE-AI/App/app_x-cube-ai.c ****   /* USER CODE END log */
+ 118:X-CUBE-AI/App/app_x-cube-ai.c **** }
+ 119:X-CUBE-AI/App/app_x-cube-ai.c **** 
+ 120:X-CUBE-AI/App/app_x-cube-ai.c **** static int ai_boostrap(ai_handle w_addr, ai_handle act_addr)
+ 121:X-CUBE-AI/App/app_x-cube-ai.c **** {
+ 105              		.loc 1 121 1 is_stmt 1 view -0
+ 106              		.cfi_startproc
+ 107              		@ args = 0, pretend = 0, frame = 48
+ 108              		@ frame_needed = 0, uses_anonymous_args = 0
+ 109              		.loc 1 121 1 is_stmt 0 view .LVU13
+ 110 0000 30B5     		push	{r4, r5, lr}
+ 111              	.LCFI1:
+ 112              		.cfi_def_cfa_offset 12
+ 113              		.cfi_offset 4, -12
+ 114              		.cfi_offset 5, -8
+ 115              		.cfi_offset 14, -4
+ 116 0002 8DB0     		sub	sp, sp, #52
+ 117              	.LCFI2:
+ 118              		.cfi_def_cfa_offset 64
+ 119 0004 0446     		mov	r4, r0
+ 120 0006 0D46     		mov	r5, r1
+ 122:X-CUBE-AI/App/app_x-cube-ai.c ****   ai_error err;
+ 121              		.loc 1 122 3 is_stmt 1 view .LVU14
+ 123:X-CUBE-AI/App/app_x-cube-ai.c **** 
+ 124:X-CUBE-AI/App/app_x-cube-ai.c ****   /* 1 - Create an instance of the model */
+ 125:X-CUBE-AI/App/app_x-cube-ai.c ****   err = ai_anomalydetector_create(&anomalydetector, AI_ANOMALYDETECTOR_DATA_CONFIG);
+ 122              		.loc 1 125 3 view .LVU15
+ 123              		.loc 1 125 9 is_stmt 0 view .LVU16
+ 124 0008 0021     		movs	r1, #0
+ 125              	.LVL8:
+ 126              		.loc 1 125 9 view .LVU17
+ 127 000a 2148     		ldr	r0, .L15
+ 128              	.LVL9:
+ 129              		.loc 1 125 9 view .LVU18
+ 130 000c FFF7FEFF 		bl	ai_anomalydetector_create
+ 131              	.LVL10:
+ 126:X-CUBE-AI/App/app_x-cube-ai.c ****   if (err.type != AI_ERROR_NONE) {
+ 132              		.loc 1 126 3 is_stmt 1 view .LVU19
+ 133              		.loc 1 126 6 is_stmt 0 view .LVU20
+ 134 0010 10F0FF0F 		tst	r0, #255
+ 135 0014 2AD1     		bne	.L12
+ 127:X-CUBE-AI/App/app_x-cube-ai.c ****     ai_log_err(err, "ai_anomalydetector_create");
+ 128:X-CUBE-AI/App/app_x-cube-ai.c ****     return -1;
+ 129:X-CUBE-AI/App/app_x-cube-ai.c ****   }
+ 130:X-CUBE-AI/App/app_x-cube-ai.c **** 
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccAVjfP8.s 			page 6
+
+
+ 131:X-CUBE-AI/App/app_x-cube-ai.c ****   /* 2 - Initialize the instance */
+ 132:X-CUBE-AI/App/app_x-cube-ai.c ****   const ai_network_params params = {
+ 136              		.loc 1 132 3 is_stmt 1 view .LVU21
+ 137              		.loc 1 132 27 is_stmt 0 view .LVU22
+ 138 0016 1F4B     		ldr	r3, .L15+4
+ 139 0018 0093     		str	r3, [sp]
+ 140 001a 0123     		movs	r3, #1
+ 141 001c ADF80430 		strh	r3, [sp, #4]	@ movhi
+ 142 0020 ADF80630 		strh	r3, [sp, #6]	@ movhi
+ 143 0024 ADF80830 		strh	r3, [sp, #8]	@ movhi
+ 144 0028 44F6E432 		movw	r2, #19428
+ 145 002c 0392     		str	r2, [sp, #12]
+ 146 002e 0494     		str	r4, [sp, #16]
+ 147 0030 0022     		movs	r2, #0
+ 148 0032 0592     		str	r2, [sp, #20]
+ 149 0034 1849     		ldr	r1, .L15+8
+ 150 0036 0691     		str	r1, [sp, #24]
+ 151 0038 ADF81C30 		strh	r3, [sp, #28]	@ movhi
+ 152 003c ADF81E30 		strh	r3, [sp, #30]	@ movhi
+ 153 0040 ADF82030 		strh	r3, [sp, #32]	@ movhi
+ 154 0044 4FF4A263 		mov	r3, #1296
+ 155 0048 0993     		str	r3, [sp, #36]
+ 156 004a 0A95     		str	r5, [sp, #40]
+ 157 004c 0B92     		str	r2, [sp, #44]
+ 133:X-CUBE-AI/App/app_x-cube-ai.c ****       AI_ANOMALYDETECTOR_DATA_WEIGHTS(w_addr),
+ 134:X-CUBE-AI/App/app_x-cube-ai.c ****       AI_ANOMALYDETECTOR_DATA_ACTIVATIONS(act_addr) };
+ 135:X-CUBE-AI/App/app_x-cube-ai.c **** 
+ 136:X-CUBE-AI/App/app_x-cube-ai.c ****   if (!ai_anomalydetector_init(anomalydetector, &params)) {
+ 158              		.loc 1 136 3 is_stmt 1 view .LVU23
+ 159              		.loc 1 136 8 is_stmt 0 view .LVU24
+ 160 004e 6946     		mov	r1, sp
+ 161 0050 0F4B     		ldr	r3, .L15
+ 162 0052 1868     		ldr	r0, [r3]
+ 163              	.LVL11:
+ 164              		.loc 1 136 8 view .LVU25
+ 165 0054 FFF7FEFF 		bl	ai_anomalydetector_init
+ 166              	.LVL12:
+ 167              		.loc 1 136 6 view .LVU26
+ 168 0058 58B1     		cbz	r0, .L13
+ 137:X-CUBE-AI/App/app_x-cube-ai.c ****       err = ai_anomalydetector_get_error(anomalydetector);
+ 138:X-CUBE-AI/App/app_x-cube-ai.c ****       ai_log_err(err, "ai_anomalydetector_init");
+ 139:X-CUBE-AI/App/app_x-cube-ai.c ****       return -1;
+ 140:X-CUBE-AI/App/app_x-cube-ai.c ****     }
+ 141:X-CUBE-AI/App/app_x-cube-ai.c **** 
+ 142:X-CUBE-AI/App/app_x-cube-ai.c ****   /* 3 - Retrieve the network info of the created instance */
+ 143:X-CUBE-AI/App/app_x-cube-ai.c ****   if (!ai_anomalydetector_get_info(anomalydetector, &anomalydetector_info)) {
+ 169              		.loc 1 143 3 is_stmt 1 view .LVU27
+ 170              		.loc 1 143 8 is_stmt 0 view .LVU28
+ 171 005a 1049     		ldr	r1, .L15+12
+ 172 005c 0C4B     		ldr	r3, .L15
+ 173 005e 1868     		ldr	r0, [r3]
+ 174 0060 FFF7FEFF 		bl	ai_anomalydetector_get_info
+ 175              	.LVL13:
+ 176              		.loc 1 143 6 view .LVU29
+ 177 0064 60B1     		cbz	r0, .L14
+ 144:X-CUBE-AI/App/app_x-cube-ai.c ****     err = ai_anomalydetector_get_error(anomalydetector);
+ 145:X-CUBE-AI/App/app_x-cube-ai.c ****     ai_log_err(err, "ai_anomalydetector_get_error");
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccAVjfP8.s 			page 7
+
+
+ 146:X-CUBE-AI/App/app_x-cube-ai.c ****     ai_anomalydetector_destroy(anomalydetector);
+ 147:X-CUBE-AI/App/app_x-cube-ai.c ****     anomalydetector = AI_HANDLE_NULL;
+ 148:X-CUBE-AI/App/app_x-cube-ai.c ****     return -3;
+ 149:X-CUBE-AI/App/app_x-cube-ai.c ****   }
+ 150:X-CUBE-AI/App/app_x-cube-ai.c **** 
+ 151:X-CUBE-AI/App/app_x-cube-ai.c ****   return 0;
+ 178              		.loc 1 151 3 is_stmt 1 view .LVU30
+ 152:X-CUBE-AI/App/app_x-cube-ai.c **** }
+ 179              		.loc 1 152 1 is_stmt 0 view .LVU31
+ 180 0066 0020     		movs	r0, #0
+ 181 0068 0DB0     		add	sp, sp, #52
+ 182              	.LCFI3:
+ 183              		.cfi_remember_state
+ 184              		.cfi_def_cfa_offset 12
+ 185              		@ sp needed
+ 186 006a 30BD     		pop	{r4, r5, pc}
+ 187              	.LVL14:
+ 188              	.L12:
+ 189              	.LCFI4:
+ 190              		.cfi_restore_state
+ 127:X-CUBE-AI/App/app_x-cube-ai.c ****     return -1;
+ 191              		.loc 1 127 5 is_stmt 1 view .LVU32
+ 192 006c 0C49     		ldr	r1, .L15+16
+ 193 006e FFF7FEFF 		bl	ai_log_err
+ 194              	.LVL15:
+ 195              	.L13:
+ 137:X-CUBE-AI/App/app_x-cube-ai.c ****       ai_log_err(err, "ai_anomalydetector_init");
+ 196              		.loc 1 137 7 view .LVU33
+ 137:X-CUBE-AI/App/app_x-cube-ai.c ****       ai_log_err(err, "ai_anomalydetector_init");
+ 197              		.loc 1 137 13 is_stmt 0 view .LVU34
+ 198 0072 074B     		ldr	r3, .L15
+ 199 0074 1868     		ldr	r0, [r3]
+ 200 0076 FFF7FEFF 		bl	ai_anomalydetector_get_error
+ 201              	.LVL16:
+ 138:X-CUBE-AI/App/app_x-cube-ai.c ****       return -1;
+ 202              		.loc 1 138 7 is_stmt 1 view .LVU35
+ 203 007a 0A49     		ldr	r1, .L15+20
+ 204 007c FFF7FEFF 		bl	ai_log_err
+ 205              	.LVL17:
+ 206              	.L14:
+ 144:X-CUBE-AI/App/app_x-cube-ai.c ****     ai_log_err(err, "ai_anomalydetector_get_error");
+ 207              		.loc 1 144 5 view .LVU36
+ 144:X-CUBE-AI/App/app_x-cube-ai.c ****     ai_log_err(err, "ai_anomalydetector_get_error");
+ 208              		.loc 1 144 11 is_stmt 0 view .LVU37
+ 209 0080 034B     		ldr	r3, .L15
+ 210 0082 1868     		ldr	r0, [r3]
+ 211 0084 FFF7FEFF 		bl	ai_anomalydetector_get_error
+ 212              	.LVL18:
+ 145:X-CUBE-AI/App/app_x-cube-ai.c ****     ai_anomalydetector_destroy(anomalydetector);
+ 213              		.loc 1 145 5 is_stmt 1 view .LVU38
+ 214 0088 0749     		ldr	r1, .L15+24
+ 215 008a FFF7FEFF 		bl	ai_log_err
+ 216              	.LVL19:
+ 217              	.L16:
+ 218 008e 00BF     		.align	2
+ 219              	.L15:
+ 220 0090 00000000 		.word	.LANCHOR0
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccAVjfP8.s 			page 8
+
+
+ 221 0094 40040440 		.word	1074005056
+ 222 0098 40040400 		.word	263232
+ 223 009c 00000000 		.word	.LANCHOR1
+ 224 00a0 00000000 		.word	.LC2
+ 225 00a4 1C000000 		.word	.LC3
+ 226 00a8 34000000 		.word	.LC4
+ 227              		.cfi_endproc
+ 228              	.LFE134:
+ 230              		.section	.rodata.ai_run.str1.4,"aMS",%progbits,1
+ 231              		.align	2
+ 232              	.LC5:
+ 233 0000 61695F61 		.ascii	"ai_anomalydetector_run\000"
+ 233      6E6F6D61 
+ 233      6C796465 
+ 233      74656374 
+ 233      6F725F72 
+ 234              		.section	.text.ai_run,"ax",%progbits
+ 235              		.align	1
+ 236              		.syntax unified
+ 237              		.thumb
+ 238              		.thumb_func
+ 239              		.fpu fpv4-sp-d16
+ 241              	ai_run:
+ 242              	.LVL20:
+ 243              	.LFB135:
+ 153:X-CUBE-AI/App/app_x-cube-ai.c **** 
+ 154:X-CUBE-AI/App/app_x-cube-ai.c **** static int ai_run(void *data_in, void *data_out)
+ 155:X-CUBE-AI/App/app_x-cube-ai.c **** {
+ 244              		.loc 1 155 1 view -0
+ 245              		.cfi_startproc
+ 246              		@ args = 0, pretend = 0, frame = 0
+ 247              		@ frame_needed = 0, uses_anonymous_args = 0
+ 248              		.loc 1 155 1 is_stmt 0 view .LVU40
+ 249 0000 08B5     		push	{r3, lr}
+ 250              	.LCFI5:
+ 251              		.cfi_def_cfa_offset 8
+ 252              		.cfi_offset 3, -8
+ 253              		.cfi_offset 14, -4
+ 156:X-CUBE-AI/App/app_x-cube-ai.c ****   ai_i32 batch;
+ 254              		.loc 1 156 3 is_stmt 1 view .LVU41
+ 157:X-CUBE-AI/App/app_x-cube-ai.c **** 
+ 158:X-CUBE-AI/App/app_x-cube-ai.c ****   ai_buffer *ai_input = anomalydetector_info.inputs;
+ 255              		.loc 1 158 3 view .LVU42
+ 256              		.loc 1 158 14 is_stmt 0 view .LVU43
+ 257 0002 0A4A     		ldr	r2, .L21
+ 258 0004 536B     		ldr	r3, [r2, #52]
+ 259              	.LVL21:
+ 159:X-CUBE-AI/App/app_x-cube-ai.c ****   ai_buffer *ai_output = anomalydetector_info.outputs;
+ 260              		.loc 1 159 3 is_stmt 1 view .LVU44
+ 261              		.loc 1 159 14 is_stmt 0 view .LVU45
+ 262 0006 926B     		ldr	r2, [r2, #56]
+ 263              	.LVL22:
+ 160:X-CUBE-AI/App/app_x-cube-ai.c **** 
+ 161:X-CUBE-AI/App/app_x-cube-ai.c ****   ai_input[0].data = AI_HANDLE_PTR(data_in);
+ 264              		.loc 1 161 3 is_stmt 1 view .LVU46
+ 265              		.loc 1 161 20 is_stmt 0 view .LVU47
+ 266 0008 1861     		str	r0, [r3, #16]
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccAVjfP8.s 			page 9
+
+
+ 162:X-CUBE-AI/App/app_x-cube-ai.c ****   ai_output[0].data = AI_HANDLE_PTR(data_out);
+ 267              		.loc 1 162 3 is_stmt 1 view .LVU48
+ 268              		.loc 1 162 21 is_stmt 0 view .LVU49
+ 269 000a 1161     		str	r1, [r2, #16]
+ 163:X-CUBE-AI/App/app_x-cube-ai.c **** 
+ 164:X-CUBE-AI/App/app_x-cube-ai.c ****   batch = ai_anomalydetector_run(anomalydetector, ai_input, ai_output);
+ 270              		.loc 1 164 3 is_stmt 1 view .LVU50
+ 271              		.loc 1 164 11 is_stmt 0 view .LVU51
+ 272 000c 1946     		mov	r1, r3
+ 273              	.LVL23:
+ 274              		.loc 1 164 11 view .LVU52
+ 275 000e 084B     		ldr	r3, .L21+4
+ 276              	.LVL24:
+ 277              		.loc 1 164 11 view .LVU53
+ 278 0010 1868     		ldr	r0, [r3]
+ 279              	.LVL25:
+ 280              		.loc 1 164 11 view .LVU54
+ 281 0012 FFF7FEFF 		bl	ai_anomalydetector_run
+ 282              	.LVL26:
+ 165:X-CUBE-AI/App/app_x-cube-ai.c ****   if (batch != 1) {
+ 283              		.loc 1 165 3 is_stmt 1 view .LVU55
+ 284              		.loc 1 165 6 is_stmt 0 view .LVU56
+ 285 0016 0128     		cmp	r0, #1
+ 286 0018 01D1     		bne	.L20
+ 166:X-CUBE-AI/App/app_x-cube-ai.c ****     ai_log_err(ai_anomalydetector_get_error(anomalydetector),
+ 167:X-CUBE-AI/App/app_x-cube-ai.c ****         "ai_anomalydetector_run");
+ 168:X-CUBE-AI/App/app_x-cube-ai.c ****     return -1;
+ 169:X-CUBE-AI/App/app_x-cube-ai.c ****   }
+ 170:X-CUBE-AI/App/app_x-cube-ai.c **** 
+ 171:X-CUBE-AI/App/app_x-cube-ai.c ****   return 0;
+ 287              		.loc 1 171 3 is_stmt 1 view .LVU57
+ 172:X-CUBE-AI/App/app_x-cube-ai.c **** }
+ 288              		.loc 1 172 1 is_stmt 0 view .LVU58
+ 289 001a 0020     		movs	r0, #0
+ 290              	.LVL27:
+ 291              		.loc 1 172 1 view .LVU59
+ 292 001c 08BD     		pop	{r3, pc}
+ 293              	.LVL28:
+ 294              	.L20:
+ 166:X-CUBE-AI/App/app_x-cube-ai.c ****     ai_log_err(ai_anomalydetector_get_error(anomalydetector),
+ 295              		.loc 1 166 5 is_stmt 1 view .LVU60
+ 296 001e 044B     		ldr	r3, .L21+4
+ 297 0020 1868     		ldr	r0, [r3]
+ 298              	.LVL29:
+ 166:X-CUBE-AI/App/app_x-cube-ai.c ****     ai_log_err(ai_anomalydetector_get_error(anomalydetector),
+ 299              		.loc 1 166 5 is_stmt 0 view .LVU61
+ 300 0022 FFF7FEFF 		bl	ai_anomalydetector_get_error
+ 301              	.LVL30:
+ 302 0026 0349     		ldr	r1, .L21+8
+ 303 0028 FFF7FEFF 		bl	ai_log_err
+ 304              	.LVL31:
+ 305              	.L22:
+ 306              		.align	2
+ 307              	.L21:
+ 308 002c 00000000 		.word	.LANCHOR1
+ 309 0030 00000000 		.word	.LANCHOR0
+ 310 0034 00000000 		.word	.LC5
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccAVjfP8.s 			page 10
+
+
+ 311              		.cfi_endproc
+ 312              	.LFE135:
+ 314              		.section	.text.acquire_and_process_data,"ax",%progbits
+ 315              		.align	1
+ 316              		.global	acquire_and_process_data
+ 317              		.syntax unified
+ 318              		.thumb
+ 319              		.thumb_func
+ 320              		.fpu fpv4-sp-d16
+ 322              	acquire_and_process_data:
+ 323              	.LVL32:
+ 324              	.LFB136:
+ 173:X-CUBE-AI/App/app_x-cube-ai.c **** 
+ 174:X-CUBE-AI/App/app_x-cube-ai.c **** /* USER CODE BEGIN 2 */
+ 175:X-CUBE-AI/App/app_x-cube-ai.c **** int acquire_and_process_data(void * data)
+ 176:X-CUBE-AI/App/app_x-cube-ai.c **** {
+ 325              		.loc 1 176 1 is_stmt 1 view -0
+ 326              		.cfi_startproc
+ 327              		@ args = 0, pretend = 0, frame = 0
+ 328              		@ frame_needed = 0, uses_anonymous_args = 0
+ 329              		@ link register save eliminated.
+ 177:X-CUBE-AI/App/app_x-cube-ai.c ****   return 0;
+ 330              		.loc 1 177 3 view .LVU63
+ 178:X-CUBE-AI/App/app_x-cube-ai.c **** }
+ 331              		.loc 1 178 1 is_stmt 0 view .LVU64
+ 332 0000 0020     		movs	r0, #0
+ 333              	.LVL33:
+ 334              		.loc 1 178 1 view .LVU65
+ 335 0002 7047     		bx	lr
+ 336              		.cfi_endproc
+ 337              	.LFE136:
+ 339              		.section	.text.post_process,"ax",%progbits
+ 340              		.align	1
+ 341              		.global	post_process
+ 342              		.syntax unified
+ 343              		.thumb
+ 344              		.thumb_func
+ 345              		.fpu fpv4-sp-d16
+ 347              	post_process:
+ 348              	.LVL34:
+ 349              	.LFB137:
+ 179:X-CUBE-AI/App/app_x-cube-ai.c **** 
+ 180:X-CUBE-AI/App/app_x-cube-ai.c **** int post_process(void * data)
+ 181:X-CUBE-AI/App/app_x-cube-ai.c **** {
+ 350              		.loc 1 181 1 is_stmt 1 view -0
+ 351              		.cfi_startproc
+ 352              		@ args = 0, pretend = 0, frame = 0
+ 353              		@ frame_needed = 0, uses_anonymous_args = 0
+ 354              		@ link register save eliminated.
+ 182:X-CUBE-AI/App/app_x-cube-ai.c ****   return 0;
+ 355              		.loc 1 182 3 view .LVU67
+ 183:X-CUBE-AI/App/app_x-cube-ai.c **** }
+ 356              		.loc 1 183 1 is_stmt 0 view .LVU68
+ 357 0000 0020     		movs	r0, #0
+ 358              	.LVL35:
+ 359              		.loc 1 183 1 view .LVU69
+ 360 0002 7047     		bx	lr
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccAVjfP8.s 			page 11
+
+
+ 361              		.cfi_endproc
+ 362              	.LFE137:
+ 364              		.section	.rodata.MX_X_CUBE_AI_Init.str1.4,"aMS",%progbits,1
+ 365              		.align	2
+ 366              	.LC6:
+ 367 0000 0D0A5445 		.ascii	"\015\012TEMPLATE - initialization\015\000"
+ 367      4D504C41 
+ 367      5445202D 
+ 367      20696E69 
+ 367      7469616C 
+ 368              		.section	.text.MX_X_CUBE_AI_Init,"ax",%progbits
+ 369              		.align	1
+ 370              		.global	MX_X_CUBE_AI_Init
+ 371              		.syntax unified
+ 372              		.thumb
+ 373              		.thumb_func
+ 374              		.fpu fpv4-sp-d16
+ 376              	MX_X_CUBE_AI_Init:
+ 377              	.LFB138:
+ 184:X-CUBE-AI/App/app_x-cube-ai.c **** /* USER CODE END 2 */
+ 185:X-CUBE-AI/App/app_x-cube-ai.c **** 
+ 186:X-CUBE-AI/App/app_x-cube-ai.c **** /*************************************************************************
+ 187:X-CUBE-AI/App/app_x-cube-ai.c ****   *
+ 188:X-CUBE-AI/App/app_x-cube-ai.c ****   */
+ 189:X-CUBE-AI/App/app_x-cube-ai.c **** void MX_X_CUBE_AI_Init(void)
+ 190:X-CUBE-AI/App/app_x-cube-ai.c **** {
+ 378              		.loc 1 190 1 is_stmt 1 view -0
+ 379              		.cfi_startproc
+ 380              		@ args = 0, pretend = 0, frame = 0
+ 381              		@ frame_needed = 0, uses_anonymous_args = 0
+ 382 0000 08B5     		push	{r3, lr}
+ 383              	.LCFI6:
+ 384              		.cfi_def_cfa_offset 8
+ 385              		.cfi_offset 3, -8
+ 386              		.cfi_offset 14, -4
+ 191:X-CUBE-AI/App/app_x-cube-ai.c ****     /* USER CODE BEGIN 5 */
+ 192:X-CUBE-AI/App/app_x-cube-ai.c ****   printf("\r\nTEMPLATE - initialization\r\n");
+ 387              		.loc 1 192 3 view .LVU71
+ 388 0002 0448     		ldr	r0, .L27
+ 389 0004 FFF7FEFF 		bl	puts
+ 390              	.LVL36:
+ 193:X-CUBE-AI/App/app_x-cube-ai.c **** 
+ 194:X-CUBE-AI/App/app_x-cube-ai.c ****   ai_boostrap(ai_anomalydetector_data_weights_get(), activations);
+ 391              		.loc 1 194 3 view .LVU72
+ 392 0008 FFF7FEFF 		bl	ai_anomalydetector_data_weights_get
+ 393              	.LVL37:
+ 394 000c 0249     		ldr	r1, .L27+4
+ 395 000e FFF7FEFF 		bl	ai_boostrap
+ 396              	.LVL38:
+ 195:X-CUBE-AI/App/app_x-cube-ai.c ****     /* USER CODE END 5 */
+ 196:X-CUBE-AI/App/app_x-cube-ai.c **** }
+ 397              		.loc 1 196 1 is_stmt 0 view .LVU73
+ 398 0012 08BD     		pop	{r3, pc}
+ 399              	.L28:
+ 400              		.align	2
+ 401              	.L27:
+ 402 0014 00000000 		.word	.LC6
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccAVjfP8.s 			page 12
+
+
+ 403 0018 00000000 		.word	.LANCHOR2
+ 404              		.cfi_endproc
+ 405              	.LFE138:
+ 407              		.section	.rodata.MX_X_CUBE_AI_Process.str1.4,"aMS",%progbits,1
+ 408              		.align	2
+ 409              	.LC7:
+ 410 0000 54454D50 		.ascii	"TEMPLATE - run - main loop\015\000"
+ 410      4C415445 
+ 410      202D2072 
+ 410      756E202D 
+ 410      206D6169 
+ 411              		.align	2
+ 412              	.LC8:
+ 413 001c 74656D70 		.ascii	"template code should be updated\015\012 to support "
+ 413      6C617465 
+ 413      20636F64 
+ 413      65207368 
+ 413      6F756C64 
+ 414 0049 61206D6F 		.ascii	"a model with multiple IO\000"
+ 414      64656C20 
+ 414      77697468 
+ 414      206D756C 
+ 414      7469706C 
+ 415 0062 0000     		.align	2
+ 416              	.LC9:
+ 417 0064 50726F63 		.ascii	"Process has FAILED\000"
+ 417      65737320 
+ 417      68617320 
+ 417      4641494C 
+ 417      454400
+ 418              		.section	.text.MX_X_CUBE_AI_Process,"ax",%progbits
+ 419              		.align	1
+ 420              		.global	MX_X_CUBE_AI_Process
+ 421              		.syntax unified
+ 422              		.thumb
+ 423              		.thumb_func
+ 424              		.fpu fpv4-sp-d16
+ 426              	MX_X_CUBE_AI_Process:
+ 427              	.LFB139:
+ 197:X-CUBE-AI/App/app_x-cube-ai.c **** 
+ 198:X-CUBE-AI/App/app_x-cube-ai.c **** void MX_X_CUBE_AI_Process(void)
+ 199:X-CUBE-AI/App/app_x-cube-ai.c **** {
+ 428              		.loc 1 199 1 is_stmt 1 view -0
+ 429              		.cfi_startproc
+ 430              		@ args = 0, pretend = 0, frame = 0
+ 431              		@ frame_needed = 0, uses_anonymous_args = 0
+ 432 0000 08B5     		push	{r3, lr}
+ 433              	.LCFI7:
+ 434              		.cfi_def_cfa_offset 8
+ 435              		.cfi_offset 3, -8
+ 436              		.cfi_offset 14, -4
+ 200:X-CUBE-AI/App/app_x-cube-ai.c ****     /* USER CODE BEGIN 6 */
+ 201:X-CUBE-AI/App/app_x-cube-ai.c ****   int res = -1;
+ 437              		.loc 1 201 3 view .LVU75
+ 438              	.LVL39:
+ 202:X-CUBE-AI/App/app_x-cube-ai.c ****   uint8_t *in_data = NULL;
+ 439              		.loc 1 202 3 view .LVU76
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccAVjfP8.s 			page 13
+
+
+ 203:X-CUBE-AI/App/app_x-cube-ai.c ****   uint8_t *out_data = NULL;
+ 440              		.loc 1 203 3 view .LVU77
+ 204:X-CUBE-AI/App/app_x-cube-ai.c **** 
+ 205:X-CUBE-AI/App/app_x-cube-ai.c ****   printf("TEMPLATE - run - main loop\r\n");
+ 441              		.loc 1 205 3 view .LVU78
+ 442 0002 1948     		ldr	r0, .L37
+ 443 0004 FFF7FEFF 		bl	puts
+ 444              	.LVL40:
+ 206:X-CUBE-AI/App/app_x-cube-ai.c **** 
+ 207:X-CUBE-AI/App/app_x-cube-ai.c ****   if (anomalydetector) {
+ 445              		.loc 1 207 3 view .LVU79
+ 446              		.loc 1 207 7 is_stmt 0 view .LVU80
+ 447 0008 184B     		ldr	r3, .L37+4
+ 448 000a 1B68     		ldr	r3, [r3]
+ 449              		.loc 1 207 6 view .LVU81
+ 450 000c 13B3     		cbz	r3, .L30
+ 208:X-CUBE-AI/App/app_x-cube-ai.c **** 
+ 209:X-CUBE-AI/App/app_x-cube-ai.c ****     if ((anomalydetector_info.n_inputs != 1) || (anomalydetector_info.n_outputs != 1)) {
+ 451              		.loc 1 209 5 is_stmt 1 view .LVU82
+ 452              		.loc 1 209 46 is_stmt 0 view .LVU83
+ 453 000e 184B     		ldr	r3, .L37+8
+ 454 0010 1B6B     		ldr	r3, [r3, #48]
+ 455              		.loc 1 209 8 view .LVU84
+ 456 0012 B3F1011F 		cmp	r3, #65537
+ 457 0016 14D0     		beq	.L31
+ 458              	.LBB2:
+ 210:X-CUBE-AI/App/app_x-cube-ai.c ****       ai_error err = {AI_ERROR_INVALID_PARAM, AI_ERROR_CODE_OUT_OF_RANGE};
+ 459              		.loc 1 210 7 is_stmt 1 view .LVU85
+ 460              		.loc 1 210 16 is_stmt 0 view .LVU86
+ 461 0018 0020     		movs	r0, #0
+ 462              	.LVL41:
+ 463              		.loc 1 210 16 view .LVU87
+ 464 001a 1423     		movs	r3, #20
+ 465 001c 63F30700 		bfi	r0, r3, #0, #8
+ 466              	.LVL42:
+ 467              		.loc 1 210 16 view .LVU88
+ 468 0020 2023     		movs	r3, #32
+ 469 0022 63F31F20 		bfi	r0, r3, #8, #24
+ 211:X-CUBE-AI/App/app_x-cube-ai.c ****       ai_log_err(err, "template code should be updated\r\n to support a model with multiple IO");
+ 470              		.loc 1 211 7 is_stmt 1 view .LVU89
+ 471 0026 1349     		ldr	r1, .L37+12
+ 472 0028 FFF7FEFF 		bl	ai_log_err
+ 473              	.LVL43:
+ 474              	.L35:
+ 475              		.loc 1 211 7 is_stmt 0 view .LVU90
+ 476              	.LBE2:
+ 212:X-CUBE-AI/App/app_x-cube-ai.c ****       return;
+ 213:X-CUBE-AI/App/app_x-cube-ai.c ****     }
+ 214:X-CUBE-AI/App/app_x-cube-ai.c **** 
+ 215:X-CUBE-AI/App/app_x-cube-ai.c ****     /* 1 - Set the I/O data buffer */
+ 216:X-CUBE-AI/App/app_x-cube-ai.c **** 
+ 217:X-CUBE-AI/App/app_x-cube-ai.c **** #if AI_ANOMALYDETECTOR_INPUTS_IN_ACTIVATIONS
+ 218:X-CUBE-AI/App/app_x-cube-ai.c ****     in_data = anomalydetector_info.inputs[0].data;
+ 219:X-CUBE-AI/App/app_x-cube-ai.c **** #else
+ 220:X-CUBE-AI/App/app_x-cube-ai.c ****     in_data = in_data_s;
+ 221:X-CUBE-AI/App/app_x-cube-ai.c **** #endif
+ 222:X-CUBE-AI/App/app_x-cube-ai.c **** 
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccAVjfP8.s 			page 14
+
+
+ 223:X-CUBE-AI/App/app_x-cube-ai.c **** #if AI_ANOMALYDETECTOR_OUTPUTS_IN_ACTIVATIONS
+ 224:X-CUBE-AI/App/app_x-cube-ai.c ****     out_data = anomalydetector_info.outputs[0].data;
+ 225:X-CUBE-AI/App/app_x-cube-ai.c **** #else
+ 226:X-CUBE-AI/App/app_x-cube-ai.c ****     out_data = out_data_s;
+ 227:X-CUBE-AI/App/app_x-cube-ai.c **** #endif
+ 228:X-CUBE-AI/App/app_x-cube-ai.c **** 
+ 229:X-CUBE-AI/App/app_x-cube-ai.c ****     if ((!in_data) || (!out_data)) {
+ 230:X-CUBE-AI/App/app_x-cube-ai.c ****       printf("TEMPLATE - I/O buffers are invalid\r\n");
+ 231:X-CUBE-AI/App/app_x-cube-ai.c ****       return;
+ 232:X-CUBE-AI/App/app_x-cube-ai.c ****     }
+ 233:X-CUBE-AI/App/app_x-cube-ai.c **** 
+ 234:X-CUBE-AI/App/app_x-cube-ai.c ****     /* 2 - main loop */
+ 235:X-CUBE-AI/App/app_x-cube-ai.c ****     do {
+ 236:X-CUBE-AI/App/app_x-cube-ai.c ****       /* 1 - acquire and pre-process input data */
+ 237:X-CUBE-AI/App/app_x-cube-ai.c ****       res = acquire_and_process_data(in_data);
+ 238:X-CUBE-AI/App/app_x-cube-ai.c ****       /* 2 - process the data - call inference engine */
+ 239:X-CUBE-AI/App/app_x-cube-ai.c ****       if (res == 0)
+ 240:X-CUBE-AI/App/app_x-cube-ai.c ****         res = ai_run(in_data, out_data);
+ 477              		.loc 1 240 9 is_stmt 1 view .LVU91
+ 478              		.loc 1 240 15 is_stmt 0 view .LVU92
+ 479 002c 1249     		ldr	r1, .L37+16
+ 480 002e 1348     		ldr	r0, .L37+20
+ 481              	.LVL44:
+ 482              		.loc 1 240 15 view .LVU93
+ 483 0030 FFF7FEFF 		bl	ai_run
+ 484              	.LVL45:
+ 485              		.loc 1 240 15 view .LVU94
+ 486 0034 0346     		mov	r3, r0
+ 487              	.LVL46:
+ 488              		.loc 1 240 15 view .LVU95
+ 489 0036 0AE0     		b	.L32
+ 490              	.L36:
+ 241:X-CUBE-AI/App/app_x-cube-ai.c ****       /* 3- post-process the predictions */
+ 242:X-CUBE-AI/App/app_x-cube-ai.c ****       if (res == 0)
+ 243:X-CUBE-AI/App/app_x-cube-ai.c ****         res = post_process(out_data);
+ 491              		.loc 1 243 9 is_stmt 1 view .LVU96
+ 492              		.loc 1 243 15 is_stmt 0 view .LVU97
+ 493 0038 0F48     		ldr	r0, .L37+16
+ 494              	.LVL47:
+ 495              		.loc 1 243 15 view .LVU98
+ 496 003a FFF7FEFF 		bl	post_process
+ 497              	.LVL48:
+ 498              		.loc 1 243 15 view .LVU99
+ 499 003e 0346     		mov	r3, r0
+ 500              	.LVL49:
+ 501              	.L33:
+ 244:X-CUBE-AI/App/app_x-cube-ai.c ****     } while (res==0);
+ 502              		.loc 1 244 13 is_stmt 1 view .LVU100
+ 503              		.loc 1 244 5 is_stmt 0 view .LVU101
+ 504 0040 43B9     		cbnz	r3, .L30
+ 505              	.LVL50:
+ 506              	.L31:
+ 235:X-CUBE-AI/App/app_x-cube-ai.c ****       /* 1 - acquire and pre-process input data */
+ 507              		.loc 1 235 5 is_stmt 1 view .LVU102
+ 237:X-CUBE-AI/App/app_x-cube-ai.c ****       /* 2 - process the data - call inference engine */
+ 508              		.loc 1 237 7 view .LVU103
+ 237:X-CUBE-AI/App/app_x-cube-ai.c ****       /* 2 - process the data - call inference engine */
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccAVjfP8.s 			page 15
+
+
+ 509              		.loc 1 237 13 is_stmt 0 view .LVU104
+ 510 0042 0E48     		ldr	r0, .L37+20
+ 511 0044 FFF7FEFF 		bl	acquire_and_process_data
+ 512              	.LVL51:
+ 239:X-CUBE-AI/App/app_x-cube-ai.c ****         res = ai_run(in_data, out_data);
+ 513              		.loc 1 239 7 is_stmt 1 view .LVU105
+ 239:X-CUBE-AI/App/app_x-cube-ai.c ****         res = ai_run(in_data, out_data);
+ 514              		.loc 1 239 10 is_stmt 0 view .LVU106
+ 515 0048 0346     		mov	r3, r0
+ 516 004a 0028     		cmp	r0, #0
+ 517 004c EED0     		beq	.L35
+ 518              	.L32:
+ 242:X-CUBE-AI/App/app_x-cube-ai.c ****         res = post_process(out_data);
+ 519              		.loc 1 242 7 is_stmt 1 view .LVU107
+ 242:X-CUBE-AI/App/app_x-cube-ai.c ****         res = post_process(out_data);
+ 520              		.loc 1 242 10 is_stmt 0 view .LVU108
+ 521 004e 002B     		cmp	r3, #0
+ 522 0050 F6D1     		bne	.L33
+ 242:X-CUBE-AI/App/app_x-cube-ai.c ****         res = post_process(out_data);
+ 523              		.loc 1 242 10 view .LVU109
+ 524 0052 F1E7     		b	.L36
+ 525              	.LVL52:
+ 526              	.L30:
+ 527              	.LBB3:
+ 245:X-CUBE-AI/App/app_x-cube-ai.c ****   }
+ 246:X-CUBE-AI/App/app_x-cube-ai.c **** 
+ 247:X-CUBE-AI/App/app_x-cube-ai.c ****   if (res) {
+ 248:X-CUBE-AI/App/app_x-cube-ai.c ****     ai_error err = {AI_ERROR_INVALID_STATE, AI_ERROR_CODE_NETWORK};
+ 528              		.loc 1 248 5 is_stmt 1 discriminator 2 view .LVU110
+ 529              		.loc 1 248 14 is_stmt 0 discriminator 2 view .LVU111
+ 530 0054 0020     		movs	r0, #0
+ 531              	.LVL53:
+ 532              		.loc 1 248 14 discriminator 2 view .LVU112
+ 533 0056 1123     		movs	r3, #17
+ 534 0058 63F30700 		bfi	r0, r3, #0, #8
+ 535              	.LVL54:
+ 536              		.loc 1 248 14 discriminator 2 view .LVU113
+ 537 005c 1023     		movs	r3, #16
+ 538 005e 63F31F20 		bfi	r0, r3, #8, #24
+ 249:X-CUBE-AI/App/app_x-cube-ai.c ****     ai_log_err(err, "Process has FAILED");
+ 539              		.loc 1 249 5 is_stmt 1 discriminator 2 view .LVU114
+ 540 0062 0749     		ldr	r1, .L37+24
+ 541 0064 FFF7FEFF 		bl	ai_log_err
+ 542              	.LVL55:
+ 543              	.L38:
+ 544              		.loc 1 249 5 is_stmt 0 discriminator 2 view .LVU115
+ 545              		.align	2
+ 546              	.L37:
+ 547 0068 00000000 		.word	.LC7
+ 548 006c 00000000 		.word	.LANCHOR0
+ 549 0070 00000000 		.word	.LANCHOR1
+ 550 0074 1C000000 		.word	.LC8
+ 551 0078 00000000 		.word	.LANCHOR4
+ 552 007c 00000000 		.word	.LANCHOR3
+ 553 0080 64000000 		.word	.LC9
+ 554              	.LBE3:
+ 555              		.cfi_endproc
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccAVjfP8.s 			page 16
+
+
+ 556              	.LFE139:
+ 558              		.section	.bss.activations,"aw",%nobits
+ 559              		.align	2
+ 560              		.set	.LANCHOR2,. + 0
+ 563              	activations:
+ 564 0000 00000000 		.space	1296
+ 564      00000000 
+ 564      00000000 
+ 564      00000000 
+ 564      00000000 
+ 565              		.section	.bss.anomalydetector,"aw",%nobits
+ 566              		.align	2
+ 567              		.set	.LANCHOR0,. + 0
+ 570              	anomalydetector:
+ 571 0000 00000000 		.space	4
+ 572              		.section	.bss.anomalydetector_info,"aw",%nobits
+ 573              		.align	2
+ 574              		.set	.LANCHOR1,. + 0
+ 577              	anomalydetector_info:
+ 578 0000 00000000 		.space	116
+ 578      00000000 
+ 578      00000000 
+ 578      00000000 
+ 578      00000000 
+ 579              		.section	.bss.in_data_s,"aw",%nobits
+ 580              		.align	2
+ 581              		.set	.LANCHOR3,. + 0
+ 584              	in_data_s:
+ 585 0000 00000000 		.space	300
+ 585      00000000 
+ 585      00000000 
+ 585      00000000 
+ 585      00000000 
+ 586              		.section	.bss.out_data_s,"aw",%nobits
+ 587              		.align	2
+ 588              		.set	.LANCHOR4,. + 0
+ 591              	out_data_s:
+ 592 0000 00000000 		.space	16
+ 592      00000000 
+ 592      00000000 
+ 592      00000000 
+ 593              		.text
+ 594              	.Letext0:
+ 595              		.file 2 "c:\\gnu\\gnu_arm_embedded_toolchain\\10-2020-q4-major\\arm-none-eabi\\include\\machine\\_
+ 596              		.file 3 "c:\\gnu\\gnu_arm_embedded_toolchain\\10-2020-q4-major\\arm-none-eabi\\include\\sys\\_stdi
+ 597              		.file 4 "Middlewares/ST/AI/Inc/ai_platform.h"
+ 598              		.file 5 "X-CUBE-AI/App/anomalydetector_data.h"
+ 599              		.file 6 "X-CUBE-AI/App/anomalydetector.h"
+ 600              		.file 7 "c:\\gnu\\gnu_arm_embedded_toolchain\\10-2020-q4-major\\arm-none-eabi\\include\\stdio.h"
+ 601              		.file 8 "<built-in>"
+ARM GAS  C:\Users\zacfi\AppData\Local\Temp\ccAVjfP8.s 			page 17
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 app_x-cube-ai.c
+C:\Users\zacfi\AppData\Local\Temp\ccAVjfP8.s:18     .rodata.ai_log_err.str1.4:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccAVjfP8.s:26     .text.ai_log_err:00000000 $t
+C:\Users\zacfi\AppData\Local\Temp\ccAVjfP8.s:33     .text.ai_log_err:00000000 ai_log_err
+C:\Users\zacfi\AppData\Local\Temp\ccAVjfP8.s:80     .text.ai_log_err:0000001c $d
+C:\Users\zacfi\AppData\Local\Temp\ccAVjfP8.s:86     .rodata.ai_boostrap.str1.4:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccAVjfP8.s:96     .text.ai_boostrap:00000000 $t
+C:\Users\zacfi\AppData\Local\Temp\ccAVjfP8.s:102    .text.ai_boostrap:00000000 ai_boostrap
+C:\Users\zacfi\AppData\Local\Temp\ccAVjfP8.s:220    .text.ai_boostrap:00000090 $d
+C:\Users\zacfi\AppData\Local\Temp\ccAVjfP8.s:231    .rodata.ai_run.str1.4:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccAVjfP8.s:235    .text.ai_run:00000000 $t
+C:\Users\zacfi\AppData\Local\Temp\ccAVjfP8.s:241    .text.ai_run:00000000 ai_run
+C:\Users\zacfi\AppData\Local\Temp\ccAVjfP8.s:308    .text.ai_run:0000002c $d
+C:\Users\zacfi\AppData\Local\Temp\ccAVjfP8.s:315    .text.acquire_and_process_data:00000000 $t
+C:\Users\zacfi\AppData\Local\Temp\ccAVjfP8.s:322    .text.acquire_and_process_data:00000000 acquire_and_process_data
+C:\Users\zacfi\AppData\Local\Temp\ccAVjfP8.s:340    .text.post_process:00000000 $t
+C:\Users\zacfi\AppData\Local\Temp\ccAVjfP8.s:347    .text.post_process:00000000 post_process
+C:\Users\zacfi\AppData\Local\Temp\ccAVjfP8.s:365    .rodata.MX_X_CUBE_AI_Init.str1.4:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccAVjfP8.s:369    .text.MX_X_CUBE_AI_Init:00000000 $t
+C:\Users\zacfi\AppData\Local\Temp\ccAVjfP8.s:376    .text.MX_X_CUBE_AI_Init:00000000 MX_X_CUBE_AI_Init
+C:\Users\zacfi\AppData\Local\Temp\ccAVjfP8.s:402    .text.MX_X_CUBE_AI_Init:00000014 $d
+C:\Users\zacfi\AppData\Local\Temp\ccAVjfP8.s:408    .rodata.MX_X_CUBE_AI_Process.str1.4:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccAVjfP8.s:419    .text.MX_X_CUBE_AI_Process:00000000 $t
+C:\Users\zacfi\AppData\Local\Temp\ccAVjfP8.s:426    .text.MX_X_CUBE_AI_Process:00000000 MX_X_CUBE_AI_Process
+C:\Users\zacfi\AppData\Local\Temp\ccAVjfP8.s:547    .text.MX_X_CUBE_AI_Process:00000068 $d
+C:\Users\zacfi\AppData\Local\Temp\ccAVjfP8.s:559    .bss.activations:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccAVjfP8.s:563    .bss.activations:00000000 activations
+C:\Users\zacfi\AppData\Local\Temp\ccAVjfP8.s:566    .bss.anomalydetector:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccAVjfP8.s:570    .bss.anomalydetector:00000000 anomalydetector
+C:\Users\zacfi\AppData\Local\Temp\ccAVjfP8.s:573    .bss.anomalydetector_info:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccAVjfP8.s:577    .bss.anomalydetector_info:00000000 anomalydetector_info
+C:\Users\zacfi\AppData\Local\Temp\ccAVjfP8.s:580    .bss.in_data_s:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccAVjfP8.s:584    .bss.in_data_s:00000000 in_data_s
+C:\Users\zacfi\AppData\Local\Temp\ccAVjfP8.s:587    .bss.out_data_s:00000000 $d
+C:\Users\zacfi\AppData\Local\Temp\ccAVjfP8.s:591    .bss.out_data_s:00000000 out_data_s
+
+UNDEFINED SYMBOLS
+printf
+ai_anomalydetector_create
+ai_anomalydetector_init
+ai_anomalydetector_get_info
+ai_anomalydetector_get_error
+ai_anomalydetector_run
+puts
+ai_anomalydetector_data_weights_get
