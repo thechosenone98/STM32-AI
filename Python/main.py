@@ -88,9 +88,19 @@ class ThreadedUART(QThread):
             while self.__sp.inWaiting():
                 # Verify we got all the data (the end character may be contained within the data and trigger the read_until
                 # before it is actually done reading
+                invalid_data = False
                 while len(data) < 16:
-                    data.extend([int(b) for b in self.__sp.read_until(expected=serialutil.to_bytes([0xAA, 0x55]))])
-                self.received_data_signal.emit(bytes(data))
+                    try:
+                        data_read = self.__sp.read_until(expected=serialutil.to_bytes([0xAA, 0x55]))
+                        if data_read[-2:] != b'\xaaU':
+                            raise ValueError("Data does not terminate properly, must have hit a timeout!")
+                        data.extend([int(b) for b in data_read])
+                    except ValueError as e:
+                        print(str(e))
+                        invalid_data = True
+                        break
+                if not invalid_data:
+                    self.received_data_signal.emit(bytes(data))
                 # Clear the data
                 data = bytearray()
             self.msleep(10)
@@ -115,7 +125,17 @@ class ThreadedFileWrite(QThread):
                 data = self.queue.get()
                 # Get acceleration and timestamp
                 x, y, z, t = getData(data)
-                self.__file_obj.write(struct.pack("dddQ", x, y, z, t))
+                if x > 16.0 or y > 16.0 or z > 16.0 or t > 1000000000000000000:
+                    # Invalid data that got picked up because the I2C line must have disconnected for a split second
+                    # due to the vibration of the module
+                    self.queue.task_done()
+                    continue
+                try:
+                    self.__file_obj.write(struct.pack("dddQ", x, y, z, t))
+                except struct.error as e:
+                    # Simply an invalid packet of data from a previous run. Treat it and then discard it.
+                    self.queue.task_done()
+                    continue
                 self.queue.task_done()
                 self.__nb_writes += 1
                 self.remaining_writes_signal.emit(self.__nb_writes)
@@ -140,15 +160,15 @@ class ThreadedFileWrite(QThread):
 
 class MplCanvas(FigureCanvas):
 
-    def __init__(self, parent=None, width=5, height=4, dpi=100):
+    def __init__(self, parent=None, width=5, height=4, dpi=100, nb_data_points=1000):
         # Used to hold data for all axes
-        self.data_x = deque([0.0 for i in range(5000)], maxlen=5000)
-        self.data_y = deque([0.0 for i in range(5000)], maxlen=5000)
-        self.data_z = deque([0.0 for i in range(5000)], maxlen=5000)
-        self.timestamps = deque([i for i in range(5000)], maxlen=5000)
+        self.data_x = deque([0.0 for i in range(nb_data_points)], maxlen=nb_data_points)
+        self.data_y = deque([0.0 for i in range(nb_data_points)], maxlen=nb_data_points)
+        self.data_z = deque([0.0 for i in range(nb_data_points)], maxlen=nb_data_points)
+        self.timestamps = deque([i for i in range(nb_data_points)], maxlen=nb_data_points)
         self.fig = Figure(figsize=(width, height), dpi=dpi)
         self.axes = self.fig.add_subplot(1, 1, 1)
-        self.axes.set_ylim(-16, 16)
+        self.axes.set_ylim(-3, 3)
         self.__plot_ref_x = self.axes.plot(self.timestamps, self.data_x)[0]
         self.__plot_ref_y = self.axes.plot(self.timestamps, self.data_y)[0]
         self.__plot_ref_z = self.axes.plot(self.timestamps, self.data_z)[0]
@@ -229,7 +249,7 @@ class FormMain(ApplicationWindow.Ui_MainWindow, QtWidgets.QMainWindow):
 
     def togglePort(self):
         if self.sp is None:
-            self.sp = Serial(port=self.cmb_comPort.currentText(), baudrate=1500000)
+            self.sp = Serial(port=self.cmb_comPort.currentText(), baudrate=1500000, timeout=1)
             self.sp.write(self.command_dict["handshake"])
             self.UART_thread = ThreadedUART(self.sp)
             if self.txb_filename.text() != "":

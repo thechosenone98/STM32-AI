@@ -1,0 +1,1 @@
+start C:\"Python Venv"\STM32_AI\Scripts\jupyter.exe notebook
