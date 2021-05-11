@@ -1,10 +1,18 @@
 {
     "env": {
         "____________________USER_FIELDS_CAN_BE_MODIFIED____________________": "",
-        "user_cSources": [],
+        "user_cSources": [
+            "Core/Src/adxl345.c",
+            "Core/Src/usart.c",
+            "Core/Src/i2c.c",
+            "Core/Src/gpio.c",
+            "Core/Src/crc.c"
+        ],
         "user_asmSources": [],
         "user_ldSources": [],
-        "user_cIncludes": [],
+        "user_cIncludes": [
+            "Core/Inc"
+        ],
         "user_asmIncludes": [],
         "user_ldIncludes": [],
         "user_cDefines": [],

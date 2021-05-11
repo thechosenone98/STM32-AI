@@ -1,7 +1,7 @@
 {
     "_allocate_inputs": 0,
     "_allocate_outputs": 0,
-    "cli_parameters": "generate --name anomalydetector -m D:/Programmation/STM32/AccelerometerReader/Python/anomaly_detection.h5 --type keras --compression 1 --verbosity 1 --workspace C:\\Users\\zacfi\\AppData\\Local\\Temp\\mxAI_workspace16268003110916002514428725727188988 --output C:\\Users\\zacfi\\.stm32cubemx",
+    "cli_parameters": "generate --name anomalydetector -m D:/Programmation/STM32/AccelerometerReader/Python/anomaly_detection.h5 --type keras --compression 1 --verbosity 1 --workspace C:\\Users\\zacfi\\AppData\\Local\\Temp\\mxAI_workspace19544247103271001096760257360457400 --output C:\\Users\\zacfi\\.stm32cubemx",
     "cli_version": {
         "major": 1,
         "micro": 1,
@@ -12,7 +12,7 @@
         "factor": null,
         "layers": {}
     },
-    "date_time": "Fri May  7 19:00:33 2021",
+    "date_time": "Tue May 11 14:01:02 2021",
     "error": 0,
     "error_str": [],
     "exec_cmd": "generate",

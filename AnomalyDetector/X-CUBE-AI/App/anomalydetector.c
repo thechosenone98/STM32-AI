@@ -2,7 +2,7 @@
   ******************************************************************************
   * @file    anomalydetector.c
   * @author  AST Embedded Analytics Research Platform
-  * @date    Fri May  7 19:00:33 2021
+  * @date    Tue May 11 14:01:02 2021
   * @brief   AI Tool Automatic Code Generator for Embedded NN computing
   ******************************************************************************
   * @attention
@@ -56,7 +56,7 @@
 #endif
 
 #undef AI_TOOLS_DATE_TIME
-#define AI_TOOLS_DATE_TIME   "Fri May  7 19:00:33 2021"
+#define AI_TOOLS_DATE_TIME   "Tue May 11 14:01:02 2021"
 
 #undef AI_TOOLS_COMPILE_TIME
 #define AI_TOOLS_COMPILE_TIME    __DATE__ " " __TIME__

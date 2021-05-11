@@ -2,7 +2,7 @@
 ******************************************************************************
 * @file    anomalydetector_data.c
 * @author  AST Embedded Analytics Research Platform
-* @date    Fri May  7 19:00:33 2021
+* @date    Tue May 11 14:01:02 2021
 * @brief   AI Tool Automatic Code Generator for Embedded NN computing
 ******************************************************************************
 * @attention

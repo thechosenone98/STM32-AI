@@ -1,8 +1,9 @@
 
 #ifdef __cplusplus
- extern "C" {
+extern "C"
+{
 #endif
-/**
+    /**
   ******************************************************************************
   * @file           : app_x-cube-ai.c
   * @brief          : AI program body
@@ -49,7 +50,7 @@
   *
   ******************************************************************************
   */
- /*
+    /*
   * Description
   *   v1.0 - Minimum template to show how to use the Embedded Client API
   *          model. Only one input and one output is supported. All
@@ -77,179 +78,271 @@
 #include "ai_datatypes_defines.h"
 
 /* USER CODE BEGIN includes */
-/* USER CODE END includes */
-/* Global AI objects */
-static ai_handle anomalydetector = AI_HANDLE_NULL;
-static ai_network_report anomalydetector_info;
+#include "adxl345.h"
+#include "usart.h"
+    /* USER CODE END includes */
+    /* Global AI objects */
+    static ai_handle anomalydetector = AI_HANDLE_NULL;
+    static ai_network_report anomalydetector_info;
 
-/* Global c-array to handle the activations buffer */
-AI_ALIGNED(4)
-static ai_u8 activations[AI_ANOMALYDETECTOR_DATA_ACTIVATIONS_SIZE];
+    /* Global c-array to handle the activations buffer */
+    AI_ALIGNED(4)
+    static ai_u8 activations[AI_ANOMALYDETECTOR_DATA_ACTIVATIONS_SIZE];
 
 /*  In the case where "--allocate-inputs" option is used, memory buffer can be
  *  used from the activations buffer. This is not mandatory.
  */
 #if !defined(AI_ANOMALYDETECTOR_INPUTS_IN_ACTIVATIONS)
-/* Allocate data payload for input tensor */
-AI_ALIGNED(4)
-static ai_u8 in_data_s[AI_ANOMALYDETECTOR_IN_1_SIZE_BYTES];
+    /* Allocate data payload for input tensor */
+    AI_ALIGNED(4)
+    static ai_u8 in_data_s[AI_ANOMALYDETECTOR_IN_1_SIZE_BYTES];
 #endif
 
 /*  In the case where "--allocate-outputs" option is used, memory buffer can be
  *  used from the activations buffer. This is no mandatory.
  */
 #if !defined(AI_ANOMALYDETECTOR_OUTPUTS_IN_ACTIVATIONS)
-/* Allocate data payload for the output tensor */
-AI_ALIGNED(4)
-static ai_u8 out_data_s[AI_ANOMALYDETECTOR_OUT_1_SIZE_BYTES];
+    /* Allocate data payload for the output tensor */
+    AI_ALIGNED(4)
+    static ai_u8 out_data_s[AI_ANOMALYDETECTOR_OUT_1_SIZE_BYTES];
 #endif
 
-static void ai_log_err(const ai_error err, const char *fct)
-{
-  /* USER CODE BEGIN log */
-  if (fct)
-    printf("TEMPLATE - Error (%s) - type=0x%02x code=0x%02x\r\n", fct,
-        err.type, err.code);
-  else
-    printf("TEMPLATE - Error - type=0x%02x code=0x%02x\r\n", err.type, err.code);
+    static void ai_log_err(const ai_error err, const char *fct)
+    {
+        /* USER CODE BEGIN log */
+        if (fct)
+            printf("TEMPLATE - Error (%s) - type=0x%02x code=0x%02x\r\n", fct,
+                   err.type, err.code);
+        else
+            printf("TEMPLATE - Error - type=0x%02x code=0x%02x\r\n", err.type, err.code);
 
-  do {} while (1);
-  /* USER CODE END log */
-}
-
-static int ai_boostrap(ai_handle w_addr, ai_handle act_addr)
-{
-  ai_error err;
-
-  /* 1 - Create an instance of the model */
-  err = ai_anomalydetector_create(&anomalydetector, AI_ANOMALYDETECTOR_DATA_CONFIG);
-  if (err.type != AI_ERROR_NONE) {
-    ai_log_err(err, "ai_anomalydetector_create");
-    return -1;
-  }
-
-  /* 2 - Initialize the instance */
-  const ai_network_params params = {
-      AI_ANOMALYDETECTOR_DATA_WEIGHTS(w_addr),
-      AI_ANOMALYDETECTOR_DATA_ACTIVATIONS(act_addr) };
-
-  if (!ai_anomalydetector_init(anomalydetector, &params)) {
-      err = ai_anomalydetector_get_error(anomalydetector);
-      ai_log_err(err, "ai_anomalydetector_init");
-      return -1;
+        do
+        {
+        } while (1);
+        /* USER CODE END log */
     }
 
-  /* 3 - Retrieve the network info of the created instance */
-  if (!ai_anomalydetector_get_info(anomalydetector, &anomalydetector_info)) {
-    err = ai_anomalydetector_get_error(anomalydetector);
-    ai_log_err(err, "ai_anomalydetector_get_error");
-    ai_anomalydetector_destroy(anomalydetector);
-    anomalydetector = AI_HANDLE_NULL;
-    return -3;
-  }
+    static int ai_boostrap(ai_handle w_addr, ai_handle act_addr)
+    {
+        ai_error err;
 
-  return 0;
-}
+        /* 1 - Create an instance of the model */
+        err = ai_anomalydetector_create(&anomalydetector, AI_ANOMALYDETECTOR_DATA_CONFIG);
+        if (err.type != AI_ERROR_NONE)
+        {
+            ai_log_err(err, "ai_anomalydetector_create");
+            return -1;
+        }
 
-static int ai_run(void *data_in, void *data_out)
-{
-  ai_i32 batch;
+        /* 2 - Initialize the instance */
+        const ai_network_params params = {
+            AI_ANOMALYDETECTOR_DATA_WEIGHTS(w_addr),
+            AI_ANOMALYDETECTOR_DATA_ACTIVATIONS(act_addr)};
 
-  ai_buffer *ai_input = anomalydetector_info.inputs;
-  ai_buffer *ai_output = anomalydetector_info.outputs;
+        if (!ai_anomalydetector_init(anomalydetector, &params))
+        {
+            err = ai_anomalydetector_get_error(anomalydetector);
+            ai_log_err(err, "ai_anomalydetector_init");
+            return -1;
+        }
 
-  ai_input[0].data = AI_HANDLE_PTR(data_in);
-  ai_output[0].data = AI_HANDLE_PTR(data_out);
+        /* 3 - Retrieve the network info of the created instance */
+        if (!ai_anomalydetector_get_info(anomalydetector, &anomalydetector_info))
+        {
+            err = ai_anomalydetector_get_error(anomalydetector);
+            ai_log_err(err, "ai_anomalydetector_get_error");
+            ai_anomalydetector_destroy(anomalydetector);
+            anomalydetector = AI_HANDLE_NULL;
+            return -3;
+        }
 
-  batch = ai_anomalydetector_run(anomalydetector, ai_input, ai_output);
-  if (batch != 1) {
-    ai_log_err(ai_anomalydetector_get_error(anomalydetector),
-        "ai_anomalydetector_run");
-    return -1;
-  }
+        return 0;
+    }
 
-  return 0;
-}
+    static int ai_run(void *data_in, void *data_out)
+    {
+        ai_i32 batch;
 
-/* USER CODE BEGIN 2 */
-int acquire_and_process_data(void * data)
-{
-  return 0;
-}
+        ai_buffer *ai_input = anomalydetector_info.inputs;
+        ai_buffer *ai_output = anomalydetector_info.outputs;
 
-int post_process(void * data)
-{
-  return 0;
-}
-/* USER CODE END 2 */
+        ai_input[0].data = AI_HANDLE_PTR(data_in);
+        ai_output[0].data = AI_HANDLE_PTR(data_out);
 
-/*************************************************************************
+        batch = ai_anomalydetector_run(anomalydetector, ai_input, ai_output);
+        if (batch != 1)
+        {
+            ai_log_err(ai_anomalydetector_get_error(anomalydetector),
+                       "ai_anomalydetector_run");
+            return -1;
+        }
+
+        return 0;
+    }
+
+    void float2Bytes(uint8_t bytes_temp[4], float val){
+        union{
+            float a;
+            uint8_t bytes[4];
+        } f2b;
+        f2b.a = val;
+        memcpy(bytes_temp, f2b.bytes, 4);
+    }
+
+    /* USER CODE BEGIN 2 */
+    int acquire_and_process_data(ai_u8 *data)
+    {
+        // Get 25 sample from the accelerometer (each spaced 2 milliseconds appart, to replicate the speed at wich we sampled our training data)
+        Accelerations acc;
+        char message[256];
+        float acc_array[3];
+        uint8_t conv[sizeof(float)];
+        for (int i = 0; i < 25; ++i)
+        {
+            getAccelerations(&hi2c1, &acc);
+            acc_array[0] = (float)acc.x * 0.0039;
+            acc_array[1] = (float)acc.y * 0.0039;
+            acc_array[2] = (float)acc.z * 0.0039;
+            for (int n = 0; n < 3; ++n)
+            {
+                float2Bytes(conv, acc_array[n]);
+                //memcpy(conv, &acc_array[n], sizeof(float));
+                for (int j = 0; j < sizeof(float); ++j)
+                {
+                    data[(i * 3 * sizeof(float)) + (n * sizeof(float)) + j] = conv[sizeof(float) - j];
+                }
+            }
+            sprintf(message, "X : %f Y : %f Z : %f", acc_array[0], acc_array[1], acc_array[2]);
+            HAL_UART_Transmit(&huart2, message, strlen(message), 100);
+            HAL_Delay(2);
+        }
+        return 0;
+    }
+
+    int post_process(ai_u8 *data)
+    {
+        float result = 0.0;
+        float biggest = 0.0;
+        int biggest_index = 0;
+        uint8_t bytes[4];
+        for(int i = 0; i < 4; ++i){
+            bytes[0] = data[i * sizeof(float) + 0];
+            bytes[1] = data[i * sizeof(float) + 1];
+            bytes[2] = data[i * sizeof(float) + 2];
+            bytes[3] = data[i * sizeof(float) + 3];
+            memcpy(&result, &bytes, sizeof(float));
+            if (result > biggest){
+                biggest = result;
+                biggest_index = i;
+            }
+        }
+        return biggest_index;
+    }
+    /* USER CODE END 2 */
+
+    /*************************************************************************
   *
   */
-void MX_X_CUBE_AI_Init(void)
-{
-    /* USER CODE BEGIN 5 */
-  printf("\r\nTEMPLATE - initialization\r\n");
+    void MX_X_CUBE_AI_Init(void)
+    {
+        /* USER CODE BEGIN 5 */
+        printf("\r\nTEMPLATE - initialization\r\n");
 
-  ai_boostrap(ai_anomalydetector_data_weights_get(), activations);
-    /* USER CODE END 5 */
-}
-
-void MX_X_CUBE_AI_Process(void)
-{
-    /* USER CODE BEGIN 6 */
-  int res = -1;
-  uint8_t *in_data = NULL;
-  uint8_t *out_data = NULL;
-
-  printf("TEMPLATE - run - main loop\r\n");
-
-  if (anomalydetector) {
-
-    if ((anomalydetector_info.n_inputs != 1) || (anomalydetector_info.n_outputs != 1)) {
-      ai_error err = {AI_ERROR_INVALID_PARAM, AI_ERROR_CODE_OUT_OF_RANGE};
-      ai_log_err(err, "template code should be updated\r\n to support a model with multiple IO");
-      return;
+        ai_boostrap(ai_anomalydetector_data_weights_get(), activations);
+        /* USER CODE END 5 */
     }
 
-    /* 1 - Set the I/O data buffer */
+    void MX_X_CUBE_AI_Process(void)
+    {
+        /* USER CODE BEGIN 6 */
+        HAL_UART_Transmit(&huart2, (uint8_t *)"Starting AI subroutine!\n", 24, 100);
+        int res = -1;
+        uint8_t *in_data = NULL;
+        uint8_t *out_data = NULL;
+
+        printf("TEMPLATE - run - main loop\r\n");
+
+        if (anomalydetector)
+        {
+
+            if ((anomalydetector_info.n_inputs != 1) || (anomalydetector_info.n_outputs != 1))
+            {
+                ai_error err = {AI_ERROR_INVALID_PARAM, AI_ERROR_CODE_OUT_OF_RANGE};
+                ai_log_err(err, "template code should be updated\r\n to support a model with multiple IO");
+                return;
+            }
+
+            /* 1 - Set the I/O data buffer */
 
 #if AI_ANOMALYDETECTOR_INPUTS_IN_ACTIVATIONS
-    in_data = anomalydetector_info.inputs[0].data;
+            in_data = anomalydetector_info.inputs[0].data;
 #else
-    in_data = in_data_s;
+        in_data = in_data_s;
 #endif
 
 #if AI_ANOMALYDETECTOR_OUTPUTS_IN_ACTIVATIONS
-    out_data = anomalydetector_info.outputs[0].data;
+            out_data = anomalydetector_info.outputs[0].data;
 #else
-    out_data = out_data_s;
+        out_data = out_data_s;
 #endif
 
-    if ((!in_data) || (!out_data)) {
-      printf("TEMPLATE - I/O buffers are invalid\r\n");
-      return;
+            if ((!in_data) || (!out_data))
+            {
+                printf("TEMPLATE - I/O buffers are invalid\r\n");
+                return;
+            }
+
+            HAL_UART_Transmit(&huart2, (uint8_t *)"Data arrays correctly initialized!\n", 35, 100);
+            /* 2 - main loop */
+            do
+            {
+                /* 1 - acquire and pre-process input data */
+                HAL_UART_Transmit(&huart2, (uint8_t *)"Acquiring data!\n", 16, 100);
+                res = acquire_and_process_data(in_data);
+                /* 2 - process the data - call inference engine */
+                if (res == 0){
+                    HAL_UART_Transmit(&huart2, (uint8_t *)"Infering result!\n", 16, 100);
+                    res = ai_run(in_data, out_data);
+                }
+                /* 3- post-process the predictions */
+                if (res == 0){
+                    HAL_UART_Transmit(&huart2, (uint8_t *)"Post processing!\n", 17, 100);
+                    res = post_process(out_data);
+                }
+                switch (res)
+                {
+                case 0:
+                    HAL_UART_Transmit(&huart2, (uint8_t *)"Error_1\n", 8, 100);
+                    res = 0;
+                    break;
+                case 1:
+                    HAL_UART_Transmit(&huart2, (uint8_t *)"Error_2\n", 8, 100);
+                    res = 0;
+                    break;
+                case 2:
+                    HAL_UART_Transmit(&huart2, (uint8_t *)"Normal\n", 7, 100);
+                    res = 0;
+                    break;
+                case 3:
+                    HAL_UART_Transmit(&huart2, (uint8_t *)"Off\n", 4, 100);
+                    res = 0;
+                    break;
+                default:
+                    res = -1;
+                    break;
+                }
+                HAL_UART_Transmit(&huart2, (uint8_t *)"Inference completed, next round coming up!\n", 43, 100);
+                HAL_Delay(10000);
+            } while (res == 0);
+        }
+
+        if (res)
+        {
+            ai_error err = {AI_ERROR_INVALID_STATE, AI_ERROR_CODE_NETWORK};
+            ai_log_err(err, "Process has FAILED");
+        }
+        /* USER CODE END 6 */
     }
-
-    /* 2 - main loop */
-    do {
-      /* 1 - acquire and pre-process input data */
-      res = acquire_and_process_data(in_data);
-      /* 2 - process the data - call inference engine */
-      if (res == 0)
-        res = ai_run(in_data, out_data);
-      /* 3- post-process the predictions */
-      if (res == 0)
-        res = post_process(out_data);
-    } while (res==0);
-  }
-
-  if (res) {
-    ai_error err = {AI_ERROR_INVALID_STATE, AI_ERROR_CODE_NETWORK};
-    ai_log_err(err, "Process has FAILED");
-  }
-    /* USER CODE END 6 */
-}
 #ifdef __cplusplus
 }
 #endif

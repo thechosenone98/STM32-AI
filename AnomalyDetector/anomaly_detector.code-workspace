@@ -6,6 +6,9 @@
     ],
     "settings": {
         "cortex-debug.armToolchainPath": "C:/GNU/GNU_Arm_Embedded_Toolchain/10-2020-q4-major/bin",
-        "cortex-debug.openocdPath": "C:/GNU/GNUStuff/OpenOCD/0.10.0-12-20190422-2015/bin/openocd.exe"
+        "cortex-debug.openocdPath": "C:/GNU/GNUStuff/OpenOCD/0.10.0-12-20190422-2015/bin/openocd.exe",
+        "files.associations": {
+            "usart.h": "c"
+        }
     }
 }

@@ -3,8 +3,13 @@
     "ABOUT2": "User should not edit this fields, instead it should edit 'c_cpp_properties.json'",
     "ABOUT3": "This file is regenerated on 'Update workspace' task.",
     "VERSION": "1.7",
-    "LAST_RUN": "2021-05-07 19:04:23.101779",
+    "LAST_RUN": "2021-05-11 15:28:04.587724",
     "cSources": [
+        "Core/Src/adxl345.c",
+        "Core/Src/usart.c",
+        "Core/Src/i2c.c",
+        "Core/Src/gpio.c",
+        "Core/Src/crc.c",
         "X-CUBE-AI/App/anomalydetector.c",
         "X-CUBE-AI/App/anomalydetector_data.c",
         "X-CUBE-AI/App/app_x-cube-ai.c",
@@ -40,6 +45,7 @@
         "-l:NetworkRuntime600_CM4_GCC.a"
     ],
     "cIncludes": [
+        "Core/Inc",
         "X-CUBE-AI/App",
         "X-CUBE-AI",
         "Core/Inc",
@@ -65,6 +71,7 @@
         "-mfloat-abi=hard",
         "-DUSE_HAL_DRIVER",
         "-DSTM32F446xx",
+        "-ICore/Inc",
         "-IX-CUBE-AI/App",
         "-IX-CUBE-AI",
         "-ICore/Inc",

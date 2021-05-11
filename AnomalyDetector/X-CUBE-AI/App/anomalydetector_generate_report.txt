@@ -1,6 +1,6 @@
 Neural Network Tools for STM32AI v1.4.1 (STM.ai v6.0.0-RC6)
-Created date       : 2021-05-07 19:00:33
-Parameters         : generate --name anomalydetector -m D:/Programmation/STM32/AccelerometerReader/Python/anomaly_detection.h5 --type keras --compression 1 --verbosity 1 --workspace C:\Users\zacfi\AppData\Local\Temp\mxAI_workspace16268003110916002514428725727188988 --output C:\Users\zacfi\.stm32cubemx
+Created date       : 2021-05-11 14:01:02
+Parameters         : generate --name anomalydetector -m D:/Programmation/STM32/AccelerometerReader/Python/anomaly_detection.h5 --type keras --compression 1 --verbosity 1 --workspace C:\Users\zacfi\AppData\Local\Temp\mxAI_workspace19544247103271001096760257360457400 --output C:\Users\zacfi\.stm32cubemx
 
 Exec/report summary (generate)
 ------------------------------------------------------------------------------------------------------------------------
@@ -9,7 +9,7 @@ type               : keras
 c_name             : anomalydetector
 compression        : None
 quantize           : None
-workspace dir      : C:\Users\zacfi\AppData\Local\Temp\mxAI_workspace16268003110916002514428725727188988
+workspace dir      : C:\Users\zacfi\AppData\Local\Temp\mxAI_workspace19544247103271001096760257360457400
 output dir         : C:\Users\zacfi\.stm32cubemx
 
 model_name         : anomaly_detection
