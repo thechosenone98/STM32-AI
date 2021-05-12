@@ -80,6 +80,7 @@ extern "C"
 /* USER CODE BEGIN includes */
 #include "adxl345.h"
 #include "usart.h"
+#include "math.h"
     /* USER CODE END includes */
     /* Global AI objects */
     static ai_handle anomalydetector = AI_HANDLE_NULL;
@@ -187,6 +188,13 @@ extern "C"
         } f2b;
         f2b.a = val;
         memcpy(bytes_temp, f2b.bytes, 4);
+        //They are in the wring byte order so flip them
+        uint8_t tmp = bytes_temp[0];
+        bytes_temp[0] = bytes_temp[3];
+        bytes_temp[3] = tmp;
+        tmp = bytes_temp[1];
+        bytes_temp[1] = bytes_temp[2];
+        bytes_temp[2] = tmp;
     }
 
     /* USER CODE BEGIN 2 */
@@ -205,14 +213,18 @@ extern "C"
             acc_array[2] = (float)acc.z * 0.0039;
             for (int n = 0; n < 3; ++n)
             {
-                float2Bytes(conv, acc_array[n]);
-                //memcpy(conv, &acc_array[n], sizeof(float));
-                for (int j = 0; j < sizeof(float); ++j)
-                {
-                    data[(i * 3 * sizeof(float)) + (n * sizeof(float)) + j] = conv[sizeof(float) - j];
-                }
+                conv[0] = 0;
+                conv[1] = 0;
+                conv[2] = 0;
+                conv[3] = 0;
+                //float2Bytes(conv, acc_array[n]);
+                memcpy(&(data[i * 3 * sizeof(float) + (n * sizeof(float))]), &acc_array[n], sizeof(float));
+                // for (int j = 0; j < sizeof(float); ++j)
+                // {
+                //     data[(i * 3 * sizeof(float)) + (n * sizeof(float)) + j] = conv[sizeof(float) - j];
+                // }
             }
-            sprintf(message, "X : %f Y : %f Z : %f", acc_array[0], acc_array[1], acc_array[2]);
+            sprintf(message, "X : %f Y : %f Z : %f  \n", acc_array[0], acc_array[1], acc_array[2]);
             HAL_UART_Transmit(&huart2, message, strlen(message), 100);
             HAL_Delay(2);
         }
@@ -221,7 +233,9 @@ extern "C"
 
     int post_process(ai_u8 *data)
     {
+        char message[100];
         float result = 0.0;
+        float output_array[4];
         float biggest = 0.0;
         int biggest_index = 0;
         uint8_t bytes[4];
@@ -230,12 +244,15 @@ extern "C"
             bytes[1] = data[i * sizeof(float) + 1];
             bytes[2] = data[i * sizeof(float) + 2];
             bytes[3] = data[i * sizeof(float) + 3];
-            memcpy(&result, &bytes, sizeof(float));
+            result = *(float *)&bytes;
+            output_array[i] = result;
             if (result > biggest){
                 biggest = result;
                 biggest_index = i;
             }
         }
+        sprintf(message, "Error_1 : %f\nError_2 : %f\nNormal : %f\nOff : %f\n", output_array[0], output_array[1], output_array[2], output_array[3]);
+        HAL_UART_Transmit(&huart2, message, strlen(message), 100);
         return biggest_index;
     }
     /* USER CODE END 2 */
@@ -301,7 +318,7 @@ extern "C"
                 res = acquire_and_process_data(in_data);
                 /* 2 - process the data - call inference engine */
                 if (res == 0){
-                    HAL_UART_Transmit(&huart2, (uint8_t *)"Infering result!\n", 16, 100);
+                    HAL_UART_Transmit(&huart2, (uint8_t *)"Infering result!\n", 17, 100);
                     res = ai_run(in_data, out_data);
                 }
                 /* 3- post-process the predictions */
@@ -332,7 +349,7 @@ extern "C"
                     break;
                 }
                 HAL_UART_Transmit(&huart2, (uint8_t *)"Inference completed, next round coming up!\n", 43, 100);
-                HAL_Delay(10000);
+                HAL_Delay(1000);
             } while (res == 0);
         }
 

@@ -99,13 +99,13 @@ int main(void)
     //Initialize the module
     HAL_StatusTypeDef status;
     char message[50];
+    setTargetDeviceAddress(&hi2c1, 0x53 << 1);
+    HAL_UART_Transmit(&huart2, (uint8_t *)"I2C Target address set!\n", 24, 100);
     status = AccelInit(&hi2c1);
     if (status == HAL_OK)
     {
         sprintf(message, "ADXL345 Module has been initialized successfully!\n");
         HAL_UART_Transmit(&huart2, (uint8_t *)&message, 50, 100);
-        setTargetDeviceAddress(&hi2c1, 0x53 << 1);
-        HAL_UART_Transmit(&huart2, (uint8_t *)"Initialing of I2C module completed!\n", 36, 100);
     }
     else
     {
