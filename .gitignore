@@ -54,3 +54,5 @@ dkms.conf
 # My IGNORE
 Python/TestFolder
 Python/AccelerometerData
+.vscode
+build
