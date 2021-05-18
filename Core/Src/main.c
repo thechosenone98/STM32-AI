@@ -240,7 +240,7 @@ void SystemClock_Config(void)
 
 /* USER CODE BEGIN 4 */
 
-inline int modulo(int a, int b)
+int modulo(int a, int b)
 {
     if (b < 0)
         return modulo(-a, -b);

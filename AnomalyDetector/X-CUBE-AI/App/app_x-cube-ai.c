@@ -181,22 +181,6 @@ extern "C"
         return 0;
     }
 
-    void float2Bytes(uint8_t bytes_temp[4], float val){
-        union{
-            float a;
-            uint8_t bytes[4];
-        } f2b;
-        f2b.a = val;
-        memcpy(bytes_temp, f2b.bytes, 4);
-        //They are in the wring byte order so flip them
-        uint8_t tmp = bytes_temp[0];
-        bytes_temp[0] = bytes_temp[3];
-        bytes_temp[3] = tmp;
-        tmp = bytes_temp[1];
-        bytes_temp[1] = bytes_temp[2];
-        bytes_temp[2] = tmp;
-    }
-
     /* USER CODE BEGIN 2 */
     int acquire_and_process_data(ai_u8 *data)
     {
